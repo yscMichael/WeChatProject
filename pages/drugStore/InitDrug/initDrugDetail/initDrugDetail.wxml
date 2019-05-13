@@ -60,7 +60,7 @@
       <input class='right-content'
              placeholder='生产厂家'
              bindinput='manufacturerInput'
-             value="{{listModel.manufacturer ? listModel.manufacturer.key_name : ''}}">    
+             value="{{listModel.manufacturer_name}}">    
       </input>
       <image class='moreButton'
              bindtap='chooseManufacturer'
@@ -123,7 +123,7 @@
     <input class='right-content'
            placeholder='请输入通用名'
            disabled='disabled'
-           value="{{listModel.drug_forms ? listModel.drug_forms.key_name : ''}}">    
+           value="{{listModel.drug_forms_name}}">    
     </input>
     <image class='moreButton'
            bindtap='chooseDrugForm'
@@ -139,7 +139,7 @@
     <input class='right-content'
            placeholder='包装单位'
            disabled='disabled'
-           value="{{listModel.min_unit ? listModel.min_unit.key_name : ''}}">    
+           value="{{listModel.min_name}}">    
     </input>
     <image class='moreButton'
            src='/image/more.png'></image>
@@ -154,7 +154,7 @@
     <input class='right-content'
            placeholder='拆零单位'
            disabled='disabled'
-           value="{{listModel.rx_unit ? listModel.rx_unit.key_name : ''}}">    
+           value="{{listModel.rx_name}}">    
     </input>
     <image class='moreButton'
            src='/image/more.png'></image>
@@ -166,13 +166,13 @@
     <view class='flag'>*</view>
     <view class='change-unit-title'>包装与拆零单位换算</view>
     <view class='change-unit-content'>
-      <view class='unit-title'>1{{listModel.min_unit ? listModel.min_unit.key_name : ''}} = 
+      <view class='unit-title'>1{{listModel.min_name}} = 
       </view>
       <input class='unit-input'
              bindinput='changeCountInput'
              value='{{listModel.change_count}}'>    
       </input>
-      <view class='unit-right-title'>{{listModel.rx_unit ? listModel.rx_unit.key_name : ''}}
+      <view class='unit-right-title'>{{listModel.rx_name}}
       </view>
     </view>
   </view>
@@ -186,7 +186,7 @@
     <input class='right-content'
            placeholder='剂量单位'
            disabled='disabled'
-           value="{{listModel.single_unit ? listModel.single_unit.key_name : ''}}">    
+           value="{{listModel.single_name}}">    
     </input>
     <image class='moreButton'
            src='/image/more.png'></image>
@@ -198,13 +198,13 @@
     <view class='flag'>*</view>
     <view class='change-unit-title'>拆零与计量单位换算</view>
     <view class='change-unit-content'>
-      <view class='unit-title'>1{{listModel.rx_unit ? listModel.rx_unit.key_name : ''}} = 
+      <view class='unit-title'>1{{listModel.rx_name}} = 
       </view>
       <input class='unit-input'
              bindinput='takingCountInput'
              value='{{listModel.taking_count}}'>    
       </input>
-      <view class='unit-right-title'>{{listModel.single_unit ? listModel.single_unit.key_name : ''}}
+      <view class='unit-right-title'>{{listModel.single_name}}
       </view>
     </view>
   </view>

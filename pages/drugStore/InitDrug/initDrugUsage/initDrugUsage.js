@@ -13,12 +13,10 @@ Page({
     frequencyArray: [],//频率数组
     currentUsageIndex:0,//当前用法位置
     currentFrequencyIndex:0,//当前频率位置
-    instruction:'',//用法
-    common_frequency:'',//频率
-    singleUse:'',//单次用量
-    common_days:'',//用药天数
-    totalTitle:'',//顶部内容
+
+    listModel: '',//模型
     selected:false,//每次适量按钮是否被选中
+    isWestDrug:true,//是否是西药
   },
 
   /**
@@ -26,29 +24,29 @@ Page({
    */
   onLoad: function (options) {
     var that = this;
-    //1、获取用法列表
-    initDrugJs.getUsageList(function(success){
-      that.data.usageArray = that.data.usageArray.concat(success);
-      that.setData({
-        usageArray: that.data.usageArray
-      });
-    },function(fail){
-      wx.showToast({
-        title: fail,
-      })
+    //1、解析模型
+    var listModel = JSON.parse(options.listModel);
+    //2、判断界面类型
+    var dugType = listModel.dug_type ? listModel.dug_type.id : 1;
+    if ((parseInt(dugType) == 1) || (parseInt(dugType) == 2)){//西药和中成药
+      this.data.isWestDrug = true;
+    }else{
+      this.data.isWestDrug = false;
+    }
+    this.data.listModel = listModel;
+    //3、刷新界面
+    this.setData({
+      isWestDrug: this.data.isWestDrug,
+      listModel: this.data.listModel
     });
-    //2、获取频率列表
-    initDrugJs.getFrequencyList(function(success){
-      that.data.frequencyArray = that.data.frequencyArray.concat(success);
-      that.setData({
-        frequencyArray: that.data.frequencyArray
-      });
-    },function(fail){
-      wx.showToast({
-        title: fail,
-      })
-    });
+    //4、网络请求
+    //请求用法列表
+    this.loadWestUsageListData();
+    //请求频率列表
+    this.loadWestFrequencyListData();
 
+    console.log('生命周期函数--监听页面加载');
+    console.log(listModel);
   },
 
   /**
@@ -101,7 +99,83 @@ Page({
   },
 
   /**
-   * 点击用法
+   * 请求用法(西药)
+   */
+  loadWestUsageListData:function(){
+    var that = this;
+    initDrugJs.getUsageList(function (success) {
+      that.data.usageArray = that.data.usageArray.concat(success);
+      //刷新界面
+      that.setData({
+        usageArray: that.data.usageArray
+      });
+      //选中问题
+      that.dealWestUsageIsSelectedData();
+    }, function (fail) {
+      wx.showToast({
+        title: fail,
+      })
+    });
+  },
+
+  /**
+   * 请求频率
+   */
+  loadWestFrequencyListData:function(){
+    var that = this;
+    initDrugJs.getFrequencyList(function (success) {
+      that.data.frequencyArray = that.data.frequencyArray.concat(success);
+      //刷新界面
+      that.setData({
+        frequencyArray: that.data.frequencyArray
+      });
+      //选中问题
+      that.dealWestFrequencyIsSelectedData();
+    }, function (fail) {
+      wx.showToast({
+        title: fail,
+      })
+    });
+  },
+
+  /**
+   * 处理用法选中问题
+   */
+  dealWestUsageIsSelectedData:function(){
+    //1、寻找选中
+    var targetName = this.data.listModel.instruction_en_name;
+    for (let i = 0; i < this.data.usageArray.length; i ++){
+        var usageModel = this.data.usageArray[i];
+      if (usageModel.key_name == targetName){//选中
+          usageModel.is_select = true;
+        }
+    }
+    //2、再次刷新界面
+    this.setData({
+      usageArray: this.data.usageArray
+    });
+  },
+
+  /**
+   * 处理频率选中问题
+   */
+  dealWestFrequencyIsSelectedData:function(){
+    //1、寻找选中
+    var targetName = this.data.listModel.common_frequency ? this.data.listModel.common_frequency.key_name : '';
+    for (let i = 0; i < this.data.frequencyArray.length; i++) {
+      var frequencyModel = this.data.frequencyArray[i];
+      if (frequencyModel.key_name == targetName) {//选中
+        frequencyModel.is_select = true;
+      }
+    }
+    //2、刷新界面
+    this.setData({
+      frequencyArray: this.data.frequencyArray
+    });
+  },
+
+  /**
+   * 点击用法(西药)
    */
   clickUsageChild:function(e){
     console.log('点击用法---');
@@ -114,11 +188,12 @@ Page({
     item.is_select = true;
     //3、记住当前位置
     this.data.currentUsageIndex = e.currentTarget.dataset.index;
-    this.data.instruction = item;
+    console.log(item);
+    this.data.listModel.instruction_en_name = item.key_name;
     //4、刷新界面
     this.setData({
       usageArray: this.data.usageArray,
-      instruction: this.data.instruction
+      listModel: this.data.listModel
     });
     //5、顶部标题刷新
     this.refreshHeadTitle();
@@ -138,11 +213,11 @@ Page({
     item.is_select = true;
     //3、记住当前位置
     this.data.currentFrequencyIndex = e.currentTarget.dataset.index;
-    this.data.common_frequency = item;
+    this.data.listModel.common_frequency = item;
     //4、刷新界面
     this.setData({
       frequencyArray: this.data.frequencyArray,
-      common_frequency: this.data.common_frequency
+      listModel: this.data.listModel
     });
     //5、顶部标题刷新
     this.refreshHeadTitle();
@@ -154,8 +229,14 @@ Page({
   singleUseInput:function(e){
     console.log('单次用量输入');
     console.log(e);
-
-    this.data.singleUse = e.detail.value;
+    this.data.listModel.common_count = e.detail.value;
+    if(this.data.listModel.common_count != -1){
+        this.data.selected = false;
+    }
+    //刷新界面
+    this.setData({
+      selected: this.data.selected
+    })
     //顶部标题刷新
     this.refreshHeadTitle();
   },
@@ -167,9 +248,10 @@ Page({
     console.log('点击每次适量');
     this.data.selected = !this.data.selected;
     if(this.data.selected){
-      this.data.singleUse = -1;
+      this.data.listModel.common_count = -1;
     }
     this.setData({
+      listModel: this.data.listModel,
       selected: this.data.selected
     });
     //顶部标题刷新
@@ -183,7 +265,7 @@ Page({
     console.log('用药天数输入');
     console.log(e);
   
-    this.data.common_days = e.detail.value;
+    this.data.listModel.common_days = e.detail.value;
     //顶部标题刷新
     this.refreshHeadTitle();
   },
@@ -194,23 +276,55 @@ Page({
   refreshHeadTitle:function(e){
     var resultArray = [];
     //用法
-    this.data.instruction ? resultArray.push(this.data.instruction.key_name) : '';
+    var instruction_en_name = this.data.listModel.instruction_en_name;
+    instruction_en_name ? resultArray.push(instruction_en_name) : '';
     //频率
-    this.data.common_frequency ? resultArray.push(this.data.common_frequency.key_name) : '';
+    var frequency = this.data.listModel.common_frequency ? this.data.listModel.common_frequency.key_name : '';
+    frequency ? resultArray.push(frequency) : '';
     //单次用量
-    var singleUseString = '每次' + this.data.singleUse + '片';
-    if(this.data.singleUse == -1){
+    var singleUseString = '每次' + this.data.listModel.common_count + '片';
+    if (this.data.listModel.common_count == -1){
       singleUseString = '每次适量';
     }
-    this.data.singleUse ? resultArray.push(singleUseString) : '';
+    this.data.listModel.common_count ? resultArray.push(singleUseString) : '';
     //用药天数
-    var dayString = '用药' + this.data.common_days + '天';
-    this.data.common_days ? resultArray.push(dayString) : '';
+    var dayString = '用药' + this.data.listModel.common_days + '天';
+    this.data.listModel.common_days ? resultArray.push(dayString) : '';
     //整合
-    this.data.totalTitle = resultArray.join(';');
+    this.data.listModel.usage = resultArray.join(';');
     this.setData({
-      totalTitle: this.data.totalTitle
+      listModel: this.data.listModel
     });
   },
-  
+
+  /**
+   * 点击确定按钮
+   */
+  clickSaveButton:function(e){
+    console.log('点击确定按钮-----------');
+    //1、获取目标控制器
+    //获取所有界面
+    var pages = getCurrentPages();
+    //当前页面
+    var currPage = pages[pages.length - 1];
+    //上一个页面
+    var prevPage = pages[pages.length - 2];
+
+    //2、参数处理(分类)
+    if(this.data.isWestDrug){//是西药和中成药
+      prevPage.usageManageBackData(this.data.listModel.usage,'usage');
+      prevPage.usageManageBackData(this.data.listModel.instruction_en_name, 'instruction_en_name');
+      prevPage.usageManageBackData(this.data.listModel.common_frequency, 'common_frequency');
+      prevPage.usageManageBackData(this.data.listModel.common_count, 'common_count');
+      prevPage.usageManageBackData(this.data.listModel.common_days, 'common_days');
+    }else{//中药和医疗器械
+      var dugType = this.data.listModel.dug_type ? this.data.listModel.dug_type.id : 3;
+      if(dugType == 3){//中药
+        prevPage.usageManageBackData(this.data.listModel.instruction_zh_name,'instruction_zh_name');
+      }else{//医疗器械
+        prevPage.usageManageBackData(this.data.listModel.instruction_en_name, 'instruction_en_name');
+      }
+    }
+  },
+
 })

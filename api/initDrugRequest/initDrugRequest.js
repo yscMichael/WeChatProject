@@ -238,6 +238,26 @@ function postAllData(drugModel, isEdit,onSuccess, onFail){
 }
 
 /**
+ * 查询药品是否已经开过处方
+ */
+function checkUse(drugId, onSuccess, onFail){
+  var params = {
+    drug_id: drugId,
+    _userid: app.globalData.userId,
+    _password: app.globalData.password,
+  }
+  netJs.getRequest('/gmi/drug?op=checkUse', params,
+    function (success) {
+      console.log('查询药品是否已经开过处方');
+      console.log(success.data.code);
+      onSuccess(success.data.code);
+    },
+    function (fail) {
+      onFail(fail);
+    });
+}
+
+/**
  * 构造网络请求参数
  */
 function makePostDataParam(drugModel,isEdit){
@@ -590,33 +610,31 @@ function dealAllUnit(drugModel){
  * 处理规格
  */
 function dealSpec(drugModel){
-  if(!drugModel.spec){//spec为空、自己拼接
-    var singleUnit = drugModel.single_name ? drugModel.single_name : '';
-    var rxUnit = drugModel.rx_name ? drugModel.rx_name : '';
-    var minUnit = drugModel.min_name ? drugModel.min_name : '';
-    var changeCount = drugModel.change_count ? drugModel.change_count : '';
-    var takingCount = drugModel.taking_count ? drugModel.taking_count : '';
-    var dugTypId = drugModel.dug_type ? drugModel.dug_type.id : '1';
-    if (minUnit == rxUnit){ //包装单位与拆零单位相同
-      if (dugTypId == 4){//医疗器械
-          drugModel.spec = '1' + rxUnit;
-      }else{//非医疗器械
-        if (rxUnit == singleUnit) {//拆零单位与剂量单位相同
-          drugModel.spec = '1' + rxUnit;
-        }else {//不相同
-          drugModel.spec = takingCount + singleUnit + '/' + rxUnit;
-        }
+  var singleUnit = drugModel.single_name ? drugModel.single_name : '';
+  var rxUnit = drugModel.rx_name ? drugModel.rx_name : '';
+  var minUnit = drugModel.min_name ? drugModel.min_name : '';
+  var changeCount = drugModel.change_count ? drugModel.change_count : '';
+  var takingCount = drugModel.taking_count ? drugModel.taking_count : '';
+  var dugTypId = drugModel.dug_type ? drugModel.dug_type.id : '1';
+  if (minUnit == rxUnit){ //包装单位与拆零单位相同
+    if (dugTypId == 4){//医疗器械
+        drugModel.spec = '1' + rxUnit;
+    }else{//非医疗器械
+      if (rxUnit == singleUnit) {//拆零单位与剂量单位相同
+        drugModel.spec = '1' + rxUnit;
+      }else {//不相同
+        drugModel.spec = takingCount + singleUnit + '/' + rxUnit;
       }
     }
-    else{//不相同
-      if (rxUnit == singleUnit){//拆零和剂量单位相同
+  }
+  else{//不相同
+    if (rxUnit == singleUnit){//拆零和剂量单位相同
+      drugModel.spec = changeCount + rxUnit + '/' + minUnit;
+    }else{//不相同
+      if (dugTypId == 4){//医疗器械
         drugModel.spec = changeCount + rxUnit + '/' + minUnit;
-      }else{//不相同
-        if (dugTypId == 4){//医疗器械
-          drugModel.spec = changeCount + rxUnit + '/' + minUnit;
-        }else{
-          drugModel.spec = takingCount + singleUnit + '/' + rxUnit + ';' + changeCount + rxUnit + '/' + minUnit;
-        }
+      }else{
+        drugModel.spec = takingCount + singleUnit + '/' + rxUnit + ';' + changeCount + rxUnit + '/' + minUnit;
       }
     }
   }
@@ -725,5 +743,6 @@ module.exports = {
   dealAllUnit: dealAllUnit,
   dealSpec: dealSpec,
   dealRealCount: dealRealCount,
-  postAllData: postAllData
+  postAllData: postAllData,
+  checkUse: checkUse
 }

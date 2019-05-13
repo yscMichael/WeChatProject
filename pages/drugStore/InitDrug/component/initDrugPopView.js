@@ -34,7 +34,7 @@ Component({
     itemDataSource:[],
     //true:隐藏 false:显示
     hideModal:true,
-    //列表类型(1:剂型列表)
+    //列表类型(1:剂型列表、2:处方单位、3:拆零单位、4:服用单位)
     listType:'',
     //标题
     title:'',
@@ -63,8 +63,8 @@ Component({
         this.data.title = '选择剂型';
         this.data.subTitle = '剂型选择';
       }else{
-        this.data.title = '选择剂型';
-        this.data.subTitle = '剂型选择';
+        this.data.title = '选择单位';
+        this.data.subTitle = '单位选择';
       }
       this.data.listType = e;
       this.setData({

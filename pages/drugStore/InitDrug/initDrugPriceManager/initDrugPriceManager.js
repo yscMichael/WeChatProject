@@ -6,6 +6,7 @@ Page({
    */
   data: {
     listModel:'',//模型数据
+    isChineseDrug:false,//是否是中药
   },
 
   /**
@@ -14,10 +15,14 @@ Page({
   onLoad: function (options) {
     //1、解析模型
     var listModel = JSON.parse(options.listModel);
-    //2、刷新界面
+    //2、判断界面类型
+    var dugType = listModel.dug_type ? listModel.dug_type.id : 1;
+    (parseInt(dugType) != 3) ? (this.data.isChineseDrug = false) : (this.data.isChineseDrug = true);
+    //3、刷新界面
     this.data.listModel = listModel;
     this.setData({
-      listModel: this.data.listModel
+      listModel: this.data.listModel,
+      isChineseDrug: this.data.isChineseDrug
     });
     console.log('价格管理---------');
     console.log(listModel);
@@ -73,7 +78,7 @@ Page({
   },
 
   /**
-   * 进货价输入
+   * 进货价输入(西药和中药)
    */
   costInput:function(e){
     console.log('进货价输入---------');
@@ -82,28 +87,31 @@ Page({
   },
 
   /**
-   * 处方价(包装单位)
+   * 处方价(包装单位)(西药和中药)
    */
   minPriceInput:function(e){
     this.data.listModel.min_price = e.detail.value;
+    if(this.data.isChineseDrug){//是中药
+      this.data.listModel.sale_price = e.detail.value;
+    }
   },
 
   /**
-   * 处方价(拆零单位)
+   * 处方价(拆零单位)(西药)
    */
   salePriceInput:function(e){
     this.data.listModel.sale_price = e.detail.value;
   },
 
   /**
-   * 零售价(包装单位)
+   * 零售价(包装单位)(西药)
    */
   retailMinPriceInput:function(e){
     this.data.listModel.retail_min_price = e.detail.value;
   },
 
   /**
-   * 零售价(拆零单位)
+   * 零售价(拆零单位)(西药)
    */
   retailSalePriceInput:function(e){
     this.data.listModel.retail_sale_price = e.detail.value;

@@ -13,7 +13,8 @@ Page({
     selectImage:'/image/drughome/wj_initdrug_normal.png',//图片数组
     imageTipTitle:'上传药品图片',
     hasMask:false,//是否有蒙层
-    drugTypeArray:['西药','中药'],//药品类型
+    drugTypeArray:['西药','中成药'],//药品类型
+    disabledDrugType:false,//是否禁止药品类型
     screenWidth:0,//屏幕宽度
     screenHeight:0,//屏幕高度
     validityArray:[
@@ -26,6 +27,7 @@ Page({
     ],
     priceItem:'',
     manufacturerArray:[],//联想厂商
+    isPrescriptionDrug:false,//是否在处方中开过药
     isHidePopManufacturer:true,//是否隐藏联想列表
   },
 
@@ -51,6 +53,18 @@ Page({
     //3、初始化数据
     var listModel = JSON.parse(options.listModel);  
     this.initData(listModel);
+    //4、查询是否已经在处方开过药(决定能否更改药品类型)
+    var that = this;
+    initDrugJs.checkUse(this.data.listModel.drugId,function(success){
+      if(success == 311){//开过药品
+        that.data.isPrescriptionDrug = true;
+      }else{
+        that.data.isPrescriptionDrug = false;
+      }
+    },function(fail){
+      that.data.isPrescriptionDrug = false;
+    });
+
   },
 
   /**
@@ -172,6 +186,8 @@ Page({
    */
   keyNameInput:function(e){
     console.log('商品名输入');
+    var value = e.detail.value;
+    this.data.listModel.key_name = value;
   },
 
   /**
@@ -180,10 +196,12 @@ Page({
   manufacturerInput:function(e){
     console.log('生产厂家输入----');
     console.log(e);
+    var value = e.detail.value;
+    this.data.listModel.manufacturer_name = value;
   },
 
   /**
-   * 点击生产厂家联想列表
+   * 点击生产厂家联想列表(暂时不做)
    */
   clickManufacturerItem:function(e){
     console.log('点击生产厂家联想列表');
@@ -200,23 +218,32 @@ Page({
   },
 
   /**
+   * 生产厂家反向传值??????
+   */
+
+
+
+
+  /**
    * 条形码输入
    */
   uuidInput:function(e){
     console.log('条形码输入');
+    var value = e.detail.value;
+    this.data.listModel.uuid = value;
   },
 
   /**
-   * 扫描条形码
+   * 条形码扫描
    */
   scanCode:function(e){
     console.log('扫描条形码');
-    const that = this
+    var that = this
     wx.scanCode({
       success(res) {
-        that.data.resultCode = res.result;
+        that.data.listModel.uuid = res.result;
         that.setData({
-          resultCode: that.data.resultCode
+          listModel: that.data.listModel
         });
       },fail() {
         wx.showToast({
@@ -231,9 +258,31 @@ Page({
    */
   bindDrugTypeChange:function(e){
     console.log('药品类型---------');
-    const val = e.detail.value
+    console.log(e);
+    //判断是否可以修改药品类型
+    if(this.data.isPrescriptionDrug){//不可以修改类型
+      wx.showToast({
+        title: '已开过药品,不能修改类型',
+      });
+      return;
+    }
+    //1、模型
+    var tempDict = {
+      id:1,
+      key_name:'西药'
+    };
+    //2、赋值
+    var val = e.detail.value;
+    if (val == 0){//西药
+      this.data.listModel.dug_type = tempDict;
+    }else{//中成药
+      tempDict.id = 1;
+      tempDict.key_name = '中成药';
+      this.data.listModel.dug_type = tempDict;
+    }
+    //3、刷新界面
     this.setData({
-      drugTypeIndex: e.detail.value
+      listModel: this.data.listModel
     });
   },
 
@@ -317,6 +366,7 @@ Page({
   specInput:function(e){
     console.log('规格输入');
     console.log(e);
+    this.data.listModel.spec = e.detail.value;
   },
 
   /**
@@ -325,12 +375,13 @@ Page({
   choosePrice: function (e) {
     console.log('价格管理=======');
     console.log(this.data.priceItem);
-    //1、传递模型参数
+    //1、处理模型参数
     //这里要对image进行特殊编码(防止出现特殊字符)
     var listModel = this.data.listModel;
     if (listModel.image != '/image/img_ypmr.png') {//编码
       listModel.image = encodeURIComponent(listModel.image);
     }
+    //2、传递模型(转换json字符串)
     var listModelString = JSON.stringify(listModel);
     wx.navigateTo({
       url: '/pages/drugStore/InitDrug/initDrugPriceManager/initDrugPriceManager?listModel=' + listModelString,
@@ -341,8 +392,16 @@ Page({
    * 用法用量 
    */
   chooseUsage: function (e) {
+    //1、处理模型参数
+    //这里要对image进行特殊编码(防止出现特殊字符)
+    var listModel = this.data.listModel;
+    if (listModel.image != '/image/img_ypmr.png') {//编码
+      listModel.image = encodeURIComponent(listModel.image);
+    }
+    //2、传递模型(转换json字符串)
+    var listModelString = JSON.stringify(listModel);
     wx.navigateTo({
-      url: '/pages/drugStore/InitDrug/initDrugUsage/initDrugUsage',
+      url: '/pages/drugStore/InitDrug/initDrugUsage/initDrugUsage?listModel=' + listModelString,
     })
   },
 
@@ -350,9 +409,19 @@ Page({
    * 有效期预警
    */
   bindValidityChange: function (e) {
-    const val = e.detail.value
+    //1、建立模型
+    var warning_time = {
+      id:2,
+      key_name:'两个月',
+    }
+    //2、赋值
+    const val = e.detail.value;
+    warning_time.id = val + 1;//id
+    warning_time.key_name = this.data.validityArray[val];
+    //3、刷新界面
+    this.data.listModel.warning_time = warning_time;
     this.setData({
-      validityIndex: e.detail.value
+      listModel: this.data.listModel
     });
   },
 
@@ -361,6 +430,8 @@ Page({
    */
   lowCountInput:function(e){
     console.log('库存安全范围--下限');
+    console.log(e.detail.value);
+    this.data.listModel.range_low = e.detail.value;
   },
 
   /**
@@ -368,6 +439,8 @@ Page({
    */
   upCountInput:function(e){
     console.log('库存安全范围--上限');
+    console.log(e);
+    this.data.listModel.range_up = e.detail.value;
   },
 
   /**
@@ -381,26 +454,31 @@ Page({
   },
 
   /**
-   * 点击弹出框确定按钮(剂型、单位)
+   * 剂型/单位反向传值
    */
   clickDrugFormSureButton: function (e) {
     console.log('点击弹出框确定按钮(剂型)');
     console.log(e);
-    console.log(e.detail.item);
     //1、取值
     var itemDict = {
       id: e.detail.item.drugformId,
       key_name: e.detail.item.key_name
     };
-    //2、判断类型并赋值
-    if (e.detail.listType == 1){//剂量
-      this.data.listModel.drug_forms = itemDict;
+    //2、分类赋值
+    if (e.detail.listType == 1){//剂型
+      this.data.listModel.drug_forms_name = itemDict.key_name;
     } else if (e.detail.listType == 2){//处方单位
-      this.data.listModel.min_unit = itemDict;
-    } else if (e.detail.listType == 3){//拆零单位
-      this.data.listModel.rx_unit = itemDict;
-    }else{//剂量单位
-      this.data.listModel.single_unit = itemDict;
+      this.data.listModel.min_name = itemDict.key_name;
+      //刷新规格
+      initDrugJs.dealSpec(this.data.listModel);
+    } else if (e.detail.listType == 3) {//拆零单位
+      this.data.listModel.rx_name = itemDict.key_name;
+      //刷新规格
+      initDrugJs.dealSpec(this.data.listModel);
+    }else{//服用单位
+      this.data.listModel.single_name = itemDict.key_name;
+      //刷新规格
+      initDrugJs.dealSpec(this.data.listModel);
     }
     //3、刷新界面
     this.setData({
@@ -425,6 +503,28 @@ Page({
     }else{//其余全部设置为进货价  
       this.data.listModel.cost = data;  
     }
+  },
+
+  /**
+   * 用法用量反向传值
+   */
+  usageManageBackData: function (data, target){
+    console.log('用法用量反向传值用法用量反向传值');
+    if (target == 'usage'){//用法
+      this.data.listModel.usage = data;
+    } else if (target == 'instruction_en_name'){//西药用法
+      this.data.listModel.instruction_en_name = data;
+    } else if (target == 'common_frequency'){//西药频率
+      this.data.listModel.common_frequency = data;
+    } else if (target == 'common_count'){//西药单次用量
+      this.data.listModel.common_count = data;
+    } else if (target == 'common_days'){//西药用药天数
+      this.data.listModel.common_days = data;
+    } else if (target == 'instruction_zh_name'){//中药用法
+      this.data.listModel.instruction_zh_name = data;
+    }else{//其余设置为用法
+      this.data.listModel.usage = data;    
+    } 
   },
 
   /**

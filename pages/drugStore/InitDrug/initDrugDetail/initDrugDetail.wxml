@@ -100,7 +100,8 @@
   <picker mode="selector" 
           bindchange="bindDrugTypeChange" 
           value="{{drugTypeIndex}}" 
-          range="{{drugTypeArray}}">
+          range="{{drugTypeArray}}"
+          disabled='{{disabledDrugType}}'>
     <view class='out-date'>
       <view class='flag'>*</view>
       <view class='title'>药品类型</view>

@@ -1,0 +1,17 @@
+<view class='main-view'>
+    <block wx:for="{{dataSource}}" 
+           wx:key="index">
+      <receptionListCell name="{{item.name}}" 
+                         age="{{item.age}}" 
+                         time="{{item.time}}" 
+                         detail="{{item.detail}}" 
+                         imageUrl="{{item.imageUrl}}" 
+                         data-item="{{item}}" 
+                         bindclickcell="onClickCell"
+                         id="{{item.id}}">
+      </receptionListCell>
+    </block>
+    <!-- 底部加载动画 -->
+    <yyRefresh isHideBottomView="{{isHideBottomView}}">
+    </yyRefresh>
+</view>

@@ -1,0 +1,35 @@
+<view class='sendListCell-main'
+      catchtap="onTap">
+  <!-- 顶部分割线 -->
+  <view class='sendListCell-lineTop'>
+  </view>
+  <!-- 具体内容 -->
+  <view class='sendListCell-title'>
+      <!-- 姓名 -->
+    <span class='sendListCell-name'>
+    {{name}}</span>
+        <!-- 年龄 -->
+    <span class='sendListCell-age'>
+    {{age}}</span>
+        <!-- 金钱 -->
+    <span class='sendListCell-money'>
+    ¥ {{money}}</span>
+  </view>
+  <!-- 时间 -->
+  <view class='sendListCell-time'>
+  接诊时间: {{time}}</view>
+  <!-- 诊断或联系方式 -->
+  <view class='sendListCell-number'>
+  诊断: {{detail}}</view>
+  <!-- 底部按钮 -->
+  <view class='sendListCell-bottom-view'
+        hidden="{{isHiddenBottom}}">
+    <!-- 分割线 -->
+    <view class='sendListCell-lineBottom'></view>
+    <!-- 按钮 -->
+    <view class='sendListCell-bottom-button'>
+      <image src='/image/clinic/money.png'></image>
+      <view>发药</view>
+    </view>
+  </view>
+</view>

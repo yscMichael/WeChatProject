@@ -1,0 +1,41 @@
+<view class='mainBackgroundView'>
+  <!-- 头部背景图 -->
+  <view class='mainHeaderImageView'>
+    <image src="/image/drug_bg.png" mode="aspectFill"/>
+  </view>
+  <!-- 列表 -->
+  <scroll-view class="main_tableView" scroll-y="true">
+    <!-- 采购入库 -->
+    <view class='main_tableView_cell' bindtap='JumpToPintostock' data-jumpid='WWDrugPutinStock'>
+      <view class="main_tableView_cell_image">
+				<image src="/image/drughome/drug_putin.png" mode="aspectFill"/>
+			</view>
+			<view class="main_tableView_cell_title">采购入库</view>
+      <view class="main_tableView_cell_content">扫码直接入库</view>
+    </view>
+    <!-- 库存查询 -->
+    <view class='main_tableView_cell' bindtap='JumpToPintostock' data-jumpid='WWDrugStockCheck'>
+      <view class="main_tableView_cell_image">
+				<image src="/image/drughome/drug_stock.png" mode="aspectFill"/>
+			</view>
+			<view class="main_tableView_cell_title">库存查询</view>
+      <view class="main_tableView_cell_content">库存流水、有效期查询</view>
+    </view>
+    <!-- 库存盘点 -->
+    <view class='main_tableView_cell' bindtap='JumpToPintostock' data-jumpid='WWDrugHandleStock'>
+      <view class="main_tableView_cell_image">
+				<image src="/image/drughome/drug_check.png" mode="aspectFill"/>
+			</view>
+			<view class="main_tableView_cell_title">库存盘点</view>
+      <view class="main_tableView_cell_content">盘点药品库存</view>
+    </view>
+    <!-- 药品初始化 -->
+    <view class='main_tableView_cell' bindtap='JumpToPintostock' data-jumpid='WWDrugInitDrug'>
+      <view class="main_tableView_cell_image">
+				<image src="/image/drughome/drug_init.png" mode="aspectFill"/>
+			</view>
+			<view class="main_tableView_cell_title">药品初始化</view>
+      <view class="main_tableView_cell_content">初始化您的药品库</view>
+    </view>
+  </scroll-view>
+</view>

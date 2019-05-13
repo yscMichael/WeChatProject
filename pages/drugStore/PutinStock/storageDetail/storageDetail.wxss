@@ -1,0 +1,85 @@
+Page{
+  background-color: #F1F0F5;
+}
+
+.head-view{
+  background-color: white;
+}
+
+.list-view{
+  padding-bottom: 70px;
+}
+
+.item-view{
+  display: flex;
+}
+
+.item-title-view{
+  flex: 0 0 80px;
+  padding: 2px;
+  color: #888888;
+  font-size: 15px;
+  margin-left: 10px;
+}
+
+.item-content-view{
+  flex-grow: 1;
+  text-align: right;
+  color: #333333;
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+.bottom-view{
+  position: fixed;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  height: 60px;
+  display: flex;
+  background-color: white;
+  border-top: 1px solid silver;
+  z-index: 100;
+}
+
+.money{
+  flex-grow: 1;
+}
+
+.total{
+  display: flex;
+  margin-top: 5px;
+  margin-left: 10px;
+}
+
+.actual{
+  display: flex;
+  margin-top: 5px;
+  margin-left: 10px;
+}
+
+.passButton{
+  background-color: #2A93EF;
+  color: white;
+  flex: 0 0 80px;
+  font-size: 15px;
+  text-align: center;
+  line-height: 60px;
+}
+
+.title{
+  font-size: 15px;
+  color: #000000;
+}
+
+.totalPrice{
+  font-size: 15px;
+  color: #000000;
+  margin-left: 10px;
+} 
+
+.actualPrice{
+  font-size: 15px;
+  color: #F99B31;
+  margin-left: 10px;
+}

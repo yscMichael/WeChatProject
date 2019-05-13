@@ -1,0 +1,5 @@
+<view class='mainBackgroundView'>
+  <view class='mainHeaderImageView'>
+    <image src="/image/OperationalAnalysis.png" mode="aspectFill"/>
+  </view>
+</view>

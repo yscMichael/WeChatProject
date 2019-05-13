@@ -1,0 +1,140 @@
+/* 整体容器布局 */
+.template-container{
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+}
+
+.left-container{
+  background-color: #fff;
+  width: 45%;
+  height: 100%;
+  float: left;
+}
+
+.template-line{
+  background-color: #E0E0E0;
+  width: 2rpx;
+  height: calc(100% - 80rpx);
+  margin-top: 40rpx;
+  float: left;
+}
+
+.right-container{
+  background-color: #fff;
+  height: 100%;
+  width: calc(55% - 4rpx);
+  float: right;
+}
+
+/* 左侧内部布局 */
+.left-container-main{
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+/* 本月门诊毛利 */
+.left-title{
+  position: absolute;
+  left: 13rpx;
+  top: 30%;   
+}
+
+.titlt-count{
+  background-color:#fff;
+  position: absolute;
+  left: 13rpx;  
+  bottom: 20%;
+  right: 40rpx;
+  height: 40rpx;
+}
+
+.left-count{
+  text-align: left;
+  width: 80%;
+  height: 100%;
+  float: left;
+}
+
+.eye-selected{
+  width: 16px;
+  height: 12px;
+  float: right;
+  margin-top:8rpx;
+}
+
+/* 文字布局 */
+.text-size-10{
+  color: #888888;
+  font-size: 10px;
+  font-family: Arial;
+}
+
+.text-size-12{
+  color: #888888;
+  font-size: 12px;
+  font-family: Arial;
+}
+
+.text-size-16{
+  color: #555555;
+  font-size: 16px;
+  font-family: Arial;
+  font-weight: bold;
+}
+
+.text-size-20{
+  color: #555555;
+  font-size: 20px;
+  font-family: Arial;
+  font-weight: bold;
+}
+
+/*右侧金额数据 */
+.right-container-item0{
+  background-color:#fff;
+  width: 50%;
+  height: 50%;
+  float: left;
+  position: relative;
+}
+
+.right-container-item1{
+  background-color:#fff;
+  width: 50%;
+  height: 50%;
+  float: left;
+  position: relative;
+}
+
+.right-container-item2{
+  background-color:#fff;
+  width: 50%;
+  height: 50%;
+  float: left;
+  position: relative;
+}
+
+.right-container-item3{
+  background-color:#fff;
+  width: 50%;
+  height: 50%;
+  float: left;
+  position: relative;
+} 
+
+.title10{
+  text-align: left;
+  position: absolute;
+  left: 24rpx;
+  top: 15rpx;
+}
+
+.title16{
+  text-align: left;
+  position: absolute;
+  left: 24rpx;
+  bottom: 15rpx;
+  right: 10rpx;
+}

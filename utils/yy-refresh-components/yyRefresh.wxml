@@ -1,0 +1,10 @@
+<view class='bottom-view'
+      hidden='{{isHideBottomView}}'> 
+  <!-- 图片 -->
+  <image class='bottom-image loading'
+         src='{{image}}'>
+  </image>
+  <!-- 文字 -->
+  <view class='bottom-title'>
+  {{title}}</view>
+</view>

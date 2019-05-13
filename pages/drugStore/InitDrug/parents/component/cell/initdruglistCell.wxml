@@ -1,0 +1,33 @@
+<view class='initdruglistCell'
+      catchtap="onTap">
+  <!-- 1、图片 -->
+  <view class='initdruglistCell_drugImage'>
+    <image src="{{image}}" 
+           mode="aspectFit"></image>
+  </view>
+  <!-- 2、内容 -->
+  <view class='initdruglistCell_contentView'>
+    <!-- 名称 -->
+    <view class='initdruglistCell_common_name'>
+    {{common_name}}</view>
+    <!-- 制造商和名称 -->
+    <view class='initdruglistCell_mk_view'>
+      <!-- 制造商 -->
+      <view class='initdruglistCell_manufacturer'>
+      {{manufacturer}}</view>
+      <!-- 名称 -->
+      <view class='initdruglistCell_key_name'>
+      {{key_name}}</view>
+    </view>
+    <!-- 进货价和处方价 -->
+    <view class='initdruglistCell_content_text'>
+    进货价：¥{{cost}}/{{min_unit}} | 
+    处方价：¥{{min_price}}/{{min_unit}}</view>
+    <!-- 库存 -->
+    <view class='initdruglistCell_content_text'>
+    库存：{{realCount}}   
+    {{spec}}</view>
+  </view>
+</view>
+
+

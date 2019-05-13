@@ -1,0 +1,12 @@
+{
+    "usingComponents": {
+      "receptionListCell": "/pages/clinic/reception/receptionList/component/receptionListCell",
+      "yyRefresh": "/utils/yy-refresh-components/yyRefresh"
+    },
+    "enablePullDownRefresh": true,
+    "onReachBottomDistance":-40,
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#FF00FF",
+    "navigationBarTitleText": "接诊列表",
+    "navigationBarTextStyle": "white"
+}

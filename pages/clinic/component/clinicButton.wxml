@@ -1,0 +1,11 @@
+<!-- 主界面 -->
+<view class='clinicButton-main' 
+      catchtap="onTap">
+  <!-- 图片 -->
+  <image class='up-image'
+          src='{{imageURL}}'>
+  </image>
+  <!-- 文字 -->
+  <view class='down-text'>
+  {{title}}</view>
+</view>

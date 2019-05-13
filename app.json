@@ -1,0 +1,78 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/home/home",
+    "pages/clinic/clinic",
+    "pages/drugStore/drugStore",
+    "pages/operationAnalysis/operationAnalysis",
+    "pages/personCenter/personCenter",
+    "pages/personCenter/personInit/personInit",
+    "pages/drugStore/PutinStock/main/WWDrugPutinStock",
+    "pages/drugStore/PutinStock/PutStockSelectDrug/putStockSelectDrug",
+    "pages/drugStore/InitDrug/parents/initdruglist",
+    "pages/drugStore/InitDrug/initDrugDetail/initDrugDetail",
+    "pages/drugStore/InitDrug/initDrugSelectManufacturer/initDrugSelectManufacturer",
+    "pages/drugStore/InitDrug/initDrugPriceManager/initDrugPriceManager",
+    "pages/drugStore/InitDrug/initDrugUsage/initDrugUsage",
+    "pages/home/scrollDetail/scrollDetail",
+    "pages/clinic/reception/receptionList/receptionList",
+    "pages/clinic/reception/receptionDetail/receptionDetail",
+    "pages/clinic/patient/patientList/patientList",
+    "pages/clinic/patient/patientDetail/patientDetail",
+    "pages/clinic/charge/chargeList/chargeList",
+    "pages/clinic/charge/chargeDetail/chargeDetail",
+    "pages/clinic/send/sendList/sendList",
+    "pages/clinic/send/sendDetail/sendDetail",
+    "pages/clinic/patient/addEditPatient/addEditPatient",
+    "pages/drugStore/PutinStock/storageList/storageList",
+    "pages/drugStore/PutinStock/storageDetail/storageDetail"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#2591F8",
+    "navigationBarTitleText": "登陆界面",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f0f0f0"
+  },
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "iconPath": "image/tab_home.png",
+        "selectedIconPath": "image/tab_home_selected.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/clinic/clinic",
+        "iconPath": "image/tab_menzhen.png",
+        "selectedIconPath": "image/tab_menzhen_selected.png",
+        "text": "门诊"
+      },
+      {
+        "pagePath": "pages/drugStore/drugStore",
+        "iconPath": "image/tab_yaofang.png",
+        "selectedIconPath": "image/tab_yaofang_selected.png",
+        "text": "药房"
+      },
+      {
+        "pagePath": "pages/operationAnalysis/operationAnalysis",
+        "iconPath": "image/tab_yunying.png",
+        "selectedIconPath": "image/tab_yunying_selected.png",
+        "text": "运营分析"
+      },
+      {
+        "pagePath": "pages/personCenter/personCenter",
+        "iconPath": "image/personalCenter.png",
+        "selectedIconPath": "image/personalCenterWhite.png",
+        "text": "个人中心"
+      }
+    ]
+  },
+  "networkTimeout": {
+    "request": 30000,
+    "connectSocket": 30000,
+    "uploadFile": 30000,
+    "downloadFile": 30000
+  },
+  "sitemapLocation": "sitemap.json"
+}

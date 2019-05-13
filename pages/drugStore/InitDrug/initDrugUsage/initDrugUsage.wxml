@@ -1,0 +1,78 @@
+<view class='main-view'>
+  <!--1、总结内容 -->
+  <view class='head-content-view'>{{totalTitle}}</view>
+
+  <!--2、 用法 -->
+  <view class='usage-view'>
+    <view class='header-view'>
+      <view>用法</view>
+      <view class='header-usage-content'>
+      {{instruction.key_name}}</view>
+    </view>
+    <view class='collection-view'>
+      <block wx:for="{{usageArray}}" 
+             wx:key="index">
+        <view class="{{item.is_select ? 'childSelect' : 'child'}}"
+              data-index="{{index}}"
+              catchtap='clickUsageChild'>{{item.key_name}}</view>
+      </block>
+    </view>
+  </view>
+
+  <!--3、频率 -->
+  <view class='frequency-view'>
+    <view class='header-view'>
+      <view>频率</view>
+      <view class='header-frequency-content'>
+      {{common_frequency.key_name}}</view>
+    </view>
+    <view class='collection-view'>
+      <block wx:for="{{frequencyArray}}" 
+            wx:key="index">
+        <view class="{{item.is_select ? 'childSelect' : 'child'}}"
+              data-index="{{index}}"
+              catchtap='clickFrequencyChild'>{{item.key_name}}</view>
+      </block>
+    </view>
+  </view>
+
+  <!--4、单次用量 -->
+  <view class='line-small'></view>
+  <view class='singleUse-view'>
+    <!-- 标题 -->
+    <view class='title'>单次用量:</view>
+    <!-- 中心内容 -->
+    <view class='center-view'>
+      <view class='text'>每次</view>
+      <input class='singleUse-input'
+             bindinput='singleUseInput'
+             value='{{singleUse}}'></input>
+      <view class='text'>ml</view>
+    </view>
+    <!-- 右边内容 -->
+    <view class='singleUse-button'
+          catchtap='clicksingleUseButton'>
+      <image class='selected-image' 
+            wx:if="{{selected}}"
+            src='/image/selected_fang.png'></image>
+      <image class='selected-image'
+            wx:if="{{!selected}}"
+            src='/image/no_selected_fang.png'></image>
+      <view class='subText'>每次适量</view>
+    </view>
+  </view>
+
+  <!--5、用药天数 -->
+  <view class='line-small'></view>
+  <view class='dayCount-view'>
+    <!-- 标题 -->
+    <view class='title'>用药天数:</view>
+    <input class='dayCount-input'
+           bindinput='dayCountInput'
+           value='{{common_days}}'>用药天数:</input>
+    <view class='text'>天</view>
+  </view>
+</view>
+
+<!-- 保存按钮 -->
+<view class='bottom-button'>保存</view>

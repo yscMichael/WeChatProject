@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+    "clinicButton": "/pages/clinic/component/clinicButton",
+    "clinicList": "/pages/clinic/component/clinicList"
+  },
+  "backgroundTextStyle": "light",
+  "navigationBarBackgroundColor": "#FF00FF",
+  "navigationBarTitleText": "门诊",
+  "navigationBarTextStyle": "white"
+}

@@ -1,0 +1,468 @@
+Page{
+  background-color: #F1F0F5;
+  height: 100%;
+}
+
+.WWDrugPutinStockFixedArea {
+  position: fixed;
+  display: flex;
+  width: 100%;
+  top: 0;
+  z-index: 99;
+  height: 330rpx;
+}
+/* 采购入库头部选择视图 */
+.WWDrugPutinStockHeader {
+  position: relative;
+  width:100%;
+  height: 240rpx;
+  background-color: white;
+}
+/* 单行 */
+.WWDrugPutinStockSelectView {
+  width:100%;
+  height: 80rpx;
+  font-size: 16px;
+  color: #333333;
+}
+/* 底部线条 */
+.WWDrugPutinStockSelectView_bottomLine {
+  position: relative;
+  height: 1rpx;
+  background-color: rgb(240, 240, 240);
+  left: 35rpx;
+  top: 79rpx;
+}
+
+/* 左侧文本 */
+.SelectViewLeftChildView {
+  width: 150rpx;
+  float:left;
+  padding-top: 20rpx;
+  padding-left: 30rpx;
+}
+/* 右侧文本，文本超过一行用省略号 */
+.SelectViewRightChildView {
+  float: right;
+  display: flex;
+  padding-top: 20rpx;
+  padding-right: 50rpx;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  word-break: break-all;
+  line-height: 40rpx;
+  max-width: 450rpx;
+}
+/* 更多图标 */
+.moreIcon {
+  width: 10px;
+  height: 10px;
+  border-top: 1px solid lightgray;
+  border-right: 1px solid lightgray;
+  position: absolute;
+  right: 20rpx;
+  transform: rotate(45deg);
+  margin-top: 32rpx;
+}
+
+/* 按钮工具条 */
+.WWPutinStockToolBar {
+  position: absolute;
+  display: flex;
+  width: 100%;
+  height: 90rpx;
+  background-color: white;
+  top: 240rpx;
+}
+/* 按钮中间的分割线 */
+.WWPutinStockToolBar::after {
+  content: '';
+  position: absolute;
+  right: 50%;
+  top: 25rpx;
+  bottom: 25rpx;
+  width: 1rpx;
+  border-left: 1px solid #D3D1D1;
+  color: #D3D1D1;
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
+  -webkit-transform: scaleX(.5);
+  transform: scaleX(.5);
+  z-index: 2;
+}
+/* 扫码添加按钮 */
+.WWPutinScanCodeButton {
+  width: 50%;
+  height: 100%;
+  float: left;
+}
+/* 手动添加按钮 */
+.WWPutinHandleButton {
+  width: 50%;
+  height: 100%;
+  float: right;
+}
+/* 按钮图片 */
+.WWPutinButtonImage {
+  width: 30rpx;
+  height: 30rpx;
+  display: flex;
+  padding-left: 30%;
+  float: left;
+  padding-top: 30rpx;
+}
+/* 按钮标题 */ 
+.WWPutinButtonTitle {
+  display: flex;
+  width: 50%;
+  height: 40rpx;
+  padding-left: 10rpx;
+  padding-top: 25rpx;
+  color: #1F91F2;
+  font-size: 16px;
+}
+
+/* 列表 */
+.putInStockEditTableView {
+  width: 100%;
+  position: absolute;
+  top: 90rpx;
+  padding-bottom: 200rpx;
+  background-color: #f0f0f0;
+}
+/* cell */
+.putInStockEditCell {
+  width: 100%;
+  height: 620rpx;
+  margin-top: 20rpx;
+  background-color: white;
+  margin-bottom: 20rpx;
+  box-sizing: border-box;
+}
+/* cell药品信息栏 */
+.putInStockEditCellDrugView {
+  width: 100%;
+  height: 180rpx;
+  padding-left: 210rpx;
+  position: relative;
+  background-color: white;
+  box-sizing: border-box;
+}
+.putInStockEditCellDrugView::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  border-top: 1px solid #D3D1D1;
+  color: #D3D1D1;
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
+  -webkit-transform: scaleY(.5);
+  transform: scaleY(.5);
+  z-index: 2;
+}
+
+/* 药品序号 */
+.putInStockEditCellDrugViewNumber {
+  position: absolute;
+  width: 30rpx;
+  height: 30rpx;
+  left: 20rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  border: 1rpx solid #333333;
+  font-size: 10px;
+  color: #333333;
+  text-align: center;
+}
+/* 药品图片 */
+.putInStockEditCellDrugView_drugImage {
+  width: 124rpx;
+  height: 124rpx;
+  position: absolute;
+  left: 70rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: red;
+}
+.putInStockEditCellDrugView_drugImage image {
+  width: 100%;
+  height: 100%;
+}
+/* 区域 */
+/* 药品信息 */
+.putInStockEditCellDrugView_text_view {
+  width: 100%;
+  height: 180rpx;
+}
+/* 药品名称 */
+.putInStockEditCellDrugView_drugName {
+  padding-top: 30rpx;
+  padding-bottom: 10rpx;
+  width: 100%;
+  color: #333333;
+  font-size: 16px;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  word-break: break-all;
+  line-height: 40rpx;
+}
+/* 规格厂家 */
+.putInStockEditCellDrugView_content {
+  color: #999999;
+  font-size: 13px;
+  min-height: 30rpx;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  word-break: break-all;
+  line-height: 40rpx;
+}
+/* 删除按钮 */
+.putInStockEditCellDeleteButton {
+  background-color: rgb(245, 99, 99);
+  width: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  -webkit-transform: translateX(90px);
+  transform: translateX(90px);
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
+.touch-move-active .putInStockEditCellDeleteButton {
+
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+}
+
+/* 编辑栏 */
+.putInStockEditCellHandleView {
+  width: 100%;
+  height: 440rpx;
+  position: relative;
+}
+/* 编辑栏单元 */
+.putInStockEditCellHandleView_item {
+  width: 100%;
+  height: 90rpx;
+  display: flex;
+  align-items: center;
+  background-color: white;
+}
+/* 编辑栏单元分割线 */
+.putInStockEditCellHandleView_item_line {
+  position: relative;
+  left: 24rpx;
+  right: 0;
+  height: 1px;
+  background-color:rgb(230, 230, 230);
+}
+
+/* 底部 */
+.putInStockEditBottomView {
+  position: fixed;
+  width: 100%;
+  height: 200rpx;
+  background-color: white;
+  bottom: 0;
+  z-index: 99;
+}
+
+.putInStockEditBottomView::after{ 
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 1rpx;
+  border-top: 1px solid #D3D1D1;
+  color: #D3D1D1;
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
+  -webkit-transform: scaleY(.5);
+  transform: scaleY(.5);
+  z-index: 2;
+}
+
+.item-flag{
+  flex: 0 0 10px;
+  order: -2;
+  color: #F84848;
+  margin-left: 13px;
+  font-size: 17px;
+}
+
+.item-white{
+  color: white;
+}
+
+.item-title{
+  flex: 0 0 80px;
+  order: -1;
+  color: #333333;
+  font-size: 15px;
+  margin-left: 5px;
+}
+
+.item-batch{
+  flex-grow: 1;
+  order: -1;
+  color: #333333;
+  font-size: 15px;
+  margin-left: 5px;
+}
+
+.item-content{
+  flex-grow: 1;
+  text-align: right;
+  font-size: 15px;
+  color: #B2B2B2;
+}
+
+.item-batch-content{
+  font-size: 15px;
+  color: #B2B2B2;
+  height: 30px;
+  margin-right: 5px;
+  width: 150px;
+}
+
+.item-price-content{
+  font-size: 15px;
+  color: #B2B2B2;
+  height: 30px;
+  width: 100px;
+  display: flex;
+  align-items: center; 
+}
+
+.item-count-content{
+  font-size: 15px;
+  color: #B2B2B2;
+  height: 30px;
+  width: 120px;
+  display: flex;
+  align-items: center; 
+  background-color: #ECECEC;
+}
+
+.batch{
+  background-color: #ECECEC;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+}
+
+.reduce-button{
+  background-color: #ECECEC;
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
+.add-button{
+  background-color: #ECECEC;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.unit{
+  color: #333333;
+  margin-left: 5px;
+  margin-right: 5px;
+  font-size: 15px;
+}
+
+.moreButton{
+  width: 8px;
+  height: 13px;
+  flex: 0 0 10px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.item-flex-end{
+  justify-content: flex-end; 
+}
+
+.total-title{
+  color: #555555;
+  font-size: 13px;
+  margin-right: 10px;
+}
+
+.total-flag{
+  font-size: 12px;
+  color:#FBA148;
+  float: right;
+}
+
+.total-count{
+  font-size: 12px;
+  color: #FBA148;
+  margin-right: 5px;
+}
+
+.bottom-total{
+  display: flex;
+  padding: 5px;
+}
+
+.bottom-total-title{
+  color: #333333;
+  font-size: 16px;
+  margin-left: 5px;
+}
+
+.bottom-total-money{
+  color: #333333;
+  font-size: 16px;
+  margin-left: 5px;
+}
+
+.bottom-actual{
+  display: flex;
+  padding: 5px;
+}
+
+.bottom-actual-money{
+  color: #FBA148;
+  font-size: 16px;
+  margin-left: 5px;
+}
+
+.bottom-button{
+  background-color: #1F91F2;
+  color: white;
+  text-align: center;
+  border-radius: 5px;
+  box-sizing: border-box;
+  padding: 5px;
+}
+
+.history-button{
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 80rpx;
+  background-color: #1F91F2;
+  color: white;
+  border-radius: 5px;
+  text-align: center;
+  line-height: 80rpx;
+}
+

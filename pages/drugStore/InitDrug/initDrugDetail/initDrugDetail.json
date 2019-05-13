@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "initDrugPopView": "/pages/drugStore/InitDrug/component/initDrugPopView"
+  },
+  "backgroundTextStyle": "light",
+  "navigationBarBackgroundColor": "#1F91F2",
+  "navigationBarTitleText": "药品初始化",
+  "navigationBarTextStyle": "white"
+}

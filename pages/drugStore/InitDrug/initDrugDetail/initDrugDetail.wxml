@@ -1,0 +1,307 @@
+<!-- 模态视图 -->
+<!-- 剂型 -->
+<initDrugPopView id="initDrugPopView"
+                 selfWidth="{{screenWidth}}"
+                 selfHeight="{{screenHeight}}"
+                 bindcancelHasMask="cancelHasMask"
+                 bindclickDrugFormSureButton="clickDrugFormSureButton">
+</initDrugPopView>
+
+
+<view class="mainBackgroundView" 
+      class="{{hasMask ? 'preventTouchMove' : ' '}}">
+  <!-- 1、上传药品图片 -->
+  <view class='header-view'>
+    <image class='header-left-image'
+           src='{{selectImage}}'
+           data-src="{{selectImage}}"
+           bindtap="previewImage"></image>
+    <view class='header-content'>{{imageTipTitle}}</view>
+    <image class='header-right-image'
+           bindtap='clickChooseImageButton'
+           src='/image/drughome/wj_initdrug_takePhoto.png'></image>
+  </view>
+  <!-- 2、通用名到剂型 -->
+  <!-- 分割线(大) -->
+  <view class='line-big'></view>
+  <!-- 通用名 -->
+  <view class='out-date'>
+    <view class='flag'>*</view>
+    <view class='title'>通用名</view>
+    <input class='right-content'
+           placeholder='通用名'
+           bindinput='commonNameInput'
+           value='{{listModel.common_name}}'>    
+    </input>
+    <image class='moreButton moreButton-none'
+           src='/image/more.png'></image>
+  </view>
+  <!-- 分割线(小) -->
+  <view class='line-small'></view>
+  <!-- 商品名 -->
+  <view class='out-date'>
+    <view class='flag flag-white'>*</view>
+    <view class='title'>商品名</view>
+    <input class='right-content'
+           placeholder='商品名'
+           bindinput='keyNameInput'
+           value='{{listModel.key_name}}'>    
+    </input>
+    <image class='moreButton moreButton-none'
+           src='/image/more.png'></image>
+  </view>
+  <!-- 分割线(小) -->
+  <view class='line-small'></view>
+  <!-- 生产厂家 -->
+  <view class='manufacturer-main-view'>
+    <view class='item-view'>
+      <view class='flag'>*</view>
+      <view class='title'>生产厂家</view>
+      <input class='right-content'
+             placeholder='生产厂家'
+             bindinput='manufacturerInput'
+             value="{{listModel.manufacturer ? listModel.manufacturer.key_name : ''}}">    
+      </input>
+      <image class='moreButton'
+             bindtap='chooseManufacturer'
+             src='/image/more.png'></image>
+    </view>
+    <!-- 根据输入联想生产厂商 -->
+    <view class='popManufacturer'
+          hidden='{{isHidePopManufacturer}}'>
+      <block wx:for="{{manufacturerArray}}" 
+             wx:key="index">
+        <view class='content-view'
+              data-item="{{item}}"
+              data-index="{{index}}"
+              catchtap='clickManufacturerItem'>{{item.key_name}}</view>
+        <view class='small-line'></view>
+    </block>
+    </view>           
+  </view>
+  <!-- 分割线(小) -->
+  <view class='line-small'></view>
+  <!-- 条形码 -->
+  <view class='out-date'>
+    <view class='flag'>*</view>
+    <view class='title'>条形码</view>
+    <input class='right-content'
+           placeholder='条形码'
+           bindinput='uuidInput'
+           value='{{listModel.uuid}}'>    
+    </input>
+    <image class='scanButton'
+           bindtap="scanCode"
+           src='/image/scan.png'></image>
+  </view>
+  <!-- 分割线(小) -->
+  <view class='line-small'></view>
+  <!-- 药品类型 -->
+  <picker mode="selector" 
+          bindchange="bindDrugTypeChange" 
+          value="{{drugTypeIndex}}" 
+          range="{{drugTypeArray}}">
+    <view class='out-date'>
+      <view class='flag'>*</view>
+      <view class='title'>药品类型</view>
+      <input class='right-content'
+             placeholder='请选择药品类型'
+             disabled='disabled'
+             value="{{listModel.dug_type ? listModel.dug_type.key_name : ''}}">    
+      </input>
+      <image class='moreButton'
+             src='/image/more.png'></image>
+    </view>
+  </picker>              
+  <!-- 分割线(小) -->
+  <view class='line-small'></view>
+  <!-- 剂型 -->
+  <view class='out-date'
+        catchtap='chooseDrugForm'>
+    <view class='flag'>*</view>
+    <view class='title'>剂型</view>
+    <input class='right-content'
+           placeholder='请输入通用名'
+           disabled='disabled'
+           value="{{listModel.drug_forms ? listModel.drug_forms.key_name : ''}}">    
+    </input>
+    <image class='moreButton'
+           bindtap='chooseDrugForm'
+           src='/image/more.png'></image>
+  </view>
+  <!-- 分割线(大) -->
+  <view class='line-big'></view>
+  <!-- 包装单位 -->
+  <view class='out-date'
+        catchtap='chooseMinUnit'>
+    <view class='flag'>*</view>
+    <view class='title'>包装单位</view>
+    <input class='right-content'
+           placeholder='包装单位'
+           disabled='disabled'
+           value="{{listModel.min_unit ? listModel.min_unit.key_name : ''}}">    
+    </input>
+    <image class='moreButton'
+           src='/image/more.png'></image>
+  </view>
+  <!-- 分割线(小) -->
+  <view class='line-small'></view>
+  <!-- 拆零单位 -->
+  <view class='out-date'
+        catchtap='chooseRxUnit'>
+    <view class='flag'>*</view>
+    <view class='title'>拆零单位</view>
+    <input class='right-content'
+           placeholder='拆零单位'
+           disabled='disabled'
+           value="{{listModel.rx_unit ? listModel.rx_unit.key_name : ''}}">    
+    </input>
+    <image class='moreButton'
+           src='/image/more.png'></image>
+  </view>
+  <!-- 分割线(小) -->
+  <view class='line-small'></view>
+  <!-- 包装单位与拆零单位换算 -->
+  <view class='out-date'>
+    <view class='flag'>*</view>
+    <view class='change-unit-title'>包装与拆零单位换算</view>
+    <view class='change-unit-content'>
+      <view class='unit-title'>1{{listModel.min_unit ? listModel.min_unit.key_name : ''}} = 
+      </view>
+      <input class='unit-input'
+             bindinput='changeCountInput'
+             value='{{listModel.change_count}}'>    
+      </input>
+      <view class='unit-right-title'>{{listModel.rx_unit ? listModel.rx_unit.key_name : ''}}
+      </view>
+    </view>
+  </view>
+  <!-- 分割线(小) -->
+  <view class='line-small'></view>
+  <!-- 剂量单位 -->
+  <view class='out-date'
+        catchtap='chooseSingleUnit'>
+    <view class='flag'>*</view>
+    <view class='title'>剂量单位</view>
+    <input class='right-content'
+           placeholder='剂量单位'
+           disabled='disabled'
+           value="{{listModel.single_unit ? listModel.single_unit.key_name : ''}}">    
+    </input>
+    <image class='moreButton'
+           src='/image/more.png'></image>
+  </view>
+  <!-- 分割线(小) -->
+  <view class='line-small'></view>
+  <!-- 拆零与计量单位换算 -->
+  <view class='out-date'>
+    <view class='flag'>*</view>
+    <view class='change-unit-title'>拆零与计量单位换算</view>
+    <view class='change-unit-content'>
+      <view class='unit-title'>1{{listModel.rx_unit ? listModel.rx_unit.key_name : ''}} = 
+      </view>
+      <input class='unit-input'
+             bindinput='takingCountInput'
+             value='{{listModel.taking_count}}'>    
+      </input>
+      <view class='unit-right-title'>{{listModel.single_unit ? listModel.single_unit.key_name : ''}}
+      </view>
+    </view>
+  </view>
+  <!-- 分割线(小) -->
+  <view class='line-small'></view>
+  <!-- 规格 -->
+  <view class='out-date'>
+    <view class='flag'>*</view>
+    <view class='title'>规格</view>
+    <input class='right-content'
+           placeholder='规格'
+           bindinput='specInput'
+           value='{{listModel.spec}}'>    
+    </input>
+  </view>
+  <!-- 分割线(大) -->
+  <view class='line-big'></view>
+  <!-- 价格管理 -->
+  <view class='out-date'
+        catchtap='choosePrice'>
+    <view class='flag flag-white'>*</view>
+    <view class='title'>价格管理</view>
+    <input class='right-content'
+           placeholder='请输入通用名'
+           disabled='disabled'
+           value='国家组织部'>    
+    </input>
+    <image class='moreButton'
+           src='/image/more.png'></image>
+  </view>
+  <!-- 分割线(大) -->
+  <view class='line-big'></view>
+  <!-- 用法用量 -->
+  <view class='out-date'
+        catchtap='chooseUsage'>
+    <view class='flag flag-white'>*</view>
+    <view class='title'>用法用量</view>
+    <input class='right-content'
+           placeholder='请输入通用名'
+           disabled='disabled'
+           value='国家组织部'>    
+    </input>
+    <image class='moreButton'
+           src='/image/more.png'></image>
+  </view>
+  <!-- 分割线(小) -->
+  <view class='line-small'></view>
+  <!-- 有效期预警 -->
+  <picker mode="selector" 
+          bindchange="bindValidityChange" 
+          value="{{validityIndex}}" 
+          range="{{validityArray}}">
+    <view class='out-date'>
+      <view class='flag flag-white'>*</view>
+      <view class='title'>有效期预警</view>
+      <input class='right-content'
+             placeholder='请输入通用名'
+             disabled='disabled'
+             value='{{validityArray[validityIndex]}}'>    
+      </input>
+      <image class='moreButton'
+             src='/image/more.png'></image>
+    </view>
+  </picker>
+  <!-- 分割线(小) -->
+  <view class='line-small'></view>
+  <!-- 库存安全范围 -->
+    <view class='out-date'>
+    <view class='flag flag-white'>*</view>
+    <view class='change-unit-title'>库存安全范围</view>
+    <view class='change-unit-content'>
+      <input class='safe-unit-input'
+             placeholder='请输入通用名'
+             bindinput='lowCountInput'
+             value='1'>    
+      </input>
+      <view class='safe-unit-title'> - </view>
+      <input class='safe-unit-input'
+             placeholder='请输入通用名'
+             bindinput='upCountInput'
+             value='1'>    
+      </input>
+      <view class='unit-right-title'>包</view>
+    </view>
+  </view>
+  <!-- 分割线(小) -->
+  <view class='line-small'></view>
+  <!-- 库存 -->
+  <view class='out-date'>
+    <view class='flag flag-white'>*</view>
+    <view class='title'>库存</view>
+    <input class='right-content'
+           placeholder='请输入通用名'
+           disabled='disabled'
+           value='国家组织部'>    
+    </input>
+    <image class='moreButton'
+           src='/image/more.png'></image>
+  </view>
+</view>

@@ -1,0 +1,52 @@
+<view class="mainBackgroundView">
+  <!--1、药品列表 -->
+  <view class='putinStockTableView'>
+    <block wx:for="{{dataSource}}" 
+           wx:for-item="drugModel" 
+           wx:for-index='index' 
+           wx:key="putinStockTableView">
+      <!-- 药品cell -->
+      <view class='putinStockDrugCell' 
+            bindtap="putinStockDrugCellClick" 
+            data-index="{{index}}" 
+            data-drugModel='{{drugModel}}' 
+            data-drugsArr='{{dataSource}}'>
+        <!--1.1、是否选中图标  -->
+        <!-- 药品选择状态的图片根据is_select来判断 -->
+        <image class='putinStockDrugCell_selectIcon' 
+               src="{{drugModel.is_select == true ?             '/image/drughome/drug_storage_select.png' : '/image/drughome/drug_storage_noselect.png'}}" 
+               mode='aspectFill'/>
+        <!--1.2、药品图片  -->
+        <view class='putinStockDrugCell_drugImage'>
+          <image src='{{drugModel.image}}' mode='aspectFill'/>
+        </view>
+        <!-- 1.3、药品信息 -->
+        <view class='putinStockDrugCell_text_view'>
+          <!-- 通用名 -->
+          <view class='putinStockDrugCell_drugName'>
+          {{drugModel.common_name}}</view>
+          <!-- 商品名 -->
+          <view class='putinStockDrugCell_content'>
+          商品名：{{drugModel.key_name}}</view>
+          <!-- 规格 -->
+          <view class='putinStockDrugCell_content'>
+          规格：{{drugModel.spec}}</view>
+          <!-- 厂家 -->
+          <view class='putinStockDrugCell_content'>
+          厂家：{{drugModel.manufacturer.key_name}}</view>
+        </view>
+      </view>
+    </block>
+    <!-- 底部加载动画 -->
+    <yyRefresh isHideBottomView="{{isHideBottomView}}">
+    </yyRefresh>
+  </view>
+
+  <!--2、底部按钮 -->
+  <view class='putinStockBottomView'>
+    <view class='putinStockBottomCount'>
+    确认选择(种)：{{selectCount}}</view>
+    <view class='putinStockBottomfinishButton' 
+          bindtap='finishSelectDrug'>添加完毕</view>
+  </view>
+</view>

@@ -1,0 +1,47 @@
+<view class='template-container'>
+    <!--本月门诊毛利  -->
+    <view class='left-container'>
+      <view class='left-container-main'>
+        <view class='text-size-12 left-title'>
+              本月门诊毛利（元）</view>
+        <view class='titlt-count'>
+          <view class='text-size-20 left-count'>
+                5800.00</view>
+          <image class='eye-selected'
+                src='/image/home/eye_normal.png'></image>
+        </view>
+      </view>
+    </view>
+
+    <!--分割线 -->
+    <view class='template-line'>
+    </view>
+
+    <!-- 三个金额和门诊量 -->
+    <view class='right-container'>
+      <view class='right-container-item0'>
+        <view class='text-size-10 title10'>
+              本月门诊金额</view>
+        <view class='text-size-16 title16'>
+              12000.00</view>
+      </view>
+      <view class='right-container-item1'>
+        <view class='text-size-10 title10'>
+              本月平均处方金额</view>
+        <view class='text-size-16 title16'>
+              88.00</view>      
+      </view> 
+      <view class='right-container-item2'>
+        <view class='text-size-10 title10'>
+              昨日门诊金额</view>
+        <view class='text-size-16 title16'>
+              203.00</view>
+      </view>
+      <view class='right-container-item3'>
+      <view class='text-size-10 title10'>
+            昨日门诊量</view>
+      <view class='text-size-16 title16'>
+              14</view>
+      </view>
+    </view>  
+</view>

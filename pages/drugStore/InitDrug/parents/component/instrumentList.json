@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "yyRefresh": "/utils/yy-refresh-components/yyRefresh",
+    "initdruglistCell": "/pages/drugStore/InitDrug/parents/component/cell/initdruglistCell"
+  }
+}

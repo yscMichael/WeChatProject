@@ -1,0 +1,32 @@
+<view class='patientListCell-main'
+      catchtap="onTap">
+  <!-- 顶部分割线 -->
+  <view class='patientListCell-line'>
+  </view>
+  <!-- 具体内容 -->
+  <view class='patientListCell-content'>
+    <view class='patientListCell-leftItem'>
+      <!-- 姓名 -->
+      <span class='patientListCell-name'>
+      {{name}}</span>
+      <!-- 年龄 -->
+      <span class='patientListCell-age'>
+      {{age}}</span>
+      <!-- 性别图片 -->
+      <image class='patientListCell-sex'
+             src='{{imageSex}}'>
+      </image>
+      <!-- 时间 -->
+      <view class='patientListCell-time'>
+      创建时间: {{time}}</view>
+      <!-- 诊断或联系方式 -->
+      <view class='patientListCell-number'>
+      联系方式: {{detail}}</view>
+    </view>  
+    <!-- 转诊患者数据 -->
+    <image class='patientListCell-rightImage'
+           src='/image/clinic/waitDo.png'
+           hidden='{{isHideImage}}'>
+    </image>  
+  </view>
+</view>

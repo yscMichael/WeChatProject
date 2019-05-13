@@ -1,0 +1,29 @@
+<!-- scrollView -->
+<scroll-view class='clinic-scroll'
+             scroll-y="true">
+  <!-- 标题图片 -->
+  <image class='clinic-head-image'
+         src='/image/top_bg_menzhen.png'
+         mode="aspectFill">
+  </image>
+  <!-- 三个按钮 -->
+  <view class='head-tab-button'>
+    <block wx:for="{{buttonTitleArray}}" wx:key="index">
+      <clinicButton title="{{item.title}}" 
+                    imageURL="{{item.imageURL}}"
+                    bindmyevent="onMyEvent"
+                    data-item="{{item}}">
+      </clinicButton>
+    </block>
+  </view>
+
+  <!-- 收费、发药列表 -->
+  <block wx:for="{{listTitleArray}}" wx:key="index">
+    <clinicList title="{{item.title}}"
+                imageURL="{{item.imageURL}}"
+                subTitle="{{item.subTitle}}"
+                bindclicklist="onClickList"
+                data-item="{{item}}">
+    </clinicList>
+  </block>
+</scroll-view>

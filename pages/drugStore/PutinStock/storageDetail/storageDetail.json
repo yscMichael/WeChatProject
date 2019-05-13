@@ -1,0 +1,11 @@
+{
+  "usingComponents": {
+    "storageDetailCell":"/pages/drugStore/PutinStock/storageDetail/component/storageDetailCell",
+    "storageDetailEditCell":"/pages/drugStore/PutinStock/storageDetail/component/storageDetailEditCell"
+  },
+  "backgroundTextStyle": "light",
+  "navigationBarBackgroundColor": "#1F91F2",
+  "navigationBarTitleText": "入库详情",
+  "navigationBarTextStyle": "white",
+  "backgroundColor": "#f0f0f0"
+}

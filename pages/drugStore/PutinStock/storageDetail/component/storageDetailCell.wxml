@@ -1,0 +1,60 @@
+<!-- 分割线(大) -->
+<view class='line-big'></view>
+
+<!--1、药品头部信息 -->
+<view class='head-view'>
+  <!-- 组号 -->
+  <view class='groupNo'>
+    <span class='groupNo-span'>{{groupNumber}}</span>
+  </view>
+  <image class='head-image'
+         src='{{image}}'>
+  </image>
+  <view class='head-content'>
+    <!-- 药品名称 -->
+    <view class='head-content-name'>{{general_name}}</view>
+    <!-- 药品规格 -->
+    <view class='head-content-spec'>{{spec}}</view>
+    <!-- 厂商 -->
+    <view class='head-content-factory'>{{manufacturer}}</view>
+  </view>
+</view>
+<!--分割线(小) -->
+<view class='line-small'></view>
+
+<!--2、药品详情 -->
+<view class='detail-view'>
+  <!-- 失效日期 -->
+  <view class='out-date'>
+    <view class='flag'>*</view>
+    <view class='title'>失效日期</view>
+    <view class='right-content'>{{expire_date}}</view>
+  </view>
+  <!-- 批号 -->
+  <view class='batch'>
+    <view class='flag flag-white'>*</view>
+    <view class='title'>批号</view>
+    <view class='right-content'>{{batch_no}}</view>
+  </view>
+  <!-- 进货单价 -->
+  <view class='price'>
+    <view class='flag flag-white'>*</view>
+    <view class='title'>进货单价</view>
+    <view class='right-content'>{{price}}元</view>
+  </view>
+  <!-- 进货数量 -->
+  <view class='count'>
+    <view class='flag'>*</view>
+    <view class='title'>进货数量</view>
+    <view class='right-content'>{{count}}{{unit}}</view>
+  </view>
+</view>
+<!--分割线(小) -->
+<view class='line-small'></view>
+
+<!-- 3、药品底部信息 -->
+<view class='bottom-view'>
+  <view class='bottom-title'>小计:</view>
+  <view class='bottom-flag'>¥</view>
+  <view class='bottom-price'>{{cost}}</view>
+</view>

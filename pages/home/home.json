@@ -1,0 +1,9 @@
+{
+    "usingComponents": {
+      "homeHeadData": "/pages/home/component/homeHeadData"
+    },
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#2591F8",
+    "navigationBarTitleText": "首页",
+    "navigationBarTextStyle": "white"
+}

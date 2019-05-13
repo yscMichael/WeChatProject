@@ -1,0 +1,12 @@
+{
+  "usingComponents": {
+    "allPatient":"/pages/clinic/patient/patientList/allPatient/allPatient",
+    "treatPatient":"/pages/clinic/patient/patientList/treatPatient/treatPatient"
+  },
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": -40,
+  "backgroundTextStyle": "dark",
+  "navigationBarBackgroundColor": "#7B68EE",
+  "navigationBarTitleText": "患者列表",
+  "navigationBarTextStyle": "white"
+}

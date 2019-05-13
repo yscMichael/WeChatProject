@@ -1,0 +1,84 @@
+<!-- 1、标题信息 -->
+<view class='head-view'>
+  <!-- 入库时间 -->
+  <view class='item-view'>
+    <view class='item-title-view'>入库时间:</view>
+    <view class='item-content-view'>{{in_date}}</view>
+  </view>
+  <!-- 入库人 -->
+  <view class='item-view'>
+    <view class='item-title-view'>入库人:</view>
+    <view class='item-content-view'>{{handle_entity.key_name}}</view>
+  </view>
+  <!-- 仓库 -->
+  <view class='item-view'>
+    <view class='item-title-view'>仓库:</view>
+    <view class='item-content-view'>{{warehouse.key_name}}</view>
+  </view>
+  <!-- 供应商 -->
+  <view class='item-view'>
+    <view class='item-title-view'>供应商:</view>
+    <view class='item-content-view'>{{vendor.key_name}}</view>
+  </view>
+</view>
+<!-- 2、列表信息 -->
+<view class='list-view'>
+  <!-- 已审核列表 -->
+  <block wx:if="{{!isStoraging}}"
+         wx:for="{{dataSource}}"
+         wx:key="index">
+    <storageDetailCell data-item="{{item}}"
+                       groupNumber="{{index + 1}}"
+                       image="{{item.image}}"
+                       general_name="{{item.general_name}}"
+                       spec="{{item.spec}}"
+                       manufacturer="{{item.manufacturer.key_name}}"
+                       expire_date="{{item.expire_date}}"
+                       batch_no="{{item.batch_no}}"
+                       price="{{item.price}}"
+                       count="{{item.count}}"
+                       unit="{{item.unit.key_name}}"
+                       cost="{{item.cost}}">
+    </storageDetailCell>
+  </block> 
+  <!-- 待审核列表 -->
+  <block wx:if="{{isStoraging}}"
+         wx:for="{{dataSource}}"
+         wx:key="index">
+    <storageDetailEditCell data-index="{{index}}"
+                           data-item="{{item}}"
+                           groupNumber="{{index + 1}}"
+                           image="{{item.image}}"
+                           general_name="{{item.general_name}}"
+                           spec="{{item.spec}}"
+                           manufacturer="{{item.manufacturer.key_name}}"
+                           expire_date="{{item.expire_date}}"
+                           batch_no="{{item.batch_no}}"
+                           price="{{item.price}}"
+                           count="{{item.count}}"
+                           unit="{{item.unit.key_name}}"
+                           cost="{{item.cost}}"
+                           bindclickdetailcell="clickDetailCell">
+    </storageDetailEditCell>
+  </block>
+</view>
+<!-- 3、底部信息 -->
+<view class='bottom-view'>
+  <!-- 金钱 -->
+  <view class='money'>
+    <!-- 总金额 -->
+    <view class='total'>
+      <view class='title'>总金额: </view>
+      <view class='totalPrice'>¥{{totalPrice}}</view>
+    </view>
+    <!--入库金额 -->
+    <view class='actual'>
+      <view class='title'>入库金额: </view>
+      <view class='actualPrice'>¥{{actualPrice}}</view>
+    </view>
+  </view>
+  <!-- 审核通过按钮 -->
+  <view class='passButton'
+        hidden='{{!isStoraging}}'
+        bindtap='clickPassButton'>审核通过</view>
+</view>

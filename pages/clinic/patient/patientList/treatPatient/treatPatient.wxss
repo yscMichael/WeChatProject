@@ -1,0 +1,25 @@
+.main-view{
+  background-color: #eee;
+  width: 100%;
+  height: 100%;
+}
+
+.content-view{
+  width: 100%;
+  height: calc(100% - 40px);
+}
+
+.noData-view{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #eee;
+}
+
+.noData-view image{ 
+  width: 237rpx;
+  height: 245rpx;
+}
+

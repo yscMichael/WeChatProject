@@ -1,0 +1,98 @@
+<!-- 头部信息 -->
+<view class='head-view'>
+  <image src='/image/personalCenter/default.png'></image>
+  <view class='head-view-text'>
+    <view class='head-name'>{{key_name}}</view>
+    <view class='head-department'>{{department_entity}}</view>
+  </view>
+</view>
+
+<!-- 分割线(大) -->
+<view class='line-big'></view>
+<!-- 我的消息 -->
+<view class='message'
+      bindtap='clickMessage'>
+  <image class='left-image'
+         src='/image/personalCenter/mine_message.png'></image>
+  <view class='center-title'>我的消息</view>
+  <image class='right-image'
+         src='/image/more.png'></image>
+</view>
+
+<!-- 分割线(大) -->
+<view class='line-big'></view>
+<!-- 资讯 -->
+<view class='message'
+      bindtap='clickMessage'>
+  <image class='left-image'
+         src='/image/personalCenter/news.png'></image>
+  <view class='center-title'>资讯</view>
+  <image class='right-image'
+         src='/image/more.png'></image>
+</view>
+
+<!-- 分割线(大) -->
+<view class='line-big'></view>
+<!-- 账号设置 -->
+<view class='message'
+      bindtap='clickMessage'>
+  <image class='left-image'
+         src='/image/personalCenter/setAccount.png'></image>
+  <view class='center-title'>账号设置</view>
+  <image class='right-image'
+         src='/image/more.png'></image>
+</view>
+
+<!-- 分割线(小) -->
+<view class='line-small'></view>
+<!-- 初始设置 -->
+<view class='message'
+      bindtap='clickInitButton'>
+  <image class='left-image'
+         src='/image/personalCenter/init.png'></image>
+  <view class='center-title'>初始设置</view>
+  <image class='right-image'
+         src='/image/more.png'></image>
+</view>
+
+<!-- 分割线(小) -->
+<view class='line-small'></view>
+<!-- 快捷菜单设置 -->
+<view class='message'
+      bindtap='clickMessage'>
+  <image class='left-image'
+         src='/image/personalCenter/quick.png'></image>
+  <view class='center-title'>快捷菜单设置</view>
+  <image class='right-image'
+         src='/image/more.png'></image>
+</view>
+
+<!-- 分割线(大) -->
+<view class='line-big'></view>
+<!-- 清除缓存 -->
+<view class='message'
+      bindtap='clickMessage'>
+  <image class='left-image'
+         src='/image/personalCenter/clear.png'></image>
+  <view class='center-title'>清除缓存</view>
+  <image class='right-image'
+         src='/image/more.png'></image>
+</view>
+
+<!-- 分割线(大) -->
+<view class='line-big'></view>
+<!-- 关于好医宝 -->
+<view class='message'
+      bindtap='clickMessage'>
+  <image class='left-image'
+         src='/image/personalCenter/about.png'></image>
+  <view class='center-title'>关于好医宝</view>
+  <image class='right-image'
+         src='/image/more.png'></image>
+</view>
+
+<!-- 客服热线 -->
+<view class='hot-line'>全国统一客服热线：0755-88694966-802</view>
+<!-- 退出登陆 -->
+<view class='logout'
+      bindtap='clickLogout'>退出登录</view>

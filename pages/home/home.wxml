@@ -1,0 +1,68 @@
+<import src="../home/template/homeHeadCell"></import>
+
+<!--scroll-view-->
+<scroll-view class='home-scroll'
+             scroll-y="true" >
+
+  <!-- 搜索框 -->
+  <view class='search-box'>
+    <view class='searchBox-leftItem'>
+      <image class='seach-icon'
+            src='/image/home/head_search.png'></image>
+      <input class='search-input' 
+            placeholder='请输入患者名称' 
+            placeholder-class='home-placeholder-class'
+            type='text'
+            confirm-type='search'
+            bindconfirm='searchBtn'></input>
+    </view>
+    <!-- <image class='searchBox-rightItem' 
+          src='/image/home/icon_user.png'></image> -->
+  </view>
+
+  <!-- 轮播图 -->
+  <view wx:if="{{isShow}}" class='home-swiper-class'>
+    <swiper 
+      indicator-dots="{{indicatorDots}}"
+      autoplay="{{autoplay}}"
+      interval="{{interval}}"
+      duration="{{duration}}"
+      circular="{{circular}}"
+      indicator-color="#FFFFFF"
+      indicator-active-color="#FFA439"
+      bindchange="swiperChange"
+    >
+      <block wx:for="{{imageArray}}" wx:key="*this">
+        <swiper-item>
+          <image src="{{item.imageUrl}}" 
+                mode="scaleToFill" 
+                class='swiper-item-image'
+                bindtap="swipclick"></image>
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+
+  <!-- 门诊数据表 -->
+  <view class='home-data'>
+    <homeHeadData></homeHeadData>
+
+    <!-- <template is="headData">
+    </template> -->
+
+  </view>
+
+  <!-- 分割线 -->
+  <!-- F1F2F4 -->
+  <view style='width:100%;background-color:#F1F2F4;height:20rpx'>
+  </view>
+
+  <!-- 有效期预警、库存预警、代办事项 -->
+  <template is="headCell">
+  </template>
+
+  <!-- 快捷功能 -->
+  
+</scroll-view>
+
+

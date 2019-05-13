@@ -1,0 +1,43 @@
+<view class="modals"
+      style='width:{{selfWidth}}px;height:{{selfHeight}}px;'
+      hidden="{{hideModal}}">
+    <view class="container-view" >
+      <!-- 这里填写具体内容 -->
+      <view class="pop-view left-pop-animation"
+            animation="{{animationData}}">
+          <!-- 1、底部 -->
+          <view class='back-button-view'
+                catchtap="hideModal">
+            <!-- 返回按钮 -->
+            <image class='back-button-image'
+                   src='/image/backBlue.png'></image>
+            <!-- 标题 -->
+            <view class='content-title'>{{title}}</view>
+          </view>
+          <!-- 分割线 -->
+          <view class='line-small'></view>
+          <!-- 2、副标题 -->
+          <view class='subTitle'>{{subTitle}}</view>
+          <!-- 3、具体内容 -->
+          <view class="{{listType == 1 ? 'content-view-noUnit' : 'content-view'}}">
+              <block wx:for="{{itemDataSource}}" 
+                     wx:key="index">
+                <view class="{{item.is_select ? 'childSelect' : 'child'}}"
+                      data-item='{{item}}'
+                      data-index="{{index}}"
+                      catchtap='clickChild'>{{item.key_name}}</view>
+              </block>
+          </view>
+          <!-- 5、单位相关 -->
+          <view class='bottom-view'
+                hidden='{{listType == 1 ? true : false}}'>
+            <view class='bottom-title'>增加单位</view>
+            <input class='bottom-input'
+                   bindinput="unitInput">{{addUnitString}}</input>
+          </view>
+          <!-- 6、底部确定按钮 -->
+          <view class='bottom-button'
+                bindtap='clickSureButton'>确定</view>
+      </view>
+    </view>    
+</view>

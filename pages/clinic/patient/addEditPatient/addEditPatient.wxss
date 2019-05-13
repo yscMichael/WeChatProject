@@ -1,0 +1,223 @@
+.flag-view{
+  color: #F84848;
+  font-size: 16px;
+}
+
+.title-left{
+  margin-left: 8px;
+}
+
+.title-font{
+  font-size: 16px;
+  color: #333333;
+}
+
+.input-placeholder{
+  color: #888888;
+  font-size: 15px;
+}
+
+.input-class{
+  display: inline-block;
+  margin-left: 60px;
+  margin-right: 10px;
+}
+
+.address-input{
+  display: inline-block;
+  margin-left: 30px;
+  margin-right: 10px;
+}
+
+.remark-input{
+  display: inline-block;
+  margin-left: 60px;
+  margin-right: 10px;
+}
+
+.age-input-class{
+  background-color: #EFEFEF;
+  display: inline-block;
+  text-align: center;
+  max-width: 50px;
+}
+
+.number-input-class{
+  display: inline-block;
+  margin-left: 30px;
+  margin-right: 10px;
+}
+
+.line-view{
+  background-color: #F0F0F0;
+  height: 1px;
+  margin-left: 6px;
+}
+
+.name-view{
+  display: flex;
+  align-items: center;
+  padding: 6px;
+}
+
+.sex-view{
+  display: flex;
+  align-items: center;
+  padding: 6px;
+}
+
+.sex-man-view{
+  margin-left: 60px;
+}
+
+.sex-image{
+  width: 13px;
+  height: 13px;
+}
+
+.sex-woman-view{
+  margin-left: 30px;
+}
+
+.pregnant-view{
+  display: flex;
+  align-items: center;
+  padding: 6px;
+}
+
+.pregnant-true-view{
+  margin-left: 12px;
+}
+
+.age-view{
+  display: flex;
+  align-items: center;
+  padding: 6px;
+}
+
+.year-view{
+  display: flex;
+  align-items: center;
+  margin-left: 60px;
+}
+
+.month-view{
+  display: flex;
+  margin-left: 10px;
+}
+
+.day-view{
+  display: flex;
+  margin-left: 10px;
+}
+
+.contact-view{
+  display: flex;
+  align-items: center;
+  padding: 6px;
+}
+
+.allergic-view{
+  padding: 6px;
+}
+
+.allergic-content{
+  margin-left: 45px;
+  margin-right: 10px;
+  font-size: 16px;
+  color: #333333;
+}
+
+.blood-content{
+  margin-left: 60px;
+  margin-right: 10px;
+  font-size: 16px;
+  color: #333333;
+}
+
+.region-content{
+  margin-left: 28px;
+  margin-right: 10px;
+  font-size: 16px;
+  color: #333333;
+}
+
+.select-button{
+  float: right;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.select-button-arrow{
+  width: 8px;
+  height: 14px;
+  margin-left: 5px;
+}
+
+.guardian-view{
+  display: flex;
+  align-items: center;
+  padding: 6px;
+}
+
+.guardian-input-class{
+  margin-left: 12px;
+}
+
+.guardian-contact-view{
+  display: flex;
+  align-items: center;
+  padding: 6px;
+}
+
+.guardian-contact-title{
+  font-size: 16px;
+  color: #333333;
+  max-width: 80px;
+  margin-left: 8px;
+}
+
+.guardian-contact-input{
+  margin-left: 12px;
+}
+
+.relationship-view{
+  display: flex;
+  align-items: center;
+  padding: 6px;
+}
+
+.blood-view{
+  padding: 6px;
+}
+
+.region-view{
+  padding: 6px;
+}
+
+.address-view{
+  display: flex;
+  align-items: center;
+  padding: 6px;
+}
+
+.remark-view{
+  display: flex;
+  align-items: center;
+  padding: 6px;
+}
+
+.save-view{
+  background-color: #1F91F2;
+  color: #FFFFFF;
+  font-size: 18px;
+  height: 44px;
+  text-align: center;
+  line-height: 44px;
+
+  margin-left: 32px;
+  margin-right: 32px;
+  margin-top: 32px;
+  border-radius: 5px;
+}

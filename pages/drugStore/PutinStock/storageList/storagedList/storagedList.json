@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "yyRefresh": "/utils/yy-refresh-components/yyRefresh",
+    "storageListCell": "/pages/drugStore/PutinStock/storageList/component/storageListCell"
+  }
+}

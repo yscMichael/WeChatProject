@@ -1,0 +1,88 @@
+<!-- 1、顶部切换按钮 -->
+<view class='button-view'>
+  <!-- 基本信息按钮 -->
+    <button id="patient"
+            class='all-patient-button'
+            style="color:{{patientButtonColor}};border-bottom-color:{{patientBottomColor}}"
+            bindtap='clickPatientButton'>基本信息</button>
+  <!-- 历史接诊按钮 -->
+    <button id="treat"
+            style='color:{{treatButtonColor}};border-bottom-color:{{treatBottomColor}}'
+            class='treat-patient-button'
+            bindtap='clickTreatButton'>历史接诊</button>
+  <!-- 转诊记录 -->
+  <button id="transfer"
+        class='transfer-button'
+        style='color:{{transferButtonColor}};border-bottom-color:{{transferBottomColor}}'
+        bindtap='clickTransferButton'>转诊记录</button>
+</view>
+
+<!-- 基本信息 -->
+<view class='basic-view'
+      hidden='{{!isBasic}}'>
+  <!-- 背景线 -->
+  <view class='back-line'></view>
+  <!-- 姓名 -->
+  <view class='basic-view-content'>
+    <span class="left-title">姓名</span>
+    <span class="right-text">王勇</span>
+  </view>
+  <!-- 分割线 -->
+  <view class='line'></view>
+  <!-- 性别 -->
+  <view class='basic-view-content'>
+    <span class="left-title">性别</span>
+    <span class="right-text">女</span>
+  </view>
+  <!-- 分割线 -->
+  <view class='line'></view>
+  <!-- 年龄 -->
+  <view class='basic-view-content'>
+    <span class="left-title">年龄</span>
+    <span class="right-text">20</span>
+  </view>
+  <!-- 分割线 -->
+  <view class='line'></view>
+  <!-- 联系方式 -->
+  <view class='basic-view-content'>
+    <span class="left-title">联系方式</span>
+    <span class="right-number">15190488756</span>
+  </view>
+  <!-- 分割线 -->
+  <view class='line'></view>
+  <!-- 过敏史 -->
+  <view class='basic-view-content'>
+    <span class="left-title">过敏史</span>
+    <span class="right-allergy">无</span>
+  </view>
+  <!-- 分割线 -->
+  <view class='line'></view>
+  <!-- 血型 -->
+  <view class='basic-view-content'>
+    <span class="left-title">血型</span>
+    <span class="right-text">A型</span>
+  </view>
+  <!-- 分割线 -->
+  <view class='line'></view>
+  <!-- 地址 -->
+  <view class='basic-view-content'>
+    <span class="left-title">地址</span>
+    <span class="right-text">深圳市南山区</span>
+  </view>
+  <!-- 分割线 -->
+  <view class='line'></view>
+  <!-- 备注 -->
+  <view class='basic-view-content'>
+    <span class="left-title">备注</span>
+    <span class="right-text">注意休息,多喝水</span>
+  </view>
+  <!-- 分割线 -->
+  <view class='line'></view>
+</view>
+
+<!-- 无数据提示 -->
+<view class='noData-view'
+      hidden='{{isBasic}}'>
+  <image src='/image/clinic/noData.png'>
+  </image>
+</view>

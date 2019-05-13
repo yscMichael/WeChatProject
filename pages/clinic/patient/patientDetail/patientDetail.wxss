@@ -1,0 +1,121 @@
+.button-view{
+  background-color:gray;
+  width: 100%;
+  height: 40px;
+  position: fixed;
+  top: 0px;
+  z-index: 999;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.all-patient-button{
+  background-color: #fff;
+  border-radius: 0;
+  width: 50%;
+  height: 100%;
+  font-size: 14px;
+  line-height: 40px;
+  border-bottom: solid 1px;
+}
+
+.all-patient-button::after{
+  border: none;
+  border-radius: 0;
+}
+
+.treat-patient-button{
+  background-color: #fff;
+  border-radius: 0;
+  width: 50%;
+  height: 100%;
+  font-size: 14px;
+  line-height: 40px;
+  border-bottom: solid 1px;
+}
+
+.treat-patient-button::after{
+  border: none;
+}
+
+.transfer-button{
+  background-color: #fff;
+  border-radius: 0;
+  width: 50%;
+  height: 100%;
+  font-size: 14px;
+  line-height: 40px;
+  border-bottom: solid 1px;
+}
+
+.transfer-button::after{
+  border: none;
+}
+
+.noData-view{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 150px;
+}
+
+.noData-view image{ 
+  width: 237rpx;
+  height: 245rpx;
+}
+
+.basic-view{
+  background-color: red;
+  width: 100%;
+  height: 100%;
+  margin-top: 40px;
+}
+
+.back-line{
+  background-color: #F1F0F5;
+  width: 100%;
+  height: 10px;
+}
+
+.line{
+  background-color: #E0E0E2;
+  width: 100%;
+  height: 1px;
+}
+
+.basic-view-content{
+  background-color: white;
+
+}
+
+.left-title{
+  color: #8C8C8C;
+  font-size: 15px;
+  margin-left: 10px;
+  text-align: left;
+}
+
+.right-text{
+  color: #3D3D3D;
+  font-size: 15px;
+  margin-left: 100px;
+  text-align: left;
+}
+
+.right-number{
+  color: #3D3D3D;
+  font-size: 15px;
+  margin-left: 70px;
+  text-align: left;
+}
+
+.right-allergy{
+  color: #3D3D3D;
+  font-size: 15px;
+  margin-left: 85px;
+  text-align: left;
+}

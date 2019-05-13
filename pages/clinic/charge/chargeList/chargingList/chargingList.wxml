@@ -1,0 +1,31 @@
+<view class='main-view'>
+  <!-- 2.1、顶部下拉刷新动画 -->
+  <yyRefresh isHideBottomView="{{isHideTopView}}"
+              title="正在下拉刷新..."
+              image="/image/clinic/refresh.png">
+  </yyRefresh>
+  <!-- 2.2、遍历循环数组 -->
+  <block wx:for="{{dataSource}}" 
+          wx:key="index">
+    <chargeListCell name="{{item.name}}" 
+                    gender="{{item.gender}}"
+                    age="{{item.age}}" 
+                    money="{{item.money}}" 
+                    time="{{item.time}}" 
+                    detail="{{item.detail}}" 
+                    data-item="{{item}}" 
+                    bindclickcell="onChargingListCell"
+                    isHiddenBottom="{{isHiddenCellBottom}}"
+                    id="{{item.id}}">
+    </chargeListCell>
+  </block>
+  <!-- 2.3、无数据提示 -->
+  <view class='noData-view'
+        hidden='{{isHiddenNoData}}'>
+    <image src='/image/clinic/noData.png'>
+    </image>
+  </view>
+  <!-- 2.4、底部加载动画 -->
+  <yyRefresh isHideBottomView="{{isHideBottomView}}">
+  </yyRefresh>
+</view>

@@ -1,0 +1,14 @@
+{
+  "usingComponents": {
+    "yyRefresh": "/utils/yy-refresh-components/yyRefresh",
+    "westDrugList": "/pages/drugStore/InitDrug/parents/component/westDrugList",
+    "specialChineseDrugList": "/pages/drugStore/InitDrug/parents/component/specialChineseDrugList",
+    "chineseDrugList":"/pages/drugStore/InitDrug/parents/component/chineseDrugList",
+    "instrumentList":"/pages/drugStore/InitDrug/parents/component/instrumentList"
+  },
+  "backgroundTextStyle": "dark",
+  "navigationBarBackgroundColor": "#1F91F2",
+  "navigationBarTitleText": "药品初始化",
+  "navigationBarTextStyle": "white",
+  "disableScroll": true
+}

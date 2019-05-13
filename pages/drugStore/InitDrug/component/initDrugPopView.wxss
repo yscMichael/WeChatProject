@@ -1,0 +1,166 @@
+/*模态框*/
+.modals
+{
+  position: fixed;
+  z-index: 1000;
+}
+
+.container-view{
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,.5);
+  position: relative;
+}
+
+.pop-view{
+  position:absolute; 
+  top: 0px;
+  bottom: 0px;
+  left: 80px;
+  right: 0px;
+  z-index:10001; 
+  background-color: #fff;
+}
+
+/*动画前初始位置*/
+.left-pop-animation{
+  -webkit-transform:translateX(100%);
+  transform:translateX(100%);
+}
+
+/* 标题 */
+.back-button-view{
+  position: absolute;
+  top: 0xp;
+  left: 0px;
+  right: 0px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+}
+
+.back-button-image{
+  width: 10px;
+  height: 17px;
+  margin-left: 10px;
+  flex: 0 0 10px;
+}
+
+.content-title{
+  background-color: white;
+  flex-grow: 1;
+  color: #000000;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.line-small{
+  position: absolute;
+  top: 32px;
+  left: 0px;
+  right: 0px;
+  height: 1px;
+  background-color: #F1F0F5;  
+}
+
+/* 2、副标题 */
+.subTitle{
+  position: absolute;
+  top: 33px;
+  left: 0px;
+  right: 0px;
+  height: 30px;
+  color: #8D8D8D;
+  font-size: 12px;
+  margin-left: 10px;
+  line-height: 33px;
+}
+
+.content-view{
+  position: absolute;
+  top: 63px;
+  left: 0px;
+  right: 0px;
+  bottom: 125px;
+
+  overflow-x: hidden;
+  overflow-y:auto;
+  
+  display: flex;
+  flex-flow:wrap;
+  align-content:flex-start;
+}
+
+.content-view-noUnit{
+  position: absolute;
+  top: 63px;
+  left: 0px;
+  right: 0px;
+  bottom: 45px;
+
+  overflow-x: hidden;
+  overflow-y:auto;
+  
+  display: flex;
+  flex-flow:wrap;
+  align-content:flex-start;
+}
+
+.child{
+  background-color: #F0F0F0;
+  color: #3C3C3C;
+  border-radius: 5px;
+  margin: 5px;
+  height: 30px;
+  padding: 5px;
+  line-height: 30px;
+  font-size: 14px;
+}
+
+.childSelect{
+  background-color: #E4F1FC;
+  color: #0090EF;
+  border: 1px solid #77B9FB;
+  border-radius: 5px;
+  margin: 5px;
+  height: 30px;
+  padding: 5px;
+  line-height: 30px;
+  font-size: 14px;
+}
+
+.bottom-view{
+  position: fixed;
+  left: 0px;
+  right: 0px;
+  bottom: 45px;
+  height: 80px;
+}
+
+.bottom-title{
+  color: #8D8D8D;
+  font-size: 12px;
+  margin: 10px;
+}
+
+.bottom-input{
+  margin: 10px;
+  border: 1px solid #E1E1E1;
+  border-radius: 3px;
+  font-size: 15px;
+}
+
+.bottom-button{
+  position: fixed;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  height: 45px;
+  text-align: center;
+  line-height: 45px;
+  background-color: #2993EF;
+  color: white;
+  font-size: 16px;
+}
+

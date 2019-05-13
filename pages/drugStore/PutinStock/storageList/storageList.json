@@ -1,0 +1,14 @@
+{
+  "usingComponents": {
+    "storagedList": "/pages/drugStore/PutinStock/storageList/storagedList/storagedList",
+    "storagingList": "/pages/drugStore/PutinStock/storageList/storagingList/storagingList",
+    "yyRefresh": "/utils/yy-refresh-components/yyRefresh"
+  },
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": -40,
+  "backgroundTextStyle": "light",
+  "navigationBarBackgroundColor": "#1F91F2",
+  "navigationBarTitleText": "入库列表",
+  "navigationBarTextStyle": "white",
+  "backgroundColor": "#f0f0f0"
+}

@@ -1,0 +1,25 @@
+page {
+    background-color: #eee;
+    width: 100%;
+    height: 100%;
+}
+
+.main-view{
+  background-color: #eee;
+  height: 100%;
+  width: 100%;
+}
+
+.content-view{
+  padding: 10px;
+  font-size: 15px;
+  color: #000000;
+  background-color: white;
+}
+
+.small-line{
+  background-color: #DFDFE1;
+  width: 100%;
+  height: 1px;
+  margin-left: 10px;
+}

@@ -1,0 +1,13 @@
+{
+  "usingComponents": {
+    "sendedList": "/pages/clinic/send/sendList/sendedList/sendedList",
+    "sendingList": "/pages/clinic/send/sendList/sendingList/sendingList",
+    "yyRefresh": "/utils/yy-refresh-components/yyRefresh"
+  },
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": -40,
+  "backgroundTextStyle": "dark",
+  "navigationBarBackgroundColor": "#7B68EE",
+  "navigationBarTitleText": "发药列表",
+  "navigationBarTextStyle": "white"
+}

@@ -1,0 +1,29 @@
+  <!-- 1、顶部按钮 -->
+<view class='button-view'>
+  <!-- 已审核按钮 -->
+    <button class='storaged-button'
+            style='color:{{storagedButtonColor}};border-bottom-color:{{storagedBottomColor}}'
+            bindtap='clickStoragedButton'>已审核</button>
+  <!-- 待审核按钮 -->
+    <button class='storaging-button'
+            style="color:{{storagingButtonColor}};border-bottom-color:{{storagingBottomColor}}"
+            bindtap='clickStoragingButton'>待审核</button>
+</view>
+
+<!-- 2、列表内容 -->
+<view class='main-content-view'>
+  <!--2.2、已审核列表 -->
+  <view class='first' hidden='{{isHideStoragedList}}'>
+    <storagedList id="storagedList"
+                  bindnetWorkSuccess="_netWorkSuccess"
+                  bindclickstoragedcell="onClickStoragedCell">
+    </storagedList>
+  </view>
+  <!--2.3、待审核列表 -->
+  <view class='two' hidden='{{isHideStoragingList}}'>
+    <storagingList id="storagingList"
+                   bindnetWorkSuccess="_netWorkSuccess"
+                   bindclickstoragingcell="onClickStoragingCell">
+    </storagingList>
+  </view>
+</view>

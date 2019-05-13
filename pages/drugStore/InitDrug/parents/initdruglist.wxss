@@ -1,0 +1,95 @@
+
+Page{
+    background-color: #eee;
+    width: 100%;
+    height: 100%;
+}
+
+/* 1、顶部切换栏 */
+.wwSliderToolBar { 
+  position: fixed;
+  /* 不指定会影响底部的margin-top */
+  top: 0px;
+  width: 100%;
+  height: 40px;
+  font-size: 15px;
+  z-index: 9999;
+  display: flex;
+  background-color: white;
+}
+
+/* 顶部切换栏普通样式 item */
+.wwSliderToolBar_item {
+  flex-grow: 1;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+}
+
+/* 顶部切换栏选中样式 item */
+.wwSliderToolBar_item.active {
+  border-bottom: 2px solid #1F91F2;
+  color: #1F91F2;
+}
+
+/*2、中间列表 */
+.containerView {
+  margin-top: 40px;
+  width: 100%;
+  height: calc(100% - 100px);
+  background-color: red;
+}
+
+/* 主滑动视图 */
+.initDrugListScrollView {
+  width: 100%; 
+  height: 100%;
+  overflow: hidden;
+}
+
+/* 3、底部 */
+.initdrug_bottomView {
+  width: 100%;
+  position: fixed;
+  display: flex;
+  height: 60px;
+  bottom: 0;
+  z-index: 9999;
+  background-color: white;
+}
+.initdrug_bottomView::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 1rpx;
+  border-top: 1px solid #D3D1D1;
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
+  -webkit-transform: scaleY(.5);
+  transform: scaleY(.5);
+  z-index: 2;
+}
+/* 数量 */
+.initdrug_bottomView_totalcount {
+  padding-left: 15px;
+  color: #333333;
+  font-size: 16px;
+  align-items: center;
+  vertical-align: middle;
+  line-height: 60px;
+}
+
+/* 初始化 */
+.initdrug_bottomView_addButton {
+  position: absolute;
+  right: 0;
+  width: 100px;
+  height: 100%;
+  color: white;
+  background-color: #1F91F2;
+  font-size: 18px;
+  text-align: center;
+  line-height: 60px;
+}

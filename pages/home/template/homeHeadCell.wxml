@@ -1,0 +1,26 @@
+<template name="headCell">
+  <view class='headCell-container'>
+    <view class='headCell-content'>
+      <!-- 图片 -->
+      <image class='headCell-image' src='../../image/home/validity.png'></image>
+      <view class='title-detai'>
+        <!-- 标题 -->
+        <view class='headCell-title'>
+          有效期提醒</view>
+        <!-- 详情 -->
+        <view class='headCell-detail'>
+          六种品规,共567元</view>
+      </view>
+      <view class='count-button'>
+        <!-- 数目 -->
+        <view class='headCell-count'>
+          12</view>
+        <!-- 箭头 -->
+        <!-- <image class='headCell-button' src='../../image/home/moreButton.png'></image> -->
+      </view>
+    </view>
+    <!-- 底部分割线 -->
+    <view class='bottom-line'>
+    </view>
+  </view>
+</template>

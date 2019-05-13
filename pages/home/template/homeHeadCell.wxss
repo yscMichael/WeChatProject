@@ -1,0 +1,84 @@
+/* 容器 */
+.headCell-container{
+  width: 100%;
+  height: 132rpx;
+  background-color: #fff;
+}
+
+.headCell-content{
+  width: 100%;
+  height: calc(100% - 2rpx);
+}
+
+.bottom-line{
+  background-color:#F1F2F4;
+  width: 100%;
+  height: 2rpx;
+  margin-left: 40rpx;
+}
+
+/* 图片 */
+.headCell-image{
+  width: 86rpx;
+  height: 86rpx;
+  margin-top: 23rpx;
+  margin-left: 15rpx;
+  float: left;
+}
+
+.title-detai{
+  float: left;
+  height: 100%;
+  width: calc(65% - 86rpx - 15rpx);
+  position: relative;
+}
+
+.count-button{
+  float: right;
+  width: calc(35% - 2px);
+  height: 100%;
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* 标题 */
+.headCell-title{
+  color: #555555;
+  font-size: 16px;
+  font-family: Arial;
+  position: absolute; 
+  top: 15rpx;
+}
+
+/* 详情 */
+.headCell-detail{
+  position: absolute; 
+  bottom: 15rpx;
+  width: 100%;
+  color: #999999;
+  font-size: 14px;
+  font-family: Arial;
+}
+
+/* 数目 */
+.headCell-count{
+  background-color: red;
+  float: right;
+  margin-right: 20rpx;
+  border-radius: 50rpx;
+  height: 36rpx;
+  color: #fff;
+  font-size: 14px;
+  font-family: Arial;
+  padding: 2rpx;
+}
+
+/* 箭头 */
+.headCell-button{
+  width: 24rpx;
+  height: 36rpx;
+  float: right;
+  margin-right: 24rpx;
+}

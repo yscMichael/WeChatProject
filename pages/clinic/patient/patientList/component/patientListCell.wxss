@@ -1,0 +1,69 @@
+.patientListCell-main{
+  background-color:#fff;
+  border: 1rpx #fff solid;
+}
+
+.patientListCell-line{
+  background-color: #F2F2F4;
+  width: 100%;
+  height: 10rpx;
+}
+
+.patientListCell-content{
+  background-color:#fff;
+  /* 自适应高度 */
+  /* https://www.cnblogs.com/dongguapifly/p/7565882.html */
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.patientListCell-leftItem{
+  margin: 0rpx 5rpx 0rpx 0rpx;
+  padding: 10rpx 5rpx 10rpx 20rpx;
+}
+
+.patientListCell-name{
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #555;
+  text-align: left;
+}
+
+.patientListCell-age{
+  margin: 10rpx;
+  font-size: 24rpx;
+  color: #4D81EE;
+  border: 1px solid #4D81EE;
+  border-radius: 5px;
+  text-align: left;
+}
+
+.patientListCell-sex{
+  background-color: #fff;
+  width: 25rpx;
+  height: 25rpx;
+}
+
+.patientListCell-time{
+  margin-top: 10rpx;
+  margin-right: 10rpx;
+  font-size: 26rpx;
+  color: #888888;
+  text-align: left;
+}
+
+.patientListCell-number{
+  margin-top: 10rpx;
+  margin-right: 10rpx;
+  font-size: 26rpx;
+  color: #888888;
+  text-align: left;
+}
+
+.patientListCell-rightImage{
+  background-color: #fff;
+  width: 134rpx;
+  height: 84rpx;
+}

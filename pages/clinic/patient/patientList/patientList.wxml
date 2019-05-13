@@ -1,0 +1,38 @@
+<!-- 1、顶部切换按钮 -->
+<view class='button-view'>
+  <!-- 全部患者按钮 -->
+    <button id="patient"
+            class='all-patient-button'
+            style="color:{{patientButtonColor}};border-bottom-color:{{patientBottomColor}}"
+            bindtap='clickPatientButton'>全部患者</button>
+  <!-- 转诊患者按钮 -->
+    <button id="treat"
+            style='color:{{treatButtonColor}};border-bottom-color:{{treatBottomColor}}'
+            class='treat-patient-button'
+            bindtap='clickTreatButton'>转诊患者</button>
+</view>
+
+<!-- 2、列表内容 -->
+<view class='main-content-view'>
+  <!--2.2、全部患者列表 -->
+  <view class='first'
+        hidden='{{isHidePatientList}}'>
+    <allPatient id="allPatient"
+                bindclickAllPatient="onClickAllPatient"
+                bindnetWorkSuccess="_netWorkSuccess">
+    </allPatient>
+  </view>
+  <!--2.3、转诊患者列表 -->
+  <view class='two'
+        hidden='{{isHideTreatList}}'>
+    <treatPatient id="treatPatient"
+                  bindnetWorkSuccess="_netWorkSuccess">
+    </treatPatient>
+  </view>
+</view>
+
+<!-- 新增患者按钮 -->
+<!-- <view class='addNewPatient'
+      bindtap='clickAddNewPatient'>新增患者</view> -->
+
+

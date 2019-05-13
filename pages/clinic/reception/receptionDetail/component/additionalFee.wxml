@@ -1,0 +1,6 @@
+<view class="main-view">
+  <!-- 名称 -->
+  <view class='fee-name'>{{feeName}}</view>
+  <!-- 价钱 -->
+  <view class='fee-price'>￥{{feePrice}}</view>
+</view>

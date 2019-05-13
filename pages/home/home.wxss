@@ -1,0 +1,133 @@
+@import "../home/template/homeHeadCell.wxss";
+
+/* scrollView */
+.home-scroll{
+  width: 100%;
+  height:100%;
+}
+
+/* 搜索框 */
+.search-box{
+  background-color: #fff;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 60rpx;
+  display: flex;
+  flex-direction:row;
+  justify-content:flex-start;
+  align-items: center;
+}
+
+.searchBox-leftItem{
+  width: 100%;
+  height: 80%;
+  margin: 10rpx;
+  display: flex;
+  flex-direction:row;
+  align-items: center;
+  background-color: #EDEDED;
+  border-radius:5px;
+}
+
+.searchBox-rightItem{
+  width: 45rpx;
+  height: 45rpx;
+  align-items: center;
+  margin-right:7px;
+}
+
+.seach-icon{
+  width: 30rpx;
+  height: 30rpx;
+  margin-left: 15rpx;
+}
+
+.search-input{
+  width: 100%;
+  height: 100%;
+  margin-left:10rpx;
+}
+
+.home-placeholder-class{
+  color: #B9B9BF;
+  font-size: 25rpx;
+}
+
+/*轮播图 */
+.home-swiper-class{
+  background-color: rgb(240, 16, 65)
+}
+
+.swiper-item-image{
+  width: 100%;
+  height: 100%;
+}
+
+/* 门诊数据表 */
+.home-data{
+  width: 100%;
+  height: 200rpx;
+}
+
+
+
+
+
+
+
+
+
+
+/* 测试 */
+.test-main{
+  background-color: red;
+  width: 200rpx;
+  height: 200rpx;
+  /* box-sizing: border-box; */
+  /* position: absolute; */
+  /* position: relative; */
+  /* padding: 10rpx; */
+  /* border: 5rpx solid #270505; */
+}
+
+.test-childOne{
+  background-color: blue;
+  float: left;
+  width: 40%;
+  height: 100rpx;
+  
+  /* position: relative; */
+
+  /* margin: 10rpx; */
+  /* margin-top: 10rpx;
+  margin-left: 10rpx;
+  margin-bottom: -10rpx;
+  margin-right: -10rpx; */
+  /* width: 100%; */
+  /* height: 100%; */
+  /* margin-top: 10rpx; */
+  /* margin-left: 10rpx; */
+  /* top: 100rpx; */
+  /* left: 100rpx; */
+  /* right: 10rpx; */
+  /* bottom: 10rpx; */
+}
+
+.test-childTwo{
+  background-color: yellow;
+  width: 10rpx;
+  height: 100rpx;
+  float: left;
+  /* margin: 10rpx; */
+  /* margin-top: 10rpx; */
+  /* margin-left: 10rpx; */
+  /* position: absolute; */
+}
+
+.test-childThree{
+  background-color: green;
+  width: calc(60% - 10rpx);
+  height: 100rpx;
+  float: left;
+}

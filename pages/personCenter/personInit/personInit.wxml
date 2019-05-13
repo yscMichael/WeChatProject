@@ -1,0 +1,77 @@
+<!-- 门诊 -->
+<view class='title'>
+  <span style='color:#9F9E9F'>门诊</span>
+</view>
+<!-- 是否开启库存 -->
+<view class='content'>
+  <view class='content-left'>
+    <view class='content-title'>是否开启库存</view>
+    <view class='content-subTitle'>开启该功能后，开处方将扣减库存，库存不足需采购入库</view>
+  </view>
+  <switch checked="{{is_inventory}}"
+          bindchange="changeInventory">
+  </switch>
+</view>
+<!-- 分割线 -->
+<view class='line'></view>
+<!-- 是否使用药品价格 -->
+<view class='content'>
+  <view class='content-left'>
+    <view class='content-title'>是否使用药品价格</view>
+    <view class='content-subTitle'>开启该功能后，将自动计算药品价格</view>
+  </view>
+  <switch checked="{{is_price}}"
+          bindchange="changePrice">
+  </switch>
+</view>
+<!-- 分割线 -->
+<view class='line'></view>
+<!-- 是否打印处方总价 -->
+<view class='content'>
+  <view class='content-left'>
+    <view class='content-title'>是否打印处方总价</view>
+    <view class='content-subTitle'>开启该功能后，处方单将会展示处方总价(实收金额)</view>
+  </view>
+  <switch checked="{{print_price}}"
+          bindchange="changePrintPrice">
+  </switch>
+</view>
+<!-- 分割线 -->
+<view class='line'></view>
+<!-- 是否打印附加费用 -->
+<view class='content'>
+  <view class='content-left'>
+    <view class='content-title'>是否打印附加费用</view>
+    <view class='content-subTitle'>开启该功能后，处方单将会展示附加费用</view>
+  </view>
+  <switch checked="{{print_extra_charge}}"
+          bindchange="changePrintExtraPrice">
+  </switch>
+</view>
+
+<!-- 药房 -->
+<view class='title'>
+  <span style='color:#9F9E9F'>药房</span>
+</view>
+<!-- 出入库是否审核 -->
+<view class='content'>
+  <view class='content-left'>
+    <view class='content-title'>出入库是否审核</view>
+    <view class='content-subTitle'>开启该功能后，出入库将会增加审核模块</view>
+  </view>
+  <switch checked="{{is_sure}}"
+          bindchange="changeSure">
+  </switch>
+</view>
+<!-- 分割线 -->
+<view class='line'></view>
+<!-- 是否打印售药单总价 -->
+<view class='content'>
+  <view class='content-left'>
+    <view class='content-title'>是否打印售药单总价</view>
+    <view class='content-subTitle'>开启该功能后，售药单将会展示零售总价(实收金额)</view>
+  </view>
+  <switch checked="{{print_retail_price}}"
+          bindchange="changePrintRetailPrice">
+  </switch>
+</view>

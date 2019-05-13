@@ -1,0 +1,103 @@
+<!-- 1、进货价 -->
+<view class='title'>—— 进货价 ——</view>
+<!-- 1.1、按包装单位 -->
+<view class='item-child'>
+  <!-- 1.1、标题 -->
+  <view class='item-title'>按包装单位</view>
+  <!-- 1.2、内容 -->
+  <view class='item-content'>
+    <!-- 输入框 -->
+    <input class='item-input'
+           type='digit'
+           bindinput='costInput'
+           value='{{listModel.cost}}'></input>
+    <!-- 单位框 -->
+    <view class='item-unit'>元/盒</view>
+  </view>
+</view>
+
+<!-- 2、处方价 -->
+<view class='title'>—— 处方价 ——</view>
+<!-- 2.1、按包装单位 -->
+<view class='item-child'>
+  <!-- 1.1、标题 -->
+  <view class='item-title'>按包装单位</view>
+  <!-- 1.2、内容 -->
+  <view class='item-content'>
+    <!-- 输入框 -->
+    <input class='item-input'
+           type='digit'
+           bindinput='minPriceInput'
+           value='{{listModel.min_price}}'></input>
+    <!-- 单位框 -->
+    <view class='item-unit'>元/盒</view>
+  </view>
+</view>
+<view class='line-small'></view>
+<!-- 2.1、按拆零单位 -->
+<view class='item-child'>
+  <!-- 1.1、标题 -->
+  <view class='item-title'>按拆零单位</view>
+  <!-- 1.2、内容 -->
+  <view class='item-content'>
+    <!-- 输入框 -->
+    <input class='item-input'
+           type='digit'
+           bindinput='salePriceInput'
+           value='{{listModel.sale_price}}'></input>
+    <!-- 单位框 -->
+    <view class='item-unit'>元/盒</view>
+  </view>
+</view>
+<!-- 提示 -->
+<view class='tip-view'>
+  <view class='flag'>*</view>
+  <view class='gray-title'>用于</view>
+  <view class='blue-title'>门诊-新增接诊</view>
+  <view class='gray-title'>模块的药品价格</view>
+</view>
+
+<!-- 3、零售价 -->
+<view class='title'>—— 零售价 ——</view>
+<!-- 3.1、按包装单位 -->
+<view class='item-child'>
+  <!-- 1.1、标题 -->
+  <view class='item-title'>按包装单位</view>
+  <!-- 1.2、内容 -->
+  <view class='item-content'>
+    <!-- 输入框 -->
+    <input class='item-input'
+           type='digit'
+           bindinput='retailMinPriceInput'
+           value='{{listModel.retail_min_price}}'></input>
+    <!-- 单位框 -->
+    <view class='item-unit'>元/盒</view>
+  </view>
+</view>
+<view class='line-small'></view>
+<!-- 3.2、按包装单位 -->
+<view class='item-child'>
+  <!-- 1.1、标题 -->
+  <view class='item-title'>按拆零单位</view>
+  <!-- 1.2、内容 -->
+  <view class='item-content'>
+    <!-- 输入框 -->
+    <input class='item-input'
+           type='digit'
+           bindinput='retailSalePriceInput'
+           value='{{listModel.retail_sale_price}}'></input>
+    <!-- 单位框 -->
+    <view class='item-unit'>元/盒</view>
+  </view>
+</view>
+<!-- 提示 -->
+<view class='tip-view'>
+  <view class='flag'>*</view>
+  <view class='gray-title'>用于</view>
+  <view class='blue-title'>药房-零售卖药</view>
+  <view class='gray-title'>模块的药品价格</view>
+</view>
+
+<!-- 底部确定按钮 -->
+<view class='bottom-button'
+      bindtap='clickSureButton'>保存</view>

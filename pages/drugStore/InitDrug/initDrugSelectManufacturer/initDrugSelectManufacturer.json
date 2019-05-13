@@ -1,0 +1,11 @@
+{
+  "usingComponents": {
+    "yyRefresh": "/utils/yy-refresh-components/yyRefresh"
+  },
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": -40,
+  "backgroundTextStyle": "light",
+  "navigationBarBackgroundColor": "#1F91F2",
+  "navigationBarTextStyle": "white",
+  "navigationBarTitleText": "选择生产厂家"
+}

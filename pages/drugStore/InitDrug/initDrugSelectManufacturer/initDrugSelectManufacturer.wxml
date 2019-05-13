@@ -1,0 +1,13 @@
+<view class='main-view'>
+    <block wx:for="{{dataSource}}" 
+           wx:key="index">
+      <view class='content-view'
+            data-item="{{item}}"
+            data-index="{{index}}"
+            catchtap='clickItem'>{{item.key_name}}</view>
+      <view class='small-line'></view>
+    </block>
+    <!-- 底部加载动画 -->
+    <yyRefresh isHideBottomView="{{isHideBottomView}}">
+    </yyRefresh>
+</view>

@@ -1,0 +1,26 @@
+<view class='main-view'>
+  <!-- 文字 -->
+  <view class='title'>您好,</view>
+  <view class='sub-title'>欢迎来到好医宝智慧云诊所</view>
+
+  <!-- 用户名和密码 -->
+  <input class='name-input'
+         placeholder-class="name-placeholder" 
+         placeholder='请输入用户名/手机号/邮箱'
+         value="lxr001">
+  </input>
+  <view class='line'></view>
+  <input class='password-input'
+         placeholder-class="password-placeholder"  
+         placeholder='请输入密码'
+         value="123456"
+         password="true">
+  </input>
+  <view class='line'></view>
+
+  <!-- 登陆按钮 -->
+  <view class='login-button'
+        bindtap="clickLoginButton">点击登陆</view>
+  <image class='background-image' src='/image/login_bottom.png'>
+  </image>
+</view>

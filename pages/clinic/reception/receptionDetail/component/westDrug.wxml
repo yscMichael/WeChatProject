@@ -1,0 +1,52 @@
+<!-- 主界面 -->
+<view class='main-view'>
+  <!-- 顶部分割线 -->
+  <view wx:if="{{isShowTop}}" class='line-height-15'></view>
+  <!-- 中间具体内容 -->
+  <view class='center-view'>
+    <!-- 左侧组号 -->
+    <view class='left-groupNo'>
+     <text wx:if="{{isHiddenGroupNo}}" decode="{{true}}">&ensp;</text>
+     <text wx:else class='left-groupNo-text'>{{groupNo}}</text>
+    </view>
+    <!-- 右侧药品信息 -->
+    <view class='drun-info'>
+      <view class='drun-info-main'>
+        <!-- 图片 -->
+        <image wx:if="{{isDefaultImage}}" class='drun-info-image'
+               src='/image/clinic/img_default.png'></image>
+        <image wx:else class='drun-info-image'
+               src='{{imageURL}}'
+               binderror="errorFunction"></image>
+        <!-- 左侧元素 -->
+        <view class='drun-info-right'>
+          <view class='name-number'>
+            <!-- 名称 -->
+            <view class='name font-black-15'>{{generalName}}</view>
+            <!-- 批次 -->
+            <view wx:if="{{isHiddenBatch}}"></view>
+            <view wx:else class='number'>{{batch}}</view>
+          </view>
+          <!-- 规格 -->
+          <view class='spec font-12'>{{spec}}</view>
+          <!-- 用法 -->
+          <view class='usage font-12'>
+            <text wx:if="{{isHiddenUsage}}" decode="{{true}}"></text>
+            <text wx:else decode="{{true}}">{{usage}}</text>
+          </view>
+          <!-- 生产厂商 -->
+          <view class='manufacturer font-12'>{{manufacturer}}</view>
+          <!-- 价钱和数目 -->
+          <view class='price-count'>
+            <span class='price font-16'>￥{{price}}</span>
+            <span class='count font-gray-15'>x{{count}}</span>
+          </view>
+        </view>
+      </view>
+      <!-- 分割线 -->
+      <view class='bottom-line'></view>
+    </view>
+  </view>
+  <!-- 底部分割线 -->
+  <view wx:if="{{isShowBottom}}" class='line-height-15'></view>
+</view>

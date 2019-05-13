@@ -1,0 +1,34 @@
+<!-- 1、顶部切换按钮 -->
+<view class='button-view'>
+  <!-- 待收费按钮 -->
+    <button class='charging-button'
+            style="color:{{chargingButtonColor}};border-bottom-color:{{chargingBottomColor}}"
+            bindtap='clickChargingButton'>待收费</button>
+  <!-- 已收费按钮 -->
+    <button class='charged-button'
+            style='color:{{chargedButtonColor}};border-bottom-color:{{chargedBottomColor}}'
+            bindtap='clickChargedButton'>已收费</button>
+</view>
+
+<!-- 2、列表内容 -->
+<view class='main-content-view'>
+  <!--2.2、待收费列表 -->
+  <view class='first' hidden='{{isHideChargingList}}'>
+    <chargingList id="chargingList"
+                  bindnetWorkSuccess="_netWorkSuccess"
+                  bindclickchargingcell="onClickChargingCell">
+    </chargingList>
+  </view>
+  <!--2.3、已收费列表 -->
+  <view class='two' hidden='{{isHideChargedList}}'>
+    <chargedList id="chargedList"
+                 bindnetWorkSuccess="_netWorkSuccess"
+                 bindclickchargedcell="onClickChargedCell">
+    </chargedList>
+  </view>
+</view>
+
+
+
+
+

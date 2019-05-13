@@ -1,0 +1,27 @@
+<view class='receptionListCell-main'
+      catchtap="onTap">
+  <!-- 顶部分割线 -->
+  <view class='receptionList-line'>
+  </view>
+  <!-- 具体内容 -->
+  <view class='receptionList-content'>
+    <view class='receptionList-leftItem'>
+      <!-- 姓名 -->
+      <span class='receptionList-name'>
+      {{name}}</span>
+      <!-- 年龄 -->
+      <span class='receptionList-age'>
+      {{age}}</span>
+      <!-- 时间 -->
+      <view class='receptionList-time'>
+      接诊时间: {{time}}</view>
+      <!-- 诊断或联系方式 -->
+      <view class='receptionList-number'>
+      诊断: {{detail}}</view>
+    </view>
+    <!-- 状态图片 -->
+    <image class='receptionList-rightItem'
+           src='{{imageUrl}}'>
+    </image>
+  </view>
+</view>

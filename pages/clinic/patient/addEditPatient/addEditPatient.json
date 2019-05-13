@@ -1,0 +1,7 @@
+{
+  "usingComponents": {},
+  "backgroundTextStyle": "light",
+  "navigationBarBackgroundColor": "#FF00FF",
+  "navigationBarTitleText": "新增患者",
+  "navigationBarTextStyle": "white"
+}

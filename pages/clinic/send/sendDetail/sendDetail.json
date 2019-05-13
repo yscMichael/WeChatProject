@@ -1,0 +1,12 @@
+{
+  "usingComponents": {
+    "westDrug": "/pages/clinic/reception/receptionDetail/component/westDrug",
+    "medicalInstrument": "/pages/clinic/reception/receptionDetail/component/medicalInstrument",
+    "chineseDrug": "/pages/clinic/reception/receptionDetail/component/chineseDrug",
+    "additionalFee": "/pages/clinic/reception/receptionDetail/component/additionalFee"
+  },
+  "backgroundTextStyle": "dark",
+  "navigationBarBackgroundColor": "#1E90FF",
+  "navigationBarTitleText": "发药详情",
+  "navigationBarTextStyle": "white"
+}

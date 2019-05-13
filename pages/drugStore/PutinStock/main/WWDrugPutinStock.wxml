@@ -1,0 +1,129 @@
+<view class="mainBackgroundView">
+  <!-- 1、头部固定区域 -->
+  <view class='WWDrugPutinStockFixedArea' 
+        style="height:{{headerHeight}}rpx;">
+    <!-- 1.1、仓库、供应商、入库时间 -->
+    <view class='WWDrugPutinStockHeader' wx:if="{{isShowHeader}}">
+      <!-- 选择仓库 -->
+      <view class='WWDrugPutinStockSelectView'>
+        <picker mode="selector" 
+                bindchange="bindWarehouseChange" 
+                value="{{wareIndex}}" 
+                range="{{warehouseArray}}">
+          <!-- 标题 -->
+          <view class='SelectViewLeftChildView'>入库仓库</view>
+          <!-- 内容 -->
+          <view class='SelectViewRightChildView'>
+            {{warehouseArray[warehouseIndex].key_name}}</view>
+          <!-- 更多图标 -->
+          <view class='moreIcon'></view>
+        </picker>
+        <view class='WWDrugPutinStockSelectView_bottomLine'></view>
+      </view>
+      <!-- 选择供应商 -->
+      <view class='WWDrugPutinStockSelectView'>
+        <picker mode="selector" 
+                bindchange="bindVendorChange" 
+                value="{{vendorIndex}}" 
+                range="{{vendorArray}}">
+          <!--标题-->
+          <view class='SelectViewLeftChildView'>供应商</view>
+          <!-- 内容 -->
+          <view class='SelectViewRightChildView'>
+            {{vendorArray[vendorIndex].key_name}}</view>
+          <!-- 更多图标 -->
+          <view class='moreIcon'></view>
+        </picker>
+        <view class='WWDrugPutinStockSelectView_bottomLine'></view>
+      </view>
+      <!-- 选择入库时间 -->
+      <view class='WWDrugPutinStockSelectView'>
+        <picker mode="date" 
+                value="{{drugPutinDate}}" 
+                start="2000-01-01" 
+                end="2100-01-01" 
+                bindchange="bindInDateChange">
+          <!-- 标题 -->
+          <view class='SelectViewLeftChildView'>
+          入库时间</view>
+          <!-- 内容 -->
+          <view class='SelectViewRightChildView'>
+          {{inDate}}</view>
+          <!-- 更多图标 -->
+          <view class='moreIcon'></view>
+        </picker>
+        <view class='WWDrugPutinStockSelectView_bottomLine'></view>
+      </view>
+    </view>
+    <!-- 1.2、扫码添加和手动添加按钮 -->
+    <view class='WWPutinStockToolBar' style='top:{{toolBarTop}}rpx'>
+      <!-- 扫码添加 -->
+      <view class='WWPutinScanCodeButton' bindtap='ScanCodePutinStock'>
+        <image class='WWPutinButtonImage' 
+               src="/image/drughome/drug_scan.png" mode="aspectFill"/>
+        <text class='WWPutinButtonTitle'>扫码添加</text>
+      </view>
+      <!-- 手动添加 -->
+      <view class='WWPutinHandleButton'>
+        <view>
+          <picker mode="selector" 
+                  bindchange="bindHandlePutinStock" 
+                  value="{{drugtypeIndex}}" 
+                  range="{{drugtypeArray}}">
+            <image class='WWPutinButtonImage' 
+                   src="/image/drughome/drug_add.png" 
+                   mode="aspectFill"/>
+              <text class='WWPutinButtonTitle'>手动添加</text>
+          </picker>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!--2、列表 -->
+  <!-- 待审核列表 -->
+  <view class='putInStockEditTableView'>
+      <block wx:for="{{dataSource}}"
+             wx:key="index">
+        <storageDetailEditCell data-index="{{index}}"
+                               data-item="{{item}}"
+                               groupNumber="{{index + 1}}"
+                               image="{{item.image}}"
+                               general_name="{{item.common_name}}"
+                               spec="{{item.spec}}"
+                               manufacturer="{{item.manufacturer.key_name}}"
+                               expire_date="{{item.expire_date?item.expire_date:'选择失效日期'}}"
+                               batch_no="{{item.batch_no}}"
+                               price="{{item.price}}"
+                               count="{{item.count}}"
+                               unit="{{item.unit.key_name}}"
+                               cost="{{item.cost}}"
+                               bindclickdetailcell="clickDetailCell">
+        </storageDetailEditCell>
+      </block>
+  </view>
+
+  <!-- 底部 -->
+  <view class='putInStockEditBottomView'
+        hidden='{{isShowHeader}}'>
+    <!-- 总金额 -->
+    <view class='bottom-total'>
+      <view class='bottom-total-title'>总金额:</view>
+      <view class='bottom-total-title'>¥</view>
+      <view class='bottom-total-money'>{{totalPrice}}</view>
+    </view>
+    <!-- 入库金额 -->
+    <view class='bottom-actual'>
+      <view class='bottom-total-title'>入库金额:</view>
+      <view class='bottom-total-title'>¥</view>
+      <view class='bottom-actual-money'>{{actualPrice}}</view>
+    </view>
+    <!-- 直接入库按钮 -->
+    <view class='bottom-button'
+          bindtap='clickBottomButton'>直接入库</view>
+  </view>
+  <!-- 历史入库按钮 -->
+  <view class='history-button'
+        hidden='{{!isShowHeader}}'
+        bindtap='clickHistoryButton'>查看历史</view>
+</view>

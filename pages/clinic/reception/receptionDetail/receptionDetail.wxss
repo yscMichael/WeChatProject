@@ -1,0 +1,154 @@
+.case-number-view{
+  width: 100%;
+  height: 32px;
+  background-color: #F1F2F4;
+}
+
+.case-number-title{
+  font-size: 13px;
+  color: #999999;
+  margin-left: 15px;
+  float: left;
+  line-height: 32px;
+} 
+
+.reception-doctor{
+  font-size: 13px;
+  color: #999999;
+  margin-right: 15px;
+  float: right;
+  line-height: 32px;
+}
+
+.basic-info-view{
+  background-color: #fff;
+  width: 100%;
+  height: 42px; 
+}
+
+.basic-info-view span{
+  color: #333333;
+  font-weight: bold;
+  font-size: 15px; 
+  line-height: 42px; 
+  margin-left: 15px;
+}
+
+.basic-button-view{
+  background-color:#fff;
+  height: 100%;
+  width: 42px;
+  float: right;
+  margin-right: 4px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.basic-button-view image{
+  width: 11px;
+  height: 6px;
+}
+
+.line-1{
+  background-color: #F1F2F4;
+  width: 100%;
+  height: 1px;
+}
+
+.line-10{
+  background-color: #F1F2F4;
+  width: 100%;
+  height: 10px;
+}
+
+.basic-content{
+  background-color: #fff;
+  /* 自适应高度和宽度 */
+  overflow: hidden;
+  /* width: 100%; */
+  /* height: 32px; */
+}
+
+.basic-content-title{
+  color: #888888;
+  font-size: 15px;
+  float: left;
+  margin-left: 15px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.basic-content-content{
+  color: #333333;
+  font-size: 15px;
+  float: right;
+  margin-right: 15px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 15px;
+  max-width: calc(100% - 100px);
+}
+
+
+.bottom{
+  background-color: #fff;
+  width: 100%;
+  height: 32px;
+}
+
+.bottom-count{
+  color: #333333;
+  font-size: 15px;
+  margin-right: 10px;
+  float: right;
+  line-height: 32px;
+}
+
+.bottom-count-title{
+  color: #555555;
+  font-size: 13px;
+  margin-right: 5px;
+  float: right;
+  line-height: 32px;
+}
+
+.bottom-count-price{
+  color: #FBA148;
+  font-size: 15px;
+  font-weight: bold;
+  margin-right: 15px;
+  float: right;
+  line-height: 32px;
+}
+
+.doctor-say{
+  float: right;
+  margin-right: 15px;
+}
+
+.should-pay-view{
+  color: #333333;
+  font-size: 15px;
+  margin-left: 15px;
+  margin-top: 8px;
+}
+
+.actual-pay-view{
+  background-color: #fff;
+  margin-left: 15px;
+  margin-top: 5px;
+  margin-bottom: 8px;
+}
+
+.actual-pay-view-title{
+  color: #333333;
+  font-size: 15px;
+}
+
+.actual-pay-view-price{
+  color: #FBA148;
+  font-size: 15px;
+  font-weight: bold;
+}

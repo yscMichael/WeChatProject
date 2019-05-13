@@ -1,0 +1,152 @@
+Page{
+  width: 100%;
+  height: 100%;
+  background-color: #F1F0F5;
+}
+
+.main-view{
+  width: 100%;
+  height: calc(100% - 45px);
+}
+
+.head-content-view{
+  background-color: white;
+  height: 65px;
+  text-align: center;
+  line-height: 65px;
+  color: #3C3C3C;
+  font-size: 15px;
+}
+
+.header-view{
+  background-color: #F1F0F5;
+  color: #A2A2A2;
+  padding: 10px;
+  font-size: 15px;
+  display: flex;
+}
+
+.header-usage-content{
+  margin-left: 10px;
+}
+
+.header-frequency-content{
+  margin-left: 10px;
+}
+
+.collection-view{
+  background-color: white;
+  width: 100%;
+  height: 150px;
+  overflow-x: hidden;
+  overflow-y:auto;
+  display: flex;
+  flex-flow:wrap;
+  align-content:flex-start;
+}
+
+.child{
+  background-color: #F0F0F0;
+  color: #3C3C3C;
+  margin: 15px;
+  padding: 5px;
+  height: 15px;
+  line-height: 15px;
+  border-radius: 15px;
+  font-size: 15px;
+}
+
+.childSelect{
+  background-color: #F0F0F0;
+  color: #0090EF;
+  border: 1px solid #77B9FB;
+  margin: 15px;
+  padding: 5px;
+  height: 15px;
+  line-height: 15px;
+  border-radius: 15px;
+  font-size: 15px;
+}
+
+.singleUse-view{
+  display: flex;
+  align-items: center;
+  background-color: white;
+}
+
+.title{
+  color: #A2A2A2;
+  padding: 10px;
+  font-size: 14px;
+  flex: 0 0 60px;
+}
+
+.center-view{
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.singleUse-button{
+  flex: 0 0 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.text{
+  font-size: 14px;
+  color: #363636;
+  font-weight: bold;
+  margin: 10px;
+}
+
+.subText{
+  font-size: 8px;
+  color: #363636;
+}
+
+.singleUse-input{
+  background-color: #F1F0F5;
+  width: 80px;
+  font-size: 15px;
+  text-align: center;
+}
+
+.selected-image{
+  width: 10px;
+  height: 10px;
+}
+
+.dayCount-view{
+  display: flex;
+  align-items: center;
+  background-color: white;
+}
+
+.dayCount-input{
+  background-color: #F1F0F5;
+  width: 60px;
+  font-size: 15px;
+  text-align: center;
+}
+
+.line-small{
+  background-color: #F1F0F5;
+  width: 100%;
+  height: 10px;
+}
+
+.bottom-button{
+  position: fixed;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  height: 45px;
+  text-align: center;
+  line-height: 45px;
+  background-color: #2993EF;
+  color: white;
+  font-size: 16px;
+}

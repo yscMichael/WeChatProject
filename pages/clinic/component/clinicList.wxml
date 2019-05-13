@@ -1,0 +1,21 @@
+<!-- 主界面 -->
+<view class='clinicList-main'
+      catchtap="onTap">
+  <!-- 分割线 -->
+  <view class='clinicList-line'>
+  </view>
+  <!-- 内容 -->
+  <view class='clinicList-content'>
+      <!-- 图片 -->
+      <image class='clinicList-content-image' 
+              src='{{imageURL}}'>
+      </image>
+      <!-- 内容 -->
+      <view class='clinicList-content-detail'>
+        <view class='up-title'>
+        {{title}}</view>
+        <view class='down-title'>
+        {{subTitle}}</view>
+      </view>      
+  </view>
+</view>

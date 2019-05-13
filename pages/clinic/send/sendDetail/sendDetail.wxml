@@ -1,0 +1,135 @@
+<!-- 1、病例编号 -->
+<view class='case-number-view'>
+  <span class="case-number-title">病例编号:{{caseNumber}}</span>
+  <span class="reception-doctor">接诊医师:{{doctor}}</span>
+</view>
+
+<!-- 2.1、处方信息--头 -->
+<view class='basic-info-view'>
+  <span>处方信息</span>
+  <view class='basic-button-view'
+        bindtap="clickBasicButton">
+        <!-- <image src='/image/clinic/arrowDown.png'></image> -->
+  </view>
+</view>
+<!-- 分割线 -->
+<view class='line-1'></view>
+<!-- 2.2、处方信息--具体内容 -->
+<block wx:for="{{drugDataSource}}" 
+        wx:key="index">
+    <!-- 西药 -->
+  <westDrug wx:if="{{isEnDrug}}"
+            groupNo="{{item.groupNo}}"
+            imageURL="{{item.imageURL}}"
+            generalName="{{item.generalName}}"
+            batch="{{item.batch}}"
+            spec="{{item.spec}}"
+            usage="{{item.usage}}"
+            manufacturer="{{item.manufacturer}}"
+            price="{{item.price}}"
+            count="{{item.count}}"
+            isHiddenGroupNo="{{item.isHiddenGroupNo}}"
+            isDefaultImage="{{item.isDefaultImage}}"
+            isHiddenBatch="{{item.isHiddenBatch}}"
+            isHiddenUsage="{{item.isHiddenUsage}}"
+            isShowTop="{{item.isShowTop}}"
+            isShowBottom="{{item.isShowBottom}}">
+  </westDrug>
+  <!-- 中药 -->
+  <chineseDrug wx:elif="{{item.dug_type.id == 3}}"
+               groupNo="{{item.groupNo}}"
+               imageURL="{{item.imageURL}}"
+               generalName="{{item.generalName}}"
+               spec="{{item.spec}}"
+               count="{{item.count}}"
+               drugUsage="{{item.drugUsage}}"
+               isHiddenGroupNo="{{item.isHiddenGroupNo}}"
+               isDefaultImage="{{item.isDefaultImage}}"
+               isShowTop="{{item.isShowTop}}"
+               isShowBottom="{{item.isShowBottom}}">
+  </chineseDrug>
+  <!-- 医疗器械(中药医疗器械) -->
+  <medicalInstrument wx:else
+                     groupNo="{{item.groupNo}}"
+                     imageURL="{{item.imageURL}}"
+                     generalName="{{item.generalName}}"
+                     batch="{{item.batch}}"
+                     spec="{{item.spec}}"
+                     count="{{item.count}}"
+                     isHiddenGroupNo="{{item.isHiddenGroupNo}}"
+                     isDefaultImage="{{item.isDefaultImage}}"
+                     isHiddenBatch="{{item.isHiddenBatch}}"
+                     isShowTop="{{item.isShowTop}}"
+                     isShowBottom="{{item.isShowBottom}}">
+  </medicalInstrument>
+</block>
+<view class='bottom'>
+    <span class='bottom-count-price'>---</span>
+    <span class='bottom-count-title'>小计:</span>
+    <span class='bottom-count'>共1件药品</span>
+</view>
+<!-- 分割线 -->
+<view class='line-10'></view>
+
+<!-- 3.1、附加费用 -->
+<view class='basic-info-view'>
+  <span>附加费用</span>
+  <view class='basic-button-view'
+        bindtap="clickBasicButton">
+        <!-- <image src='/image/clinic/arrowDown.png'></image> -->
+  </view>
+</view>
+<!-- 分割线 -->
+<view class='line-1'></view>
+<!-- 3.2、具体内容 -->
+<block wx:for="{{feeDataSource}}" 
+        wx:key="index">
+    <additionalFee feeName="{{(index + 1) + '.' + item.charge_type.key_name}}"
+                 feePrice="---">
+  </additionalFee>
+</block>
+<view class='bottom'>
+    <span class='bottom-count-price'>---</span>
+    <span class='bottom-count-title'>小计:</span>
+    <span class='bottom-count'>共{{feeTotalCount}}项附加费</span>
+</view>
+<!-- 分割线 -->
+<view class='line-10'></view>
+
+<!-- 4.1、基本信息--头 -->
+<view class='basic-info-view'>
+  <span>基本信息</span>
+  <view class='basic-button-view'
+        bindtap="clickBasicButton">
+        <!-- <image src='/image/clinic/arrowDown.png'></image> -->
+  </view>
+</view>
+<!-- 分割线 -->
+<view class='line-1'></view>
+<!-- 4.2、基本信息--具体内容 -->
+<block wx:for="{{basicDataSource}}" 
+        wx:key="index">
+  <view class='basic-content'>
+    <span class='basic-content-title'>{{item.title}}</span>
+    <span class='basic-content-content'>{{item.content}}</span>
+  </view>
+</block>
+<!-- 分割线 -->
+<view class='line-10'></view>
+
+<!-- 5、实收和应收 -->
+<view class='price-view'>
+ <view class='actual-pay-view'>
+ <span class='actual-pay-view-title'>实付金额:</span>
+ <span class='actual-pay-view-price'>￥{{actualPayPrice}}</span>
+ </view>
+</view>
+
+<!-- 6、收费发药按钮 -->
+<view class='charge-button-view'
+      hidden='{{!isSending}}'>
+  <view class='charge-button'
+        bindtap='clickSendButton'>发药</view>
+</view>
+
+

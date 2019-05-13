@@ -1,0 +1,38 @@
+<view class='chargeListCell-main'
+      catchtap="onTap">
+  <!-- 顶部分割线 -->
+  <view class='chargeListCell-lineTop'>
+  </view>
+  <!-- 具体内容 -->
+  <view class='chargeListCell-title'>
+      <!-- 姓名 -->
+    <span class='chargeListCell-name'>
+    {{name}}</span>
+        <!-- 年龄 -->
+    <span class='chargeListCell-age'>
+    {{age}}</span>
+        <!-- 金钱 -->
+    <span class='chargeListCell-money'>
+    ¥ {{money}}</span>
+  </view>
+  <!-- 时间 -->
+  <view class='chargeListCell-time'>
+  接诊时间: {{time}}</view>
+  <!-- 诊断或联系方式 -->
+  <view class='chargeListCell-number'>
+  诊断: {{detail}}</view>
+  <!-- 底部按钮 -->
+  <view class='chargeListCell-bottom-view'
+        hidden="{{isHiddenBottom}}">
+    <!-- 分割线 -->
+    <view class='chargeListCell-lineBottom'></view>
+    <!-- 按钮 -->
+    <view class='chargeListCell-bottom-button'>
+      <image src='/image/clinic/money.png'></image>
+      <view>收费发药</view>
+    </view>
+  </view>
+</view>
+
+<!-- 分析小程序hidden不生效原因及解决办法 -->
+<!-- http://www.php.cn/xiaochengxu-361179.html -->

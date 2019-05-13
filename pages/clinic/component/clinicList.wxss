@@ -1,0 +1,51 @@
+.clinicList-main{
+  width: 100%;
+  height: 200rpx;
+  background-color: #fff;
+}
+
+.clinicList-line{
+  background: #F1F2F4;
+  width: 100%;
+  height: 20rpx;
+}
+
+.clinicList-content{
+  width: 100%;
+  height: calc(100% - 20rpx);
+  position: relative;
+}
+
+.clinicList-content-image{
+  width: 180rpx;
+  height: 180rpx;
+  float: left;
+  position: absolute;
+  left: 0rpx;
+  top: 0rpx;
+}
+
+.clinicList-content-detail{
+  float: right;
+  height: 100%;
+  width: calc(100% - 180rpx);
+  position: relative;
+}
+
+.up-title{
+  position: absolute;
+  left: 0rpx;
+  top: 30rpx;
+  font-size: 16px;
+  font-family: Arial;
+  color: #555555;
+}
+
+.down-title{
+  position: absolute;
+  left: 0rpx;
+  bottom: 30rpx;
+  font-size: 13px;
+  font-family: Arial;
+  color: #666666;
+}

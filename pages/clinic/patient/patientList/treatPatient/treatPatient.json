@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "patientListCell": "/pages/clinic/patient/patientList/component/patientListCell",
+    "yyRefresh": "/utils/yy-refresh-components/yyRefresh"
+  }
+}

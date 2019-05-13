@@ -1,0 +1,56 @@
+<view class="mainBackgroundView">
+  <!-- 1、顶部切换栏 -->
+  <view class='wwSliderToolBar'>
+    <view class="wwSliderToolBar_item {{selectIndex == idx? 'active' : '' }}"
+          wx:for='{{titlesArr}}'
+          wx:for-index='idx' 
+          data-idx="{{idx}}" 
+          bindtap="switchSliderToolBarItem"
+          wx:key='wwSliderToolBar'>{{item}}</view>
+  </view>
+
+  <!-- 2、药品列表主界面 -->
+  <view class='containerView'>
+    <swiper class="initDrugListScrollView" 
+            current="{{selectIndex}}" 
+            bindchange="bindScrollViewChange">
+      <!--2.1、西药-->
+      <swiper-item>
+        <westDrugList id="westDrugList"
+                      bindclickwestcell="onClickWestCell">
+        </westDrugList>
+      </swiper-item>
+      <!--2.2、中成药-->
+      <swiper-item>
+        <specialChineseDrugList id="specialChineseDrugList"
+                                bindclickspecialChinesecell="onClickSpecialChineseCell">
+        </specialChineseDrugList>
+      </swiper-item>
+      <!--2.3、中药-->
+      <swiper-item>
+        <chineseDrugList id="chineseDrugList"
+                         bindclickchinesecell="onClickChineseCell">
+        </chineseDrugList>
+      </swiper-item>
+      <!--2.4、医疗器械-->
+      <swiper-item>
+        <instrumentList id="instrumentList"
+                        bindclickinstrumentcell="onClickInstrumentCell">
+        </instrumentList>
+      </swiper-item>
+    </swiper>
+  </view>
+
+  <!-- 3、底部 -->
+  <view class='initdrug_bottomView'>
+    <view class='initdrug_bottomView_totalcount'>
+    已添加(种)：{{totalcount}}</view>
+    <picker mode="selector" 
+            bindchange="bindSelectInitDrugType" 
+            value="{{initDrugIndex}}" 
+            range="{{initDrugTypeArr}}">
+      <view class='initdrug_bottomView_addButton'>继续添加</view>
+    </picker>
+  </view>
+
+</view>

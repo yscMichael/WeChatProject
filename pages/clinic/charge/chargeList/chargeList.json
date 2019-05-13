@@ -1,0 +1,13 @@
+{
+  "usingComponents": {
+    "chargedList": "/pages/clinic/charge/chargeList/chargedList/chargedList",
+    "chargingList": "/pages/clinic/charge/chargeList/chargingList/chargingList",  
+    "yyRefresh": "/utils/yy-refresh-components/yyRefresh"
+  },
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": -40,
+  "backgroundTextStyle": "dark",
+  "navigationBarBackgroundColor": "#7B68EE",
+  "navigationBarTitleText": "收费列表",
+  "navigationBarTextStyle": "white"
+}

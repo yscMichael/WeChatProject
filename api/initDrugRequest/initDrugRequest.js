@@ -258,6 +258,38 @@ function checkUse(drugId, onSuccess, onFail){
 }
 
 /**
+ * 中药用法/西药用法(drug_usage[en]、drug_usage[zh])
+ */
+function chineseAndWestUsage(cloudName, onSuccess, onFail){
+  var params = {
+    _userid: app.globalData.userId,
+    _password: app.globalData.password,
+  }
+  var urlString = '/app?op=List&cloud=' + cloudName;
+  netJs.getRequest(urlString, params,
+    function (success) {
+      console.log('中药用法/西药用法-------');
+      console.log(success.data);
+      var rows = success.data.rows;
+      var modelArr = [];
+      for (let i = 0; i < rows.length; i++) {
+        var drugformDict = rows[i];
+        //重新生成模型
+        var model = {
+          id: drugformDict.id,      //id
+          key_name: drugformDict.key_name,  //名称
+          is_select: false                  //是否选中
+        }
+        modelArr.push(model);
+      }
+      onSuccess(modelArr);
+    },
+    function (fail) {
+      onFail(fail);
+    });
+}
+
+/**
  * 构造网络请求参数
  */
 function makePostDataParam(drugModel,isEdit){
@@ -744,5 +776,6 @@ module.exports = {
   dealSpec: dealSpec,
   dealRealCount: dealRealCount,
   postAllData: postAllData,
-  checkUse: checkUse
+  checkUse: checkUse,
+  chineseAndWestUsage: chineseAndWestUsage
 }

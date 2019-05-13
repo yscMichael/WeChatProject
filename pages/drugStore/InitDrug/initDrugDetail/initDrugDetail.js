@@ -129,11 +129,19 @@ Page({
         selectImage: this.data.selectImage,
         imageTipTitle: this.data.imageTipTitle
       });
-    }  
-    //2、模型赋值
+    }
+    //2、是否禁止药品类型选择
+    var dugType = listModel.dug_type ? listModel.dug_type.id : 1;
+    if ((dugType == 3) || (dugType == 4)){
+      this.data.disabledDrugType = true;
+    }else{
+      this.data.disabledDrugType = false;
+    }
+    //3、模型赋值
     this.data.listModel = listModel;
     this.setData({
-      listModel: this.data.listModel
+      listModel: this.data.listModel,
+      disabledDrugType:this.data.disabledDrugType
     });
 
   },
@@ -305,10 +313,24 @@ Page({
   },
 
   /**
-   * 选择包装单位
+   * 选择包装单位(非中药)
    */
   chooseMinUnit: function(e){
     console.log('选择包装单位-----');
+    this.data.hasMask = true;
+    this.setData({
+      hasMask: this.data.hasMask
+    });
+    var modelView = this.selectComponent("#initDrugPopView");
+    //展示模版(2:代表处方单位)
+    modelView.showModal(2);
+  },
+
+  /**
+   * 选择药品单位(中药)
+   */
+  chooseChineseMinUnit:function(e){
+    console.log('选择药品单位(中药)');
     this.data.hasMask = true;
     this.setData({
       hasMask: this.data.hasMask
@@ -473,8 +495,15 @@ Page({
       this.data.listModel.drug_forms_name = itemDict.key_name;
     } else if (e.detail.listType == 2){//处方单位
       this.data.listModel.min_name = itemDict.key_name;
-      //刷新规格
-      initDrugJs.dealSpec(this.data.listModel);
+      //判断当前是不是中药
+      var drugType = this.data.listModel.dug_type ? this.data.listModel.dug_type.id : '';
+      if(drugType != 3){//不是中药
+        //刷新规格
+        initDrugJs.dealSpec(this.data.listModel);
+      }else{//是中药(三个单位统一)
+        this.data.listModel.rx_name = itemDict.key_name;  
+        this.data.listModel.single_name = itemDict.key_name;
+      }
     } else if (e.detail.listType == 3) {//拆零单位
       this.data.listModel.rx_name = itemDict.key_name;
       //刷新规格
@@ -528,7 +557,11 @@ Page({
       this.data.listModel.instruction_zh_name = data;
     }else{//其余设置为用法
       this.data.listModel.usage = data;    
-    } 
+    }
+    //刷新界面
+    this.setData({
+      listModel: this.data.listModel
+    });
   },
 
   /**

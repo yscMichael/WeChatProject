@@ -1,4 +1,6 @@
-<view class='main-view'>
+<!-- 西药和中成药 -->
+<view class='main-west-view'
+      hidden='{{!isWestDrug}}'>
   <!--1、总结内容 -->
   <view class='head-content-view'>{{listModel.usage}}</view>
   <!--2、 用法 -->
@@ -70,7 +72,17 @@
   </view>
 </view>
 
-
+<!-- 中成药和医疗器械 -->
+<view class='main-chinese-view'
+      hidden='{{isWestDrug}}'>
+  <block wx:for="{{usageArray}}" 
+          wx:key="index">
+    <view class="{{item.is_select ? 'childSelect' : 'child'}}"
+          data-item='{{item}}'
+          data-index="{{index}}"
+          catchtap='clickChineseChild'>{{item.key_name}}</view>
+  </block>
+</view>
 
 <!-- 保存按钮 -->
 <view class='bottom-button'

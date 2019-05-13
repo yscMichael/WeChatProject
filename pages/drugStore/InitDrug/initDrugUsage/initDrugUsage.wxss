@@ -4,9 +4,21 @@ Page{
   background-color: #F1F0F5;
 }
 
-.main-view{
+.main-west-view{
   width: 100%;
   height: calc(100% - 45px);
+}
+
+.main-chinese-view{
+  background-color: white;
+  width: 100%;
+  height: calc(100% - 45px);
+  overflow-x: hidden;
+  overflow-y:auto;
+  
+  display: flex;
+  flex-flow:wrap;
+  align-content:flex-start;
 }
 
 .head-content-view{

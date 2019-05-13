@@ -81,7 +81,8 @@
   <!-- 分割线(小) -->
   <view class='line-small'></view>
   <!-- 条形码 -->
-  <view class='out-date'>
+  <view class='out-date'
+        hidden='{{listModel.dug_type.id == 3}}'>
     <view class='flag'>*</view>
     <view class='title'>条形码</view>
     <input class='right-content'
@@ -131,9 +132,24 @@
   </view>
   <!-- 分割线(大) -->
   <view class='line-big'></view>
+  <!-- 药品单位(只有中药显示) -->
+  <view class='out-date'
+        catchtap='chooseChineseMinUnit'
+        hidden='{{listModel.dug_type.id != 3}}'>
+    <view class='flag'>*</view>
+    <view class='title'>药品单位</view>
+    <input class='right-content'
+           placeholder='药品单位'
+           disabled='disabled'
+           value="{{listModel.min_name}}">    
+    </input>
+    <image class='moreButton'
+           src='/image/more.png'></image>
+  </view>
   <!-- 包装单位 -->
   <view class='out-date'
-        catchtap='chooseMinUnit'>
+        catchtap='chooseMinUnit'
+        hidden='{{listModel.dug_type.id == 3}}'>
     <view class='flag'>*</view>
     <view class='title'>包装单位</view>
     <input class='right-content'
@@ -148,7 +164,8 @@
   <view class='line-small'></view>
   <!-- 拆零单位 -->
   <view class='out-date'
-        catchtap='chooseRxUnit'>
+        catchtap='chooseRxUnit'
+        hidden='{{listModel.dug_type.id == 3}}'>
     <view class='flag'>*</view>
     <view class='title'>拆零单位</view>
     <input class='right-content'
@@ -162,7 +179,8 @@
   <!-- 分割线(小) -->
   <view class='line-small'></view>
   <!-- 包装单位与拆零单位换算 -->
-  <view class='out-date'>
+  <view class='out-date'
+        hidden='{{listModel.dug_type.id == 3}}'>
     <view class='flag'>*</view>
     <view class='change-unit-title'>包装与拆零单位换算</view>
     <view class='change-unit-content'>
@@ -180,7 +198,8 @@
   <view class='line-small'></view>
   <!-- 剂量单位 -->
   <view class='out-date'
-        catchtap='chooseSingleUnit'>
+        catchtap='chooseSingleUnit'
+        hidden='{{(listModel.dug_type.id == 3) || (listModel.dug_type.id == 4)}}'>
     <view class='flag'>*</view>
     <view class='title'>剂量单位</view>
     <input class='right-content'
@@ -194,7 +213,8 @@
   <!-- 分割线(小) -->
   <view class='line-small'></view>
   <!-- 拆零与计量单位换算 -->
-  <view class='out-date'>
+  <view class='out-date'
+        hidden='{{(listModel.dug_type.id == 3) || (listModel.dug_type.id == 4)}}'>
     <view class='flag'>*</view>
     <view class='change-unit-title'>拆零与计量单位换算</view>
     <view class='change-unit-content'>
@@ -211,7 +231,8 @@
   <!-- 分割线(小) -->
   <view class='line-small'></view>
   <!-- 规格 -->
-  <view class='out-date'>
+  <view class='out-date'
+        hidden='{{listModel.dug_type.id == 3}}'>
     <view class='flag'>*</view>
     <view class='title'>规格</view>
     <input class='right-content'
@@ -235,15 +256,48 @@
   </view>
   <!-- 分割线(大) -->
   <view class='line-big'></view>
+  <!-- 单剂量 -->
+  <view class='out-date'
+        hidden='{{listModel.dug_type.id != 3}}'>
+    <view class='flag flag-white'>*</view>
+    <view class='title'>单剂量</view>
+    <view class='change-unit-content'>
+      <input class='safe-unit-input'
+             value='{{listModel.common_count}}'>    
+      </input>
+      <view class='unit-right-title'>{{listModel.single_name}}</view>
+    </view>
+  </view>
+  <!-- 分割线(小) -->
+  <view class='line-small'></view>
   <!-- 用法用量 -->
   <view class='out-date'
         catchtap='chooseUsage'>
     <view class='flag flag-white'>*</view>
-    <view class='title'>用法用量</view>
+    <view class='title'
+    hidden='{{(listModel.dug_type.id == 3) || listModel.dug_type.id == 4}}'>用法用量</view>
+    <view class='title'
+    hidden='{{(listModel.dug_type.id == 1) || listModel.dug_type.id == 2}}'>用法</view>
+    <!-- 西药和中成药 -->
     <input class='right-content'
+    hidden='{{(listModel.dug_type.id == 3) || listModel.dug_type.id == 4}}'      
            placeholder='请选择'
            disabled='disabled'
            value='{{listModel.usage}}'>    
+    </input>
+    <!-- 中药 -->
+    <input class='right-content'
+    hidden='{{listModel.dug_type.id != 3}}'      
+           placeholder='请选择'
+           disabled='disabled'
+           value='{{listModel.instruction_zh_name}}'>    
+    </input>
+    <!-- 医疗器械 -->
+    <input class='right-content'
+    hidden='{{listModel.dug_type.id != 4}}'   
+           placeholder='请选择'
+           disabled='disabled'
+           value='{{listModel.instruction_en_name}}'>    
     </input>
     <image class='moreButton'
            src='/image/more.png'></image>
@@ -283,7 +337,7 @@
              bindinput='upCountInput'
              value='{{listModel.range_up}}'>    
       </input>
-      <view class='unit-right-title'>包</view>
+      <view class='unit-right-title'>{{listModel.min_name}}</view>
     </view>
   </view>
   <!-- 分割线(小) -->
@@ -296,8 +350,6 @@
            disabled='disabled'
            value='{{listModel.realCount}}'>    
     </input>
-    <image class='moreButton'
-           src='/image/more.png'></image>
   </view>
   <!-- 底部保存按钮 -->
   <view class='bottom-button'

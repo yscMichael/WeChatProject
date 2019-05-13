@@ -40,11 +40,14 @@ Page({
       listModel: this.data.listModel
     });
     //4、网络请求
-    //请求用法列表
-    this.loadWestUsageListData();
-    //请求频率列表
-    this.loadWestFrequencyListData();
-
+    if(this.data.isWestDrug){//西药和中成药
+      //请求用法列表
+      this.loadWestUsageListData();
+      //请求频率列表
+      this.loadWestFrequencyListData();
+    } else{
+      this.loadChineseAndWestUsage();
+    }
     console.log('生命周期函数--监听页面加载');
     console.log(listModel);
   },
@@ -96,6 +99,32 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+
+  /**
+   * 请求用法(中药/医疗器械)(drug_usage[en]、drug_usage[zh])
+   */
+  loadChineseAndWestUsage:function(){
+    console.log('请求用法(中药/医疗器械)');
+    var that = this;
+    var cloudName = 'drug_usage[en]';
+    var dugType = this.data.listModel.dug_type ? this.data.listModel.dug_type.id : 3;
+    if(dugType == 3){//中药
+      cloudName = 'drug_usage[zh]';
+    }else{//医疗器械
+      cloudName = 'drug_usage[en]';
+    }
+    initDrugJs.chineseAndWestUsage(cloudName,function (success) {
+      that.data.usageArray = that.data.usageArray.concat(success);
+      //刷新界面
+      that.setData({
+        usageArray: that.data.usageArray
+      });
+    }, function (fail) {
+      wx.showToast({
+        title: fail,
+      })
+    });
   },
 
   /**
@@ -175,7 +204,7 @@ Page({
   },
 
   /**
-   * 点击用法(西药)
+   * 点击用法(西药和中成药)
    */
   clickUsageChild:function(e){
     console.log('点击用法---');
@@ -298,6 +327,33 @@ Page({
   },
 
   /**
+   * 点击中成药和医疗器械
+   */
+  clickChineseChild:function(e){
+    console.log('点击中成药和医疗器械--------用法');
+    console.log(e.currentTarget.dataset.index);
+    //1、将之前选中的取消选中
+    var previousItem = this.data.usageArray[this.data.currentUsageIndex];
+    previousItem.is_select = false;
+    //2、重新设置选中
+    var item = this.data.usageArray[e.currentTarget.dataset.index];
+    item.is_select = true;
+    //3、记住当前位置并赋值
+    this.data.currentUsageIndex = e.currentTarget.dataset.index;
+    var dugType = this.data.listModel.dug_type ? this.data.listModel.dug_type.id : 3;
+    if(dugType == 3){//中药
+      this.data.listModel.instruction_zh_name = item.key_name;
+    }else{//医疗器械
+      this.data.listModel.instruction_en_name = item.key_name;
+    }
+    //4、刷新界面
+    this.setData({
+      usageArray: this.data.usageArray,
+      listModel: this.data.listModel
+    });
+  },
+
+  /**
    * 点击确定按钮
    */
   clickSaveButton:function(e){
@@ -325,6 +381,9 @@ Page({
         prevPage.usageManageBackData(this.data.listModel.instruction_en_name, 'instruction_en_name');
       }
     }
+    //3、返回上一个界面
+    wx.navigateBack({
+    });
   },
 
 })

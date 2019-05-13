@@ -30,11 +30,11 @@ Page({
   onLoad: function  (options) {
     console.log('options----药品初始化详情');
     console.log(options);
+    //1、隐藏厂商联想列表
     this.setData({
       isHidePopManufacturer: this.data.isHidePopManufacturer
     });
-
-    //1、屏幕尺寸设置
+    //2、屏幕尺寸设置
     this.data.screenWidth = wx.getSystemInfoSync().windowWidth;
     this.data.screenHeight = wx.getSystemInfoSync().windowHeight;
     console.log(this.data.screenWidth);
@@ -43,9 +43,9 @@ Page({
       screenWidth: this.data.screenWidth,
       screenHeight: this.data.screenHeight
     });
-    //2、初始化数据
+    //3、初始化数据
     var listModel = JSON.parse(options.listModel);  
-    this.initData(listModel, options.drugType);
+    this.initData(listModel);
   },
 
   /**
@@ -100,13 +100,8 @@ Page({
   /**
    * 数据初始化
    */
-  initData:function(listModel, drugType){
-    //1、模型赋值
-    this.data.listModel = listModel;
-    this.setData({
-      listModel: this.data.listModel
-    });
-    //2、对图片进行特殊处理
+  initData:function(listModel){
+    //1、对图片进行特殊处理
     if (listModel.image != '/image/img_ypmr.png') {
       listModel.image = decodeURIComponent(listModel.image);
       this.data.selectImage = listModel.image;
@@ -116,6 +111,13 @@ Page({
         imageTipTitle: this.data.imageTipTitle
       });
     }  
+
+    //、模型赋值
+    this.data.listModel = listModel;
+    this.setData({
+      listModel: this.data.listModel
+    });
+
   },
 
   /**

@@ -228,9 +228,7 @@
     <view class='flag flag-white'>*</view>
     <view class='title'>价格管理</view>
     <input class='right-content'
-           placeholder='请输入通用名'
-           disabled='disabled'
-           value='国家组织部'>    
+           disabled='disabled'>    
     </input>
     <image class='moreButton'
            src='/image/more.png'></image>
@@ -243,9 +241,9 @@
     <view class='flag flag-white'>*</view>
     <view class='title'>用法用量</view>
     <input class='right-content'
-           placeholder='请输入通用名'
+           placeholder='请选择'
            disabled='disabled'
-           value='国家组织部'>    
+           value='{{listModel.usage}}'>    
     </input>
     <image class='moreButton'
            src='/image/more.png'></image>
@@ -261,9 +259,9 @@
       <view class='flag flag-white'>*</view>
       <view class='title'>有效期预警</view>
       <input class='right-content'
-             placeholder='请输入通用名'
+             placeholder='请选择'
              disabled='disabled'
-             value='{{validityArray[validityIndex]}}'>    
+             value='{{listModel.warning_time.key_name}}'>    
       </input>
       <image class='moreButton'
              src='/image/more.png'></image>
@@ -277,15 +275,13 @@
     <view class='change-unit-title'>库存安全范围</view>
     <view class='change-unit-content'>
       <input class='safe-unit-input'
-             placeholder='请输入通用名'
              bindinput='lowCountInput'
-             value='1'>    
+             value='{{listModel.range_low}}'>    
       </input>
       <view class='safe-unit-title'> - </view>
       <input class='safe-unit-input'
-             placeholder='请输入通用名'
              bindinput='upCountInput'
-             value='1'>    
+             value='{{listModel.range_up}}'>    
       </input>
       <view class='unit-right-title'>包</view>
     </view>
@@ -297,9 +293,8 @@
     <view class='flag flag-white'>*</view>
     <view class='title'>库存</view>
     <input class='right-content'
-           placeholder='请输入通用名'
            disabled='disabled'
-           value='国家组织部'>    
+           value='{{listModel.realCount}}'>    
     </input>
     <image class='moreButton'
            src='/image/more.png'></image>

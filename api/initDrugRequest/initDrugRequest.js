@@ -17,8 +17,6 @@ function downloadDrugListRequest(drugtype, page, onSuccess, onFail) {
   netJs.getRequest('/app?op=Page&cloud=drug', params,
     function (success) {
       var drugsArr = success.data.rows;
-      console.log('药品初始化列表---------');
-      console.log(drugsArr);
       var totalCount = success.data.total;
       onSuccess(dealDrugsArrayData(drugsArr), totalCount);
     },
@@ -52,8 +50,6 @@ function loadManufacturerList(page, rows,onSuccess, onFail) {
         }
         modelArr.push(model);
       }
-      console.log('工厂------------');
-      console.log(success);
       onSuccess(modelArr, totalCount);
     },
     function (fail) {
@@ -66,12 +62,10 @@ function loadManufacturerList(page, rows,onSuccess, onFail) {
  */
 function loadManufacturerWithKeyWord(page, rows, key_word,onSuccess, onFail) {
   var params = {
-    page: page,
-    rows: rows,
     _userid: app.globalData.userId,
     _password: app.globalData.password,
   }
-  netJs.getRequest('/app?op=Page&cloud=drug_manufacturer[clinic]', params,
+  netJs.getRequest('/app?op=List&cloud=drug_manufacturer[clinic]', params,
     function (success) {
       var rows = success.data.rows;
       var totalCount = success.data.total;
@@ -86,8 +80,6 @@ function loadManufacturerWithKeyWord(page, rows, key_word,onSuccess, onFail) {
         }
         modelArr.push(model);
       }
-      console.log('工厂------------');
-      console.log(success);
       onSuccess(modelArr, totalCount);
     },
     function (fail) {
@@ -125,7 +117,7 @@ function loadDrugFormsList(onSuccess, onFail) {
 }
 
 /**
- * 获取单位列表
+ * 获取单位列表(处方单位、拆零单位、服用单位)
  */
 function loadDrugUnitList(onSuccess, onFail){
   var params = {
@@ -154,7 +146,7 @@ function loadDrugUnitList(onSuccess, onFail){
 }
 
 /**
- * 增加单位
+ * 增加单位(处方单位、拆零单位、服用单位)
  */
 function addUnitToList(unit,onSuccess, onFail){
   var params = {
@@ -164,7 +156,6 @@ function addUnitToList(unit,onSuccess, onFail){
   }
   netJs.getRequest('/app?op=Add&cloud=drug_unit', params,
     function (success) {
-      console.log(success);
       var result = success.data;
       if (result.code == 200){//添加成功
         var dataModel = result.data;
@@ -297,85 +288,121 @@ function dealDrugsArrayData(drugsArr) {
   for (let i = 0; i < drugsArr.length; i++) {
     //模型
     var drugModel = {
-      drugId: '',           //药品id
-      image: '',            //图片
-      common_name: '',      //通用名
-      manufacturer: '',     //厂家
-      key_name: '',         //商品名
-      min_unit:'',          //进货价和处方价单位
-      realCount:'',         //经过转化的库存(有单位))
-      spec: '',             //规格
-      drug_forms: '',       //剂型
-      local_count: '',      //库存数量
-      uuid:'',              //条形码
-      dug_type:'',          //药品类型
-      drug_forms:'',        //剂型
-      rx_unit:'',           //拆零单位
-      change_count:'',      //包装单位与拆零单位换算
-      single_unit:'',       //剂量单位
-      taking_count:'',      //拆零单位与剂量单位换算
-      cost: '',             //进货价
-      min_price: '',        //处方价(包装单位)
-      sale_price:'',        //处方价(拆零单位)
-      retail_min_price:'',  //零售价(包装单位)
-      retail_sale_price:'', //零售价(拆零单位)
-      instruction_en_name:'',//用法
-
+      //1、
+      drugId: '',       //药品id/basic_id
+      warehouse_id: '',  //入库列表
+      vendor_id: '',     //供应商列表
+      is_basic: '',      //是否是基础库
+      //2、
+      image: '',         //图片
+      //3、
+      common_name: '',   //通用名
+      key_name: '',      //商品名
+      manufacturer: '',  //厂家
+      uuid: '',          //条形码
+      dug_type: '',      //药品类型
+      drug_forms: '',    //剂型
+      //4、
+      min_unit: '',     //处方单位
+      rx_unit: '',      //拆零单位
+      change_count: '', //包装与拆零换算比例
+      single_unit: '',  //服用单位
+      taking_count: '', //服用单位
+      spec: '',         //规格
+      //5、
+      cost: '',        //进货价
+      min_price: '',   //处方价(大单位)
+      sale_price: '',  //处方价(小单位)
+      retail_min_price: '',//零售价(大单位)
+      retail_sale_price: '',//零售价(小单位)
+      //6、
+      instruction_en: '',  //西药用法
+      instruction_zh: '',  //中药用法
+      common_frequency: '',//西药频率
+      common_count: '',    //单次用量(中药叫单剂量)
+      common_days: '',     //用药天数
+      warning_time: '',    //有效期预警
+      range_low: '',       //库存下限
+      range_up: '',        //库存上限
+      //7、
+      begin_json: '',    //有效期批次
+      begin_count: '',   //有效期数量
+      //8、
+      local_count: '',//库存
+      //9、
+      manufacturer_name: '',//生产厂家
+      drug_forms_name: '',//剂型
+      min_name: '',//包装单位
+      rx_name: '',//拆零单位
+      single_name: '',//服用单位
+      instruction_en_name: '',//西药用法
+      instruction_zh_name: '',//中药用法
+      realCount:'',//经过转化的库存(有单位)
+      usage:'',//用法用量(主要是西药和中成药用)
     }
     //处理模型
     var drugDict = drugsArr[i];
-    //药品id
-    drugModel.drugId = drugDict.id;
-    //图片
+    //1、
+    drugModel.drugId = drugDict.id;//药品id/basic_id
+    drugModel.warehouse_id = drugDict.warehouse_id;//入库列表(dict)
+    drugModel.vendor_id = drugDict.vendor_id;//供应商列表(dict)
+    drugModel.is_basic = drugDict.is_basic;//是否是基础库(dict)
+    //2、处理图片
     if (drugDict.image) {
       var imageArr = drugDict.image;
       drugModel.image = imageArr[0].url + '&_password=' +
         app.globalData.password + '&_userid=' + app.globalData.userId;
-    } else {
+    }
+    else {
       drugModel.image = '/image/img_ypmr.png';
     }
-    //通用名
-    drugModel.common_name = drugDict.common_name;
-    //厂家
-    drugModel.manufacturer = drugDict.manufacturer;
-    //商品名
-    drugModel.key_name = drugDict.key_name;
-    //进货价和处方价单位
-    drugModel.min_unit = drugDict.min_unit,
-    //规格
-    drugModel.spec = drugDict.spec;
-    //处理库存展示形式
-    var realCountString = dealRealCount(drugDict);
-    drugModel.realCount = realCountString,//经过转化的库存
-    //其余字断
-    //剂型
-    drugModel.drug_forms = drugDict.drug_forms,  
-    //库存数量
+    //3、
+    drugModel.common_name = drugDict.common_name;//通用名
+    drugModel.key_name = drugDict.key_name;//商品名
+    drugModel.manufacturer = drugDict.manufacturer;//厂家(dict)
+    drugModel.uuid = drugDict.uuid;//条形码
+    drugModel.dug_type = drugDict.dug_type;//药品类型(dict)
+    drugModel.drug_forms = drugDict.drug_forms;//剂型(dict)
+    //4、
+    drugModel.min_unit = drugDict.min_unit;//处方单位(dict)
+    drugModel.rx_unit = drugDict.rx_unit;//拆零单位(dict)
+    drugModel.change_count = drugDict.change_count;//包装与拆零换算比例
+    drugModel.single_unit = drugDict.single_unit;//服用单位(dict)
+    drugModel.taking_count = drugDict.taking_count;//服用单位
+    drugModel.spec = drugDict.spec;//规格
+    //5、
+    drugModel.cost = drugDict.cost;//进货价
+    drugModel.min_price = drugDict.min_price;//处方价(大单位)
+    drugModel.sale_price = drugDict.sale_price;//处方价(小单位)
+    drugModel.retail_min_price = drugDict.retail_min_price;//零售价(大单位)
+    drugModel.retail_sale_price = drugDict.retail_sale_price;//零售价(小单位)
+    //6、
+    drugModel.instruction_en = drugDict.instruction_en;//西药用法(dict)
+    drugModel.instruction_zh = drugDict.instruction_zh;//中药用法(dict)
+    drugModel.common_frequency = drugDict.common_frequency;//西药频率(dict)
+    drugModel.common_count = drugDict.common_count;//单次用量(中药叫单剂量)
+    drugModel.common_days = drugDict.common_days;//用药天数
+    drugModel.warning_time = drugDict.warning_time;//有效期预警(dict)
+    drugModel.range_low = drugDict.range_low;//库存下限
+    drugModel.range_up = drugDict.range_up;//库存上限
+    //7、
+    drugModel.begin_json = drugDict.begin_json;//有效期批次
+    drugModel.begin_count = drugDict.begin_count;//有效期数量
+    //8、
     drugModel.local_count = drugDict.local_count;
-    //条形码
-    drugModel.uuid = drugDict.uuid;
-    //药品类型
-    drugModel.dug_type = drugDict.dug_type;
-    //剂型
-    drugModel.drug_forms = drugDict.drug_forms;
-    //拆零单位
-    drugModel.rx_unit = drugDict.rx_unit;
-    //包装单位与拆零单位换算
-    drugModel.change_count = drugDict.change_count; 
-    //剂量单位
-    drugModel.single_unit = drugDict.single_unit;
-    //拆零单位与剂量单位换算
-    drugModel.taking_count = drugDict.taking_count;
-    //进货价
-    drugModel.cost = drugDict.cost;
-    //处方价(包装单位)
-    drugModel.min_price = drugDict.min_price;
-    //处方价(拆零单位)
-    drugModel.sale_price = drugDict.sale_price;
-    //零售价(包装单位)
-    drugModel.retail_min_price = drugDict.retail_min_price;
-    //零售价(拆零单位)
-    drugModel.retail_sale_price = drugDict.retail_sale_price;
+    //9、其它处理
+    //自定义字段赋值
+    dealCustomize(drugModel);
+    //处理空值
+    dealEmptyValue(drugModel);
+    //处理单位(处方单位、拆零单位、服用单位)
+    dealAllUnit(drugModel);
+    //处理规格
+    dealSpec(drugModel);
+    //处理库存展示形式
+    dealRealCount(drugModel);
+    //处理用法用量
+    dealUsage(drugModel);
     //添加到数组
     tempArray.push(drugModel);
   }
@@ -383,22 +410,132 @@ function dealDrugsArrayData(drugsArr) {
 }
 
 /**
+ * 处理自定义字段
+ */
+function dealCustomize(drugModel){
+  //生产厂家
+  drugModel.manufacturer_name = drugModel.manufacturer ? drugModel.manufacturer.key_name : '';
+  //剂型
+  drugModel.drug_forms_name = drugModel.drug_forms ? drugModel.drug_forms.key_name : '';
+  //包装单位
+  drugModel.min_name = drugModel.min_unit ? drugModel.min_unit.key_name : '';
+  //拆零单位
+  drugModel.rx_name = drugModel.rx_unit ? drugModel.rx_unit.key_name : '';
+  //服用单位
+  drugModel.single_name = drugModel.single_unit ? drugModel.single_unit.key_name : '';
+  //西药用法
+  drugModel.instruction_en_name = drugModel.instruction_en ? drugModel.instruction_en.key_name : '';
+  //中药用法
+  drugModel.instruction_zh_name = drugModel.instruction_zh ? drugModel.instruction_zh.key_name : '';
+}
+
+/**
+ * 处理空值
+ */
+function dealEmptyValue(drugModel){
+  //有效期预警
+  drugModel.warning_time = drugModel.warning_time ? drugModel.warning_time : { "id": "2", "key_name": "2个月" };
+  //库存安全范围
+  drugModel.range_up = drugModel.range_up ? drugModel.range_up : '200';
+  drugModel.range_low = drugModel.range_low ? drugModel.range_low : '20';
+  //批次
+  drugModel.begin_json = drugModel.begin_json ? drugModel.begin_json : [{ "expire_date": "", "count": "" }];
+  //对中药drug_forms特殊处理
+  drugModel.drug_forms_name = drugModel.drug_forms_name ? drugModel.drug_forms_name : '中药饮片';
+}
+
+/**
+ * 处理所有单位
+ */
+function dealAllUnit(drugModel){
+  //判断当前是中药还是西药
+  var dugTypId = drugModel.dug_type ? drugModel.dug_type.id : '1';
+  if (dugTypId != 3){//不是中药
+    //处方单位
+    if (!drugModel.min_unit) {
+      drugModel.min_name = '盒';
+    }
+    //拆零单位
+    if (!drugModel.rx_unit) {
+      drugModel.rx_name = '盒';
+      drugModel.change_count = 1;
+    }
+    //服用单位
+    if (!drugModel.single_unit) {
+      drugModel.single_name = '盒';
+      drugModel.taking_count = 1;
+    }
+  }else{//是中药
+    //处方单位
+    if (!drugModel.min_unit) {
+      drugModel.min_name = 'g';
+    }
+    //拆零单位
+    if (!drugModel.rx_unit) {
+      drugModel.rx_name = 'g';
+      drugModel.change_count = 1;
+    }
+    //服用单位
+    if (!drugModel.single_unit) {
+      drugModel.single_name = 'g';
+      drugModel.taking_count = 1;
+    }
+  }
+}
+
+/**
+ * 处理规格
+ */
+function dealSpec(drugModel){
+  if(!drugModel.spec){//spec为空、自己拼接
+    var singleUnit = drugModel.single_name ? drugModel.single_name : '';
+    var rxUnit = drugModel.rx_name ? drugModel.rx_name : '';
+    var minUnit = drugModel.min_name ? drugModel.min_name : '';
+    var changeCount = drugModel.change_count ? drugModel.change_count : '';
+    var takingCount = drugModel.taking_count ? drugModel.taking_count : '';
+    var dugTypId = drugModel.dug_type ? drugModel.dug_type.id : '1';
+    if (minUnit == rxUnit){ //包装单位与拆零单位相同
+      if (dugTypId == 4){//医疗器械
+          drugModel.spec = '1' + rxUnit;
+      }else{//非医疗器械
+        if (rxUnit == singleUnit) {//拆零单位与剂量单位相同
+          drugModel.spec = '1' + rxUnit;
+        }else {//不相同
+          drugModel.spec = takingCount + singleUnit + '/' + rxUnit;
+        }
+      }
+    }
+    else{//不相同
+      if (rxUnit == singleUnit){//拆零和剂量单位相同
+        drugModel.spec = changeCount + rxUnit + '/' + minUnit;
+      }else{//不相同
+        if (dugTypId == 4){//医疗器械
+          drugModel.spec = changeCount + rxUnit + '/' + minUnit;
+        }else{
+          drugModel.spec = takingCount + singleUnit + '/' + rxUnit + ';' + changeCount + rxUnit + '/' + minUnit;
+        }
+      }
+    }
+  }
+}
+
+/**
  * 处理库存展示
  */
-function dealRealCount(drugDict){
+function dealRealCount(drugModel){
   var realCountString = '';
   //1、包装单位数量
-  var minCount = parseFloat(drugDict.local_count) / parseInt(drugDict.change_count);
+  var minCount = parseFloat(drugModel.local_count) / parseInt(drugModel.change_count);
   //拆零单位数量
-  var rxCount = parseFloat(drugDict.local_count) - parseInt(minCount) * parseInt(drugDict.change_count);
+  var rxCount = parseFloat(drugModel.local_count) - parseInt(minCount) * parseInt(drugModel.change_count);
   //2、包装单位
-  var minUnit = (drugDict.min_unit) ? drugDict.min_unit.key_name : '';
+  var minUnit = (drugModel.min_unit) ? drugModel.min_unit.key_name : '';
   //拆零单位
-  var rxUnit = (drugDict.rx_unit) ? drugDict.rx_unit.key_name : '';
+  var rxUnit = (drugModel.rx_unit) ? drugModel.rx_unit.key_name : '';
   //3、判断
   if (minUnit == rxUnit) 
   {//两个单位相同、只显示拆零单位
-    realCountString = drugDict.local_count + rxUnit;
+    realCountString = drugModel.local_count + rxUnit;
   }
   else 
   {//两个单位不相同、判断包装单位是否为0
@@ -418,7 +555,33 @@ function dealRealCount(drugDict){
       }
     }
   }
-  return realCountString;
+  //模型赋值
+  drugModel.realCount = realCountString;
+}
+
+/**
+ * 处理用法用量(主要用于西药))
+ */
+function dealUsage(drugModel){
+  var tempArray = [];
+  //用法
+  tempArray.push(drugModel.instruction_en_name);
+  //频率
+  var frequencyName = drugModel.common_frequency ? drugModel.common_frequency.key_name : '';
+  tempArray.push(frequencyName);
+  //单次用量
+  var singleUse = '';
+  if (drugModel.common_count == -1){
+    singleUse = '每次适量';
+  }else{
+    singleUse = '每次' + drugModel.common_count + drugModel.single_name;
+  }
+  tempArray.push(singleUse);
+  //用药天数 common_days
+  var dayString = '用药' + parseInt(drugModel.common_days) + '天';
+  tempArray.push(dayString);
+  //总结
+  drugModel.usage = tempArray.join(';');
 }
 
 /**
@@ -453,5 +616,10 @@ module.exports = {
   addUnitToList: addUnitToList,
   getUsageList: getUsageList,
   getFrequencyList: getFrequencyList,
-  loadManufacturerWithKeyWord: loadManufacturerWithKeyWord
+  loadManufacturerWithKeyWord: loadManufacturerWithKeyWord,
+  dealCustomize: dealCustomize,
+  dealEmptyValue: dealEmptyValue,
+  dealAllUnit: dealAllUnit,
+  dealSpec: dealSpec,
+  dealRealCount: dealRealCount
 }

@@ -63,7 +63,6 @@ Page {
 }
 
 .popManufacturer{
-  background-color: red;
   position: absolute;
   right: 15px;
   width: 200px;
@@ -95,7 +94,6 @@ Page {
   color: #333333;
   font-size: 15px;
   margin-right: 10px;
-  background-color: green;
 }
 
 .moreButton{
@@ -103,7 +101,6 @@ Page {
   height: 13px;
   flex: 0 0 10px;
   margin-right: 10px;
-  background-color: red;
 }
 
 .scanButton{
@@ -111,7 +108,6 @@ Page {
   height: 20px;
   flex: 0 0 17px;
   margin-right: 10px;
-  background-color: red;
 }
 
 .moreButton-none{
@@ -128,7 +124,6 @@ Page {
 .change-unit-content{
   flex-grow: 1;
   margin-right: 10px;
-  background-color: green;
 
   display: flex;
   align-items: center;
@@ -141,15 +136,14 @@ Page {
   flex-grow: 1;
   text-align: right;
   margin-right: 5px;
-  background-color: red;
 }
 
 .unit-input{
   text-align: center;
   color: #333333;
   font-size: 15px;
-  background-color: yellow;
   width: 50px;
+  background-color: #ECECEC;
 }
 
 .unit-right-title{

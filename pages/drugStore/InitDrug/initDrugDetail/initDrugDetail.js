@@ -1,3 +1,8 @@
+//获取应用实例
+const app = getApp()
+//网络请求
+var initDrugJs = require('../../../../api/initDrugRequest/initDrugRequest.js');
+
 Page({
 
   /**
@@ -111,8 +116,7 @@ Page({
         imageTipTitle: this.data.imageTipTitle
       });
     }  
-
-    //、模型赋值
+    //2、模型赋值
     this.data.listModel = listModel;
     this.setData({
       listModel: this.data.listModel
@@ -158,6 +162,9 @@ Page({
    */
   commonNameInput:function(e){
     console.log('通用名输入');
+    console.log(e);
+    var value = e.detail.value;
+    this.data.listModel.common_name = value;
   },
 
   /**
@@ -420,4 +427,16 @@ Page({
     }
   },
 
+  /**
+   * 点击保存按钮
+   */
+  clickSureButton:function(e){
+    console.log('点击保存按钮点击保存按钮');
+    //修改网络请求
+    initDrugJs.postAllData(this.data.listModel, 1,function(success){
+
+    },function(fail){
+
+    });
+  }
 })

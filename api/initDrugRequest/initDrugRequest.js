@@ -219,6 +219,109 @@ function getFrequencyList(onSuccess, onFail) {
     });
 }
 
+/**
+ * 药品初始化修改或者增加接口
+ */
+function postAllData(drugModel, isEdit,onSuccess, onFail){
+  //1、参数
+  console.log('药品初始化修改或者增加接口');
+  var params = makePostDataParam(drugModel, isEdit);
+  //2、网络请求
+  netJs.getRequest('/app?op=Modify&cloud=drug', params,
+    function (success) {
+      console.log('药品初始化修改或者增加接口-----success');
+    },
+    function (fail) {
+      console.log('药品初始化修改或者增加接口-----fail');
+      onFail(fail);
+    });
+}
+
+/**
+ * 构造网络请求参数
+ */
+function makePostDataParam(drugModel,isEdit){
+  var paramDict = {};
+  //1、
+  //药品id
+  paramDict.id = drugModel.drugId ? drugModel.drugId : 0;
+  //入库列表
+  paramDict.warehouse_id = drugModel.warehouse_id ? drugModel.warehouse_id.id : 0;
+  //供应商列表
+  paramDict.vendor_id = drugModel.vendor_id ? drugModel.vendor_id.id : 0;
+  //是否是基础库
+  paramDict.is_basic = drugModel.is_basic ? drugModel.is_basic.id : 0;
+
+  //2、
+  //通用名
+  paramDict.common_name = drugModel.common_name ? drugModel.common_name : '';
+  //商品名
+  paramDict.key_name = drugModel.key_name ? drugModel.key_name : drugModel.common_name;
+  //生产厂家
+  paramDict.manufacturer_name = drugModel.manufacturer_name ? drugModel.manufacturer_name : '';
+  //条形码
+  paramDict.uuid = drugModel.uuid ? drugModel.uuid : '';
+  //药品类型
+  paramDict.dug_type = drugModel.dug_type ? drugModel.dug_type.id : 0;
+  //剂型
+  paramDict.drug_forms_name = drugModel.drug_forms_name ? drugModel.drug_forms_name : '';
+
+  //3、(这里分中西药)
+  //处方单位
+  paramDict.min_name = drugModel.min_name ? drugModel.min_name : '';
+  //拆零单位
+  paramDict.rx_name = drugModel.rx_name ? drugModel.rx_name : '';
+  //包装与拆零单位换算
+  paramDict.change_count = drugModel.change_count ? drugModel.change_count : 1;
+  //剂量单位
+  paramDict.single_name = drugModel.single_name ? drugModel.single_name : '';
+  //拆零与剂量单位换算
+  paramDict.taking_count = drugModel.taking_count ? drugModel.taking_count : 1;
+  //规格
+  paramDict.spec = drugModel.spec ? drugModel.spec : '';
+
+  //4、
+  //进货价
+  paramDict.cost = drugModel.cost ? drugModel.cost : 0;
+  //处方价(大单位)
+  paramDict.min_price = drugModel.min_price ? drugModel.min_price : 0;
+  //处方价(小单位)
+  paramDict.sale_price = drugModel.sale_price ? drugModel.sale_price : 0;
+  //零售价(大单位)
+  paramDict.retail_min_price = drugModel.retail_min_price ? drugModel.retail_min_price : 0;
+  //零售价(小单位)
+  paramDict.retail_sale_price = drugModel.retail_sale_price ? drugModel.retail_sale_price : 0;
+
+  //5、
+  //西药用法
+  paramDict.instruction_en_name = drugModel.instruction_en_name ? drugModel.instruction_en_name : '';
+  //中药用法
+  paramDict.instruction_zh_name = drugModel.instruction_zh_name ? drugModel.instruction_zh_name : '';
+  //频率
+  paramDict.common_frequency = drugModel.common_frequency ? drugModel.common_frequency.id : 0;
+  //单次用量(中药的单剂量)
+  paramDict.common_count = drugModel.common_count ? drugModel.common_count : 0;
+  //用药天数
+  paramDict.common_days = drugModel.common_days ? drugModel.common_days : 0;
+
+  //6、有效期预警
+  paramDict.warning_time = drugModel.warning_time ? drugModel.warning_time.id : 2;
+
+  //7、库存安全范围
+  paramDict.range_low = drugModel.range_low ? drugModel.range_low : 0;
+  paramDict.range_up = drugModel.range_up ? drugModel.range_up : 0;
+
+  //8、库存批次
+  paramDict.begin_count = drugModel.begin_count ? drugModel.begin_count : 0;
+  paramDict.begin_json = drugModel.begin_json ? drugModel.begin_json : '';
+
+  //9、用户名和密码
+  paramDict._userid = app.globalData.userId;
+  paramDict._password = app.globalData.password;
+
+  return paramDict;
+}
+
 //查询药品是否存在基础库???????????
 function judgeDrugWhetherInBasic(code, onSuccess, onFail) {
   var params = {
@@ -560,7 +663,7 @@ function dealRealCount(drugModel){
 }
 
 /**
- * 处理用法用量(主要用于西药))
+ * 处理用法用量(主要用于西药)
  */
 function dealUsage(drugModel){
   var tempArray = [];
@@ -577,7 +680,7 @@ function dealUsage(drugModel){
     singleUse = '每次' + drugModel.common_count + drugModel.single_name;
   }
   tempArray.push(singleUse);
-  //用药天数 common_days
+  //用药天数
   var dayString = '用药' + parseInt(drugModel.common_days) + '天';
   tempArray.push(dayString);
   //总结
@@ -621,5 +724,6 @@ module.exports = {
   dealEmptyValue: dealEmptyValue,
   dealAllUnit: dealAllUnit,
   dealSpec: dealSpec,
-  dealRealCount: dealRealCount
+  dealRealCount: dealRealCount,
+  postAllData: postAllData
 }

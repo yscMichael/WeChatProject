@@ -82,11 +82,18 @@ Page({
     console.log('点击cell点击cell');
     console.log(e);
     console.log(e.currentTarget.dataset.item);
-    //传递参数
-
-    //返回上一个界面
+    //1、传递参数
+    var item = e.currentTarget.dataset.item;
+    //获取所有界面
+    var pages = getCurrentPages();
+    //当前页面
+    var currPage = pages[pages.length - 1];
+    //上一个页面
+    var prevPage = pages[pages.length - 2];
+    //调用上一个界面方法
+    prevPage.manufacturerManageBackData(item.key_name, 'manufacturer_name');
+    //2、返回上一个界面
     wx.navigateBack({
-      
     });
   },
 

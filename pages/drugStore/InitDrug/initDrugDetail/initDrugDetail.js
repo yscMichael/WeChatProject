@@ -218,11 +218,15 @@ Page({
   },
 
   /**
-   * 生产厂家反向传值??????
+   * 生产厂家反向传值
    */
-
-
-
+  manufacturerManageBackData:function(data,target){
+    console.log('生产厂家反向传值');
+    this.data.listModel.manufacturer_name = data;
+    this.setData({
+      listModel: this.data.listModel
+    });
+  },
 
   /**
    * 条形码输入

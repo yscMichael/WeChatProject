@@ -8,8 +8,7 @@
 </initDrugPopView>
 
 
-<view class="mainBackgroundView" 
-      class="{{hasMask ? 'preventTouchMove' : ' '}}">
+<view class="{{hasMask ? 'preventTouchMove' : 'mainBackgroundView'}}">
   <!-- 1、上传药品图片 -->
   <view class='header-view'>
     <image class='header-left-image'
@@ -300,8 +299,8 @@
     <image class='moreButton'
            src='/image/more.png'></image>
   </view>
+  <!-- 底部保存按钮 -->
+  <view class='bottom-button'
+        bindtap='clickSureButton'>保存</view>
 </view>
 
-<!-- 底部保存按钮 -->
-<view class='bottom-button'
-      bindtap='clickSureButton'>保存</view>

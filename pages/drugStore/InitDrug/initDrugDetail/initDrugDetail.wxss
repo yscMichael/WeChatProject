@@ -199,15 +199,16 @@ Page {
 }
 
 .bottom-button{
-  position: fixed;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
+  /* position: fixed; */
+  /* left: 0px; */
+  /* right: 0px; */
+  /* bottom: 0px; */
   height: 45px;
+  width: 100%;
   text-align: center;
   line-height: 45px;
   background-color: #2993EF;
   color: white;
   font-size: 16px;
-  z-index: 999;
+  /* z-index: 999; */
 }

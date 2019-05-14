@@ -3,7 +3,9 @@ const app = getApp();
 //网络请求
 var netJs = require('../netUtil.js');
 
-//请求仓库列表
+/**
+ * 请求仓库列表
+ */
 function downloadWarehouseRequest(onSuccess, onFail) {
   var params = {
     _userid: app.globalData.userId,
@@ -13,7 +15,19 @@ function downloadWarehouseRequest(onSuccess, onFail) {
   function (success) {
     console.log('请求仓库列表');
     console.log(success);
-    onSuccess(success.data);
+    var rows = success.data.rows;
+    var modelArr = [];
+    for (let i = 0; i < rows.length; i++) {
+      var drugformDict = rows[i];
+      //重新生成模型
+      var model = {
+        drugformId: drugformDict.id,      //id
+        key_name: drugformDict.key_name,  //名称
+        is_select: false                  //是否选中
+      }
+      modelArr.push(model);
+    }
+    onSuccess(modelArr);
   },
   function (fail) {
     onFail(fail);
@@ -30,7 +44,19 @@ function downloadVendorRequest(onSuccess, onFail) {
   function (success) {
     console.log('请求供应商列表');
     console.log(success);
-    onSuccess(success.data);
+    var rows = success.data.rows;
+    var modelArr = [];
+    for (let i = 0; i < rows.length; i++) {
+      var drugformDict = rows[i];
+      //重新生成模型
+      var model = {
+        drugformId: drugformDict.id,      //id
+        key_name: drugformDict.key_name,  //名称
+        is_select: false                  //是否选中
+      }
+      modelArr.push(model);
+    }
+    onSuccess(modelArr);
   },
   function (fail) {
     onFail(fail);

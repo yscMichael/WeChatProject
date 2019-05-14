@@ -1,0 +1,8 @@
+{
+  "usingComponents": {},
+  "backgroundTextStyle": "light",
+  "navigationBarBackgroundColor": "#1F91F2",
+  "navigationBarTitleText": "添加批次",
+  "navigationBarTextStyle": "white",
+  "disableScroll": true
+}

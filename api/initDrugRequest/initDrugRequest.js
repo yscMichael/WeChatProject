@@ -172,6 +172,33 @@ function addUnitToList(unit,onSuccess, onFail){
 }
 
 /**
+ * 增加供应商字段
+ */
+function addVendorToList(vendor, onSuccess, onFail){
+  console.log('增加供应商字段');
+  var params = {
+    key_name: vendor,
+    _userid: app.globalData.userId,
+    _password: app.globalData.password,
+  }
+  netJs.getRequest('/app?op=Add&cloud=vendor', params,
+    function (success) {
+      var result = success.data;
+      if (result.code == 200) {//添加成功
+        var dataModel = result.data;
+        onSuccess(dataModel);
+      } else {//添加失败
+        wx.showToast({
+          title: result.remark ? result.remark : '网络加载失败',
+        });
+      }
+    },
+    function (fail) {
+      onFail(fail);
+    });
+}
+
+/**
  * 获取用法列表
  */
 function getUsageList(onSuccess, onFail) {
@@ -287,6 +314,67 @@ function chineseAndWestUsage(cloudName, onSuccess, onFail){
     function (fail) {
       onFail(fail);
     });
+}
+
+/**
+ * 构造模型
+ */
+function createListModel(){
+  //模型
+  var drugModel = {
+    //1、
+    drugId: '',       //药品id/basic_id
+    warehouse_id: '',  //入库列表
+    vendor_id: '',     //供应商列表
+    is_basic: '',      //是否是基础库
+    //2、
+    image: '',         //图片
+    //3、
+    common_name: '',   //通用名
+    key_name: '',      //商品名
+    manufacturer: '',  //厂家
+    uuid: '',          //条形码
+    dug_type: '',      //药品类型
+    drug_forms: '',    //剂型
+    //4、
+    min_unit: '',     //处方单位
+    rx_unit: '',      //拆零单位
+    change_count: '', //包装与拆零换算比例
+    single_unit: '',  //服用单位
+    taking_count: '', //服用单位
+    spec: '',         //规格
+    //5、
+    cost: '',        //进货价
+    min_price: '',   //处方价(大单位)
+    sale_price: '',  //处方价(小单位)
+    retail_min_price: '',//零售价(大单位)
+    retail_sale_price: '',//零售价(小单位)
+    //6、
+    instruction_en: '',  //西药用法
+    instruction_zh: '',  //中药用法
+    common_frequency: '',//西药频率
+    common_count: '',    //单次用量(中药叫单剂量)
+    common_days: '',     //用药天数
+    warning_time: '',    //有效期预警
+    range_low: '',       //库存下限
+    range_up: '',        //库存上限
+    //7、
+    begin_json: '',    //有效期批次
+    begin_count: '',   //有效期数量
+    //8、
+    local_count: '',//库存
+    //9、
+    manufacturer_name: '',//生产厂家
+    drug_forms_name: '',//剂型
+    min_name: '',//包装单位
+    rx_name: '',//拆零单位
+    single_name: '',//服用单位
+    instruction_en_name: '',//西药用法
+    instruction_zh_name: '',//中药用法
+    realCount: '',//经过转化的库存(有单位)
+    usage: '',//用法用量(主要是西药和中成药用)
+  }
+  return drugModel;
 }
 
 /**
@@ -594,9 +682,13 @@ function dealEmptyValue(drugModel){
   drugModel.range_up = drugModel.range_up ? drugModel.range_up : '200';
   drugModel.range_low = drugModel.range_low ? drugModel.range_low : '20';
   //批次
-  drugModel.begin_json = drugModel.begin_json ? drugModel.begin_json : [{ "expire_date": "", "count": "" }];
-  //对中药drug_forms特殊处理
-  drugModel.drug_forms_name = drugModel.drug_forms_name ? drugModel.drug_forms_name : '中药饮片';
+  // drugModel.begin_json = drugModel.begin_json ? drugModel.begin_json : [{ "expire_date": "", "count": "" }];
+  drugModel.begin_json = drugModel.begin_json ? drugModel.begin_json : [];
+  //对中药drug_forms特殊处理(判断是不是中药)
+  var drugType = drugModel.dug_type ? drugModel.dug_type.id : 1;
+  if (drugType == 3){//是中药
+    drugModel.drug_forms_name = drugModel.drug_forms_name ? drugModel.drug_forms_name : '中药饮片';
+  }
 }
 
 /**
@@ -777,5 +869,7 @@ module.exports = {
   dealRealCount: dealRealCount,
   postAllData: postAllData,
   checkUse: checkUse,
-  chineseAndWestUsage: chineseAndWestUsage
+  chineseAndWestUsage: chineseAndWestUsage,
+  createListModel: createListModel,
+  addVendorToList: addVendorToList
 }

@@ -83,7 +83,7 @@ Page({
     this.data.selectIndex = e.currentTarget.dataset.idx;
     this.setData({
       selectIndex: this.data.selectIndex
-    })
+    });
   },
 
   /**
@@ -113,7 +113,7 @@ Page({
     var listModelString = JSON.stringify(e.detail.listModel);
     //进入药品初始化详情
     wx.navigateTo({
-      url: "/pages/drugStore/InitDrug/initDrugDetail/initDrugDetail?drugType=" + e.detail.drugType + '&listModel=' + listModelString,
+      url: "/pages/drugStore/InitDrug/initDrugDetail/initDrugDetail?drugType=" + e.detail.drugType + '&listModel=' + listModelString + '&isEdit=0',
     });
   },
 
@@ -132,7 +132,7 @@ Page({
     }
     var listModelString = JSON.stringify(e.detail.listModel);
     wx.navigateTo({
-      url: "/pages/drugStore/InitDrug/initDrugDetail/initDrugDetail?drugType=" + e.detail.drugType + '&listModel=' + listModelString,
+      url: "/pages/drugStore/InitDrug/initDrugDetail/initDrugDetail?drugType=" + e.detail.drugType + '&listModel=' + listModelString + '&isEdit=0',
     });
   },
 
@@ -151,7 +151,7 @@ Page({
     }
     var listModelString = JSON.stringify(e.detail.listModel);
     wx.navigateTo({
-      url: "/pages/drugStore/InitDrug/initDrugDetail/initDrugDetail?drugType=" + e.detail.drugType + '&listModel=' + listModelString,
+      url: "/pages/drugStore/InitDrug/initDrugDetail/initDrugDetail?drugType=" + e.detail.drugType + '&listModel=' + listModelString + '&isEdit=0',
     });
   },
 
@@ -170,7 +170,7 @@ Page({
     }
     var listModelString = JSON.stringify(e.detail.listModel);
     wx.navigateTo({
-      url: "/pages/drugStore/InitDrug/initDrugDetail/initDrugDetail?drugType=" + e.detail.drugType + '&listModel=' + listModelString,
+      url: "/pages/drugStore/InitDrug/initDrugDetail/initDrugDetail?drugType=" + e.detail.drugType + '&listModel=' + listModelString + '&isEdit=0',
     });
   },
 
@@ -182,16 +182,44 @@ Page({
     var index = Number(e.detail.value);
     switch (index) {
       case 0:
-        console.log('扫码')
+        console.log('扫码添加');
         break;
       case 1:
-        console.log('手动')
+        console.log('搜索添加');
         break;
       case 2:
+        console.log('自定义添加');
+        var listModel = this.initListModel();
+        var listModelString = JSON.stringify(listModel);
         wx.navigateTo({
-          url: '/pages/drugStore/InitDrug/initDrugDetail/initDrugDetail',
-        })
+          url: '/pages/drugStore/InitDrug/initDrugDetail/initDrugDetail?listModel=' + listModelString + '&isEdit=0',
+        });
         break;
     }
-  }
+  },
+
+  /**
+   * 初始化模型(自定义添加)
+   */
+  initListModel:function(){
+    var listModel = initDrugJs.createListModel();
+    //1、确定当前药品类型
+    var drugType = {
+      id:1,
+      key_name:''
+    };
+    drugType.id = this.data.selectIndex + 1;
+    drugType.key_name = this.data.titlesArr[this.data.selectIndex];
+    listModel.dug_type = drugType;
+    //2、is_basic
+    var is_basic = {
+      id: 0,
+      key_name: ''
+    };
+    listModel.is_basic = is_basic;
+    console.log('初始化模型----------');
+    console.log(listModel);
+    return listModel;
+  },
+
 })

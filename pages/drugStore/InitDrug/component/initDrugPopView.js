@@ -2,6 +2,7 @@
 const app = getApp()
 //网络请求
 var initDrugJs = require('../../../../api/initDrugRequest/initDrugRequest.js');
+var drugJs = require('../../../../api/drugRequest/drugRequest.js');
 
 Component({
   /**
@@ -34,7 +35,7 @@ Component({
     itemDataSource:[],
     //true:隐藏 false:显示
     hideModal:true,
-    //列表类型(1:剂型列表、2:处方单位、3:拆零单位、4:服用单位)
+    //列表类型(1:剂型列表、2:处方单位、3:拆零单位、4:服用单位、5:供应商)
     listType:'',
     //标题
     title:'',
@@ -43,7 +44,9 @@ Component({
     //当前选中的item
     currentIndex:0,
     //当前输入的单位内容
-    addUnitString:''
+    addUnitString:'',
+    //底部内容
+    bottomTitle:'增加单位'
   },
 
   /**
@@ -62,9 +65,14 @@ Component({
       if (e == 1){//剂型
         this.data.title = '选择剂型';
         this.data.subTitle = '剂型选择';
-      }else{
+      }else if(e == 7){//供应商
         this.data.title = '选择单位';
         this.data.subTitle = '单位选择';
+        this.data.bottomTitle = '增加单位';
+      }else{//单位
+        this.data.title = '选择供应商';
+        this.data.subTitle = '供应商选择';
+        this.data.bottomTitle = '增加供应商';
       }
       this.data.listType = e;
       this.setData({
@@ -72,7 +80,8 @@ Component({
         listType: e,
         title: this.data.title,
         subTitle: this.data.subTitle,
-        addUnitString: this.data.addUnitString
+        addUnitString: this.data.addUnitString,
+        bottomTitle: this.data.bottomTitle
       });
       //3、创建动画
       this.animation = this.createAnimation();
@@ -81,10 +90,13 @@ Component({
       setTimeout(function () {
         that.fadeIn();//调用显示动画
       }, 200);
-      //5、请求列表(1:剂型、2:处方单位、3:拆零单位、4:剂量单位)
+      //5、请求列表(1:剂型、2:处方单位、3:拆零单位、4:剂量单位、5:供应商)
       if (e == 1){//剂型
         this.loadDrugFormList();
-      }else{//单位
+      }else if(e == 5){//供应商
+        this.loadVendorList();
+      }
+      else{//单位
         this.loadDrugUnitList();
       }
     },
@@ -181,6 +193,24 @@ Component({
     },
 
     /**
+     * 查询供应商
+     */
+    loadVendorList:function(e){
+      console.log('查询供应商');
+      var that = this;
+      drugJs.downloadVendorRequest(function (success) {
+        that.data.itemDataSource = that.data.itemDataSource.concat(success);
+        that.setData({
+          itemDataSource: that.data.itemDataSource
+        });
+      }, function (fail) {
+        wx.showToast({
+          title: '网络加载失败',
+        })
+      });
+    },
+
+    /**
      * 增加单位网络请求
      */
     addUnitToList:function(unit){
@@ -195,6 +225,30 @@ Component({
         var resultDict = {
           drugformId: success.id,
           key_name:success.key_name
+        };
+        that.triggerEventMethod(resultDict);
+      }, function (fail) {
+        wx.showToast({
+          title: '网络加载失败',
+        })
+      });
+    },
+
+    /**
+     * 增加供应商网络请求
+     */
+    addVendorToList: function (vendor){
+      console.log('增加供应商网络请求');
+      var that = this;
+      initDrugJs.addVendorToList(vendor, function (success) {
+        //提示语
+        wx.showToast({
+          title: '增加成功',
+        });
+        //选中后触发事件
+        var resultDict = {
+          drugformId: success.id,
+          key_name: success.key_name
         };
         that.triggerEventMethod(resultDict);
       }, function (fail) {
@@ -230,8 +284,12 @@ Component({
     clickSureButton:function(e){
       console.log('点击确定按钮------');
       //1、判断是否是新增单位(优先级高)
-      if (this.data.addUnitString){//增加单位
-        this.addUnitToList(this.data.addUnitString);
+      if (this.data.addUnitString){//增加单位/供应商
+        if(this.data.listType == 5){//供应商
+          this.addVendorToList(this.data.addUnitString);
+        }else{//单位
+          this.addUnitToList(this.data.addUnitString);
+        }
       }else{//非增加单位
         //2、判断有没有选中
         var itemModel = this.data.itemDataSource[this.data.currentIndex];

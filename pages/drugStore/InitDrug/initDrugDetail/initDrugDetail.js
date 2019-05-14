@@ -2,9 +2,9 @@
 const app = getApp()
 //网络请求
 var initDrugJs = require('../../../../api/initDrugRequest/initDrugRequest.js');
+var drugJs = require('../../../../api/drugRequest/drugRequest.js');
 
 Page({
-
   /**
    * 页面的初始数据
    */
@@ -25,10 +25,11 @@ Page({
       "5个月",
       "6个月",
     ],
-    priceItem:'',
-    manufacturerArray:[],//联想厂商
     isPrescriptionDrug:false,//是否在处方中开过药
     isHidePopManufacturer:true,//是否隐藏联想列表
+    isEdit:true,//当前是否是编辑界面
+    vendorArray:[],//供应商数组
+    warehouseArray:[],//仓库数组
   },
 
   /**
@@ -37,34 +38,24 @@ Page({
   onLoad: function  (options) {
     console.log('options----药品初始化详情');
     console.log(options);
-    //1、隐藏厂商联想列表
-    this.setData({
-      isHidePopManufacturer: this.data.isHidePopManufacturer
-    });
-    //2、屏幕尺寸设置
-    this.data.screenWidth = wx.getSystemInfoSync().windowWidth;
-    this.data.screenHeight = wx.getSystemInfoSync().windowHeight;
-    console.log(this.data.screenWidth);
-    console.log(this.data.screenHeight);
-    this.setData({
-      screenWidth: this.data.screenWidth,
-      screenHeight: this.data.screenHeight
-    });
-    //3、初始化数据
+    //1、初始化界面数据
+    this.initData(options);
+    //2、初始化模型数据
     var listModel = JSON.parse(options.listModel);  
-    this.initData(listModel);
+    this.initModelData(listModel);
+    //3、设置其它模型初始化数据
+    this.setOtherModelPrivateData();
     //4、查询是否已经在处方开过药(决定能否更改药品类型)
-    var that = this;
-    initDrugJs.checkUse(this.data.listModel.drugId,function(success){
-      if(success == 311){//开过药品
-        that.data.isPrescriptionDrug = true;
-      }else{
-        that.data.isPrescriptionDrug = false;
-      }
-    },function(fail){
-      that.data.isPrescriptionDrug = false;
-    });
-
+    if(this.data.isEdit){//可编辑
+      this.checkisPrescriptionDrug();
+    }else{//不可编辑
+      this.data.drugTypeArray = ['西药', '中成药','中药','医疗器械'];
+      this.setData({
+        drugTypeArray: this.data.drugTypeArray
+      });
+    }
+    //5、获取仓库和供应商列表
+    this.getVendorAndWarehouseList();
   },
 
   /**
@@ -117,11 +108,36 @@ Page({
   },
 
   /**
+   * 初始化界面数据
+   */
+  initData: function (options){
+    //1、隐藏厂商联想列表
+    this.setData({
+      isHidePopManufacturer: this.data.isHidePopManufacturer
+    });
+    //2、屏幕尺寸设置
+    this.data.screenWidth = wx.getSystemInfoSync().windowWidth;
+    this.data.screenHeight = wx.getSystemInfoSync().windowHeight;
+    console.log(this.data.screenWidth);
+    console.log(this.data.screenHeight);
+    this.setData({
+      screenWidth: this.data.screenWidth,
+      screenHeight: this.data.screenHeight
+    });
+    //3、判断是否是编辑
+    (options.isEdit == 0) ? (this.data.isEdit = false) : (this.data.isEdit = true);
+    this.setData({
+      isEdit: this.data.isEdit
+    });
+  },
+
+  /**
    * 数据初始化
    */
-  initData:function(listModel){
+  initModelData:function(listModel){
     //1、对图片进行特殊处理
-    if (listModel.image != '/image/img_ypmr.png') {
+    if ((listModel.image != '/image/img_ypmr.png') && 
+      (listModel.image != ''))  {
       listModel.image = decodeURIComponent(listModel.image);
       this.data.selectImage = listModel.image;
       this.data.imageTipTitle = "点击查看大图";
@@ -131,11 +147,13 @@ Page({
       });
     }
     //2、是否禁止药品类型选择
-    var dugType = listModel.dug_type ? listModel.dug_type.id : 1;
-    if ((dugType == 3) || (dugType == 4)){
-      this.data.disabledDrugType = true;
-    }else{
-      this.data.disabledDrugType = false;
+    if(this.data.isEdit){//可编辑状态才可以
+      var dugType = listModel.dug_type ? listModel.dug_type.id : 1;
+      if ((dugType == 3) || (dugType == 4)) {
+        this.data.disabledDrugType = true;
+      } else {
+        this.data.disabledDrugType = false;
+      }
     }
     //3、模型赋值
     this.data.listModel = listModel;
@@ -143,7 +161,96 @@ Page({
       listModel: this.data.listModel,
       disabledDrugType:this.data.disabledDrugType
     });
+  },
 
+  /**
+   * 设置模型其它初始化数据
+   */
+  setOtherModelPrivateData:function(){
+    console.log('设置模型其它初始化数据');
+    //1、处理空值
+    initDrugJs.dealEmptyValue(this.data.listModel);
+    //2、处理所有单位
+    initDrugJs.dealAllUnit(this.data.listModel);
+    //3、处理规格
+    initDrugJs.dealSpec(this.data.listModel);   
+    //4、刷新界面
+    this.setData({
+      listModel: this.data.listModel
+    });
+    console.log(this.data.listModel);
+  },
+
+  /**
+   * 检查是否已经开过药品
+   */
+  checkisPrescriptionDrug:function(){
+    console.log('检查是否已经开过药品======');
+    var that = this;
+    initDrugJs.checkUse(this.data.listModel.drugId, function (success) {
+      if (success == 311) {//开过药品
+        that.data.isPrescriptionDrug = true;
+      } else {
+        that.data.isPrescriptionDrug = false;
+      }
+    }, function (fail) {
+      that.data.isPrescriptionDrug = false;
+    });
+  },
+
+  /**
+   * 获取仓库和供应商列表
+   */
+  getVendorAndWarehouseList:function(){
+    var that = this;
+    //1、判断模型的仓库是否为空
+    if (!this.data.listModel.warehouse_id){//为空
+      drugJs.downloadWarehouseRequest(function (success) {
+        //1、仓库数组赋值
+        that.data.warehouseArray = [];
+        that.data.warehouseArray = that.data.warehouseArray.concat(success);
+        //2、模型赋值
+        var firstModel = that.data.warehouseArray[0];
+        var dict = {
+          id: firstModel.id,
+          key_name: firstModel.key_name
+        }
+        that.data.listModel.warehouse_id = dict;
+        //3、刷新界面
+        that.setData({
+          listModel: that.data.listModel,
+          warehouseArray: that.data.warehouseArray,
+        });
+      }, function (fail) {
+         wx.showToast({
+           title: '网络加载失败',
+         });
+      });
+    }  
+    //2、判断模型的供应商是否为空
+    if (!this.data.listModel.vendor_id){//为空
+      drugJs.downloadVendorRequest(function (success) {
+        //1、供应商数组赋值
+        that.data.vendorArray = [];
+        that.data.vendorArray = that.data.vendorArray.concat(success);
+        //2、模型赋值
+        var firstModel = that.data.vendorArray[0];
+        var dict = {
+          id: firstModel.id,
+          key_name: firstModel.key_name
+        }
+        that.data.listModel.vendor_id = dict;
+        //3、刷新界面
+        that.setData({
+          vendorArray: that.data.vendorArray,
+          listModel: that.data.listModel
+        });
+      }, function (fail) {
+        wx.showToast({
+          title: '网络加载失败',
+        })
+      });
+    }
   },
 
   /**
@@ -400,7 +507,6 @@ Page({
    */
   choosePrice: function (e) {
     console.log('价格管理=======');
-    console.log(this.data.priceItem);
     //1、处理模型参数
     //这里要对image进行特殊编码(防止出现特殊字符)
     var listModel = this.data.listModel;
@@ -470,6 +576,99 @@ Page({
   },
 
   /**
+   * 选择仓库
+   */
+  bindWarehouseChange:function(e){
+    console.log('选择仓库-------');
+    console.log(e);
+    //取值
+    var value = e.detail.value;
+    var model = this.data.warehouseArray[value];
+    //赋值
+    var dict = {
+      id: model.id,
+      key_name: model.key_name
+    };
+    this.data.listModel.warehouse_id = dict;
+    //刷新
+    this.setData({
+      listModel:this.data.listModel
+    });
+  },
+
+  /**
+   * 选择供应商
+   */
+  chooseVendor:function(){
+    console.log('选择包装单位-----');
+    this.data.hasMask = true;
+    this.setData({
+      hasMask: this.data.hasMask
+    });
+    var modelView = this.selectComponent("#initDrugPopView");
+    //展示模版(5:代表供应商)
+    modelView.showModal(5);
+  },
+
+  /**
+   * 点击多个生产日期
+   */
+  clickManyDate:function(e){
+    console.log('点击多个生产日期');
+    //1、处理模型参数
+    //这里要对image进行特殊编码(防止出现特殊字符)
+    var listModel = this.data.listModel;
+    if (listModel.image != '/image/img_ypmr.png') {//编码
+      listModel.image = encodeURIComponent(listModel.image);
+    }
+    //2、传递模型(转换json字符串)
+    var listModelString = JSON.stringify(listModel);
+    wx.navigateTo({
+      url: '/pages/drugStore/InitDrug/addBatchList/addBatchList?listModel=' + listModelString,
+    });
+  },
+
+  /**
+   * 选择失效日期
+   */
+  bindChooseExpireDate:function(e) {
+    console.log('选择失效日期');
+    console.log(e);
+    //选取的日期
+    var val = e.detail.value;
+    //当前的位置
+    var currentIndex = e.target.dataset.index;
+    //刷新模型
+    var beginJson = this.data.listModel.begin_json;
+    var dict = beginJson[currentIndex];
+    dict.expire_date = val;
+    //刷新界面
+    this.setData({
+      listModel: this.data.listModel
+    });
+  },
+
+  /**
+   * 输入库存
+   */
+  localCountInput:function(e){
+    console.log('输入库存');
+    console.log(e.detail.value);
+    //输入的数值
+    var value = e.detail.value;
+    //当前的位置
+    var currentIndex = e.target.dataset.index;
+    //刷新模型
+    var beginJson = this.data.listModel.begin_json;
+    var dict = beginJson[currentIndex];
+    dict.count = val;
+    //刷新界面
+    this.setData({
+      listModel: this.data.listModel
+    });
+  },
+
+  /**
    * 取消弹出框图层
    */
   cancelHasMask: function (e) {
@@ -508,10 +707,12 @@ Page({
       this.data.listModel.rx_name = itemDict.key_name;
       //刷新规格
       initDrugJs.dealSpec(this.data.listModel);
-    }else{//服用单位
+    } else if (e.detail.listType == 4){//服用单位
       this.data.listModel.single_name = itemDict.key_name;
       //刷新规格
       initDrugJs.dealSpec(this.data.listModel);
+    }else{//供应商
+      this.data.listModel.vendor_id = itemDict;
     }
     //3、刷新界面
     this.setData({
@@ -562,6 +763,24 @@ Page({
     this.setData({
       listModel: this.data.listModel
     });
+  },
+
+  /**
+   * 生产批次反向传值
+   */
+  batchListBackData:function(data){
+    //json字符串解析
+    var json = JSON.parse(data);
+    //赋值
+    this.data.listModel.begin_json = [];
+    this.data.listModel.begin_json = json;
+    //刷新界面
+    this.setData({
+      listModel: this.data.listModel
+    });
+
+    console.log('生产批次反向传值------');
+    console.log(this.data.listModel.begin_json);
   },
 
   /**

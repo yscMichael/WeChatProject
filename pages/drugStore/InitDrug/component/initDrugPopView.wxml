@@ -31,7 +31,7 @@
           <!-- 5、单位相关 -->
           <view class='bottom-view'
                 hidden='{{listType == 1 ? true : false}}'>
-            <view class='bottom-title'>增加单位</view>
+            <view class='bottom-title'>{{bottomTitle}}</view>
             <input class='bottom-input'
                    bindinput="unitInput">{{addUnitString}}</input>
           </view>

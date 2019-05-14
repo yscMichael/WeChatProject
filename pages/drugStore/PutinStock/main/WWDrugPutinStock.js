@@ -62,12 +62,6 @@ Page({
       var rows = success.rows;
       that.data.vendorArray = [];
       that.data.vendorArray = that.data.vendorArray.concat(rows);
-      // var array = [];
-      // for (let i = 0; i < rows.length; i++) {
-      //   var vendorDict = rows[i];
-      //   //添加到数组
-      //   array.push(vendorDict.key_name);
-      // }
       that.setData({
         vendorArray: that.data.vendorArray,
       })

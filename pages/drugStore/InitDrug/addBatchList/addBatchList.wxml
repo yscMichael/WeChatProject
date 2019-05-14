@@ -1,0 +1,57 @@
+<!-- 1、添加批次按钮 -->
+<view class='top-button'
+      bindtap='addBatch'>添加批次</view>
+<!-- 2、列表 -->
+<scroll-view class='scroll-view-main'
+             scroll-y="true">
+  <!-- 失效日期和库存 -->
+  <block wx:for="{{listModel.begin_json}}" 
+          wx:key="index">
+    <!-- 标题 -->
+    <view class='head-view'>
+      <view class='head-title'>第{{index + 1}}批药品</view>
+      <image class='head-button'
+             catchtap='clickDeleteButton'
+             data-index='{{index}}'
+             src='/image/drug_delete.png'></image>
+    </view>
+    <!-- 失效日期 -->
+    <picker mode="date" 
+            value="{{drugPutinDate}}" 
+            start="2000-01-01" 
+            end="2100-01-01"
+            data-index='{{index}}' 
+            bindchange="bindChooseExpireDate">
+      <view class='out-date'>
+        <view class='flag flag-white'>*</view>
+        <view class='title'>失效日期</view>
+        <input class='right-content'
+              placeholder='请选择'
+              value='{{item.expire_date}}'
+              disabled='disabled'>    
+        </input>
+        <image class='moreButton'
+                src='/image/more.png'></image>
+      </view>
+    </picker>  
+    <!-- 分割线 -->
+    <view class='line-small'></view>
+    <!-- 期初库存 -->
+    <view class='out-date'>
+      <view class='flag flag-white'>*</view>
+      <view class='title'>期初库存</view>
+      <input class='right-content'
+              data-index='{{index}}'
+              bindinput='localCountInput'
+              value='{{item.count}}'
+              placeholder='请输入库存'>    
+      </input>
+    </view>
+  </block>
+  <!-- 分割线 -->
+  <view class='line-big'></view>             
+</scroll-view>
+<!-- 3、底部保存按钮 -->
+<view class='bottom-button'
+      bindtap='clickSureButton'>确定</view>
+

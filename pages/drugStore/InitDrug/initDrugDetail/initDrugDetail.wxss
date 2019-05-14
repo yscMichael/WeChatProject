@@ -57,6 +57,12 @@ Page {
   background-color: white;
 }
 
+.many-date-view{
+  display: flex;
+  align-items: center;
+  background-color: white;
+}
+
 .manufacturer-main-view{
   position: relative;
   background-color: blue;
@@ -95,12 +101,32 @@ Page {
   font-size: 15px;
 }
 
+.title-blue{
+  padding: 10px 10px 10px 0px;
+  flex: 0 0 110px;
+  color: #45A7FB;
+  font-size: 15px;
+  margin-left: 15px;
+}
+
 .right-content{
   flex-grow: 1;
   text-align: right;
   color: #333333;
   font-size: 15px;
   margin-right: 10px;
+}
+
+.date-image-view{
+  flex-grow: 1;
+  text-align: right;
+  color: #333333;
+  font-size: 15px;
+}
+
+.many-date-image{
+  width: 18px;
+  height: 18px;
 }
 
 .moreButton{

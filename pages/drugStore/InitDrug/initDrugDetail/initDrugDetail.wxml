@@ -99,7 +99,6 @@
   <!-- 药品类型 -->
   <picker mode="selector" 
           bindchange="bindDrugTypeChange" 
-          value="{{drugTypeIndex}}" 
           range="{{drugTypeArray}}"
           disabled='{{disabledDrugType}}'>
     <view class='out-date'>
@@ -122,7 +121,7 @@
     <view class='flag'>*</view>
     <view class='title'>剂型</view>
     <input class='right-content'
-           placeholder='请输入通用名'
+           placeholder='剂型'
            disabled='disabled'
            value="{{listModel.drug_forms_name}}">    
     </input>
@@ -343,7 +342,8 @@
   <!-- 分割线(小) -->
   <view class='line-small'></view>
   <!-- 库存 -->
-  <view class='out-date'>
+  <view class='out-date'
+        hidden='{{!isEdit}}'>
     <view class='flag flag-white'>*</view>
     <view class='title'>库存</view>
     <input class='right-content'
@@ -351,6 +351,98 @@
            value='{{listModel.realCount}}'>    
     </input>
   </view>
+  <!-- 仓库 -->
+  <picker mode="selector" 
+          bindchange="bindWarehouseChange"
+          value="{{wareIndex}}"
+          range-key="{{'key_name'}}"
+          range="{{warehouseArray}}">
+    <view class='out-date'
+          hidden='{{isEdit}}'>
+      <view class='flag'>*</view>
+      <view class='title'>仓库</view>
+      <input class='right-content'
+             placeholder='请选择'
+             disabled='disabled'
+             value="{{listModel.warehouse_id ? listModel.warehouse_id.key_name : ''}}">    
+      </input>
+      <image class='moreButton'
+             src='/image/more.png'></image>
+    </view>
+  </picker>        
+  <!-- 分割线 -->
+  <view class='line-small'></view>
+  <!-- 供应商 -->
+  <view class='out-date'
+        catchtap='chooseVendor'
+        hidden='{{isEdit}}'>
+    <view class='flag'>*</view>
+    <view class='title'>供应商</view>
+    <input class='right-content'
+           placeholder='请选择'
+           disabled='disabled'
+           value="{{listModel.vendor_id ? listModel.vendor_id.key_name : ''}}">    
+    </input>
+    <image class='moreButton'
+           src='/image/more.png'></image>
+  </view>
+  <!-- 生产日期相关 -->
+  <view class='production-date-view'
+        hidden='{{isEdit}}'>
+    <!-- 分割线 -->
+    <view class='line-big'></view>
+    <!-- 有多个生产日期 -->
+    <view class='many-date-view'
+          catchtap='clickManyDate'>
+      <view class='title-blue'>增加生产日期</view>
+      <view class='date-image-view'>
+        <image class='moreButton'
+               src='/image/more.png'></image>
+      </view>
+    </view>
+    <!-- 分割线 -->
+    <view class='line-small'></view>  
+    <!-- 失效日期和库存 -->
+    <block wx:for="{{listModel.begin_json}}" 
+           wx:key="index">
+      <!-- 失效日期 -->
+      <picker mode="date" 
+              value="{{drugPutinDate}}" 
+              start="2000-01-01" 
+              end="2100-01-01"
+              data-index='{{index}}' 
+              bindchange="bindChooseExpireDate">
+        <view class='out-date'>
+          <view class='flag flag-white'>*</view>
+          <view class='title'>失效日期</view>
+          <input class='right-content'
+                 placeholder='请选择'
+                 value='{{item.expire_date}}'
+                 disabled='disabled'>    
+          </input>
+          <image class='moreButton'
+                 src='/image/more.png'></image>
+        </view>
+      </picker>  
+      <!-- 分割线 -->
+      <view class='line-small'></view>
+      <!-- 期初库存 -->
+      <view class='out-date'>
+        <view class='flag flag-white'>*</view>
+        <view class='title'>期初库存</view>
+        <input class='right-content'
+               data-index='{{index}}'
+               bindinput='localCountInput'
+               value='{{item.count}}'
+               placeholder='请输入库存'>    
+        </input>
+      </view>
+      <!-- 分割线 -->
+      <view class='line-big'></view>   
+    </block>
+  </view>
+  <!-- 分割线 -->
+  <view class='line-big'></view>   
   <!-- 底部保存按钮 -->
   <view class='bottom-button'
         bindtap='clickSureButton'>保存</view>

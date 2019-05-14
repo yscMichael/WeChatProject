@@ -8,7 +8,8 @@
       <view class='WWDrugPutinStockSelectView'>
         <picker mode="selector" 
                 bindchange="bindWarehouseChange" 
-                value="{{wareIndex}}" 
+                value="{{wareIndex}}"
+                range-key="{{'key_name'}}" 
                 range="{{warehouseArray}}">
           <!-- 标题 -->
           <view class='SelectViewLeftChildView'>入库仓库</view>
@@ -24,7 +25,8 @@
       <view class='WWDrugPutinStockSelectView'>
         <picker mode="selector" 
                 bindchange="bindVendorChange" 
-                value="{{vendorIndex}}" 
+                value="{{vendorIndex}}"
+                range-key="{{'key_name'}}" 
                 range="{{vendorArray}}">
           <!--标题-->
           <view class='SelectViewLeftChildView'>供应商</view>

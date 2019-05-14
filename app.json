@@ -25,7 +25,8 @@
     "pages/clinic/send/sendDetail/sendDetail",
     "pages/clinic/patient/addEditPatient/addEditPatient",
     "pages/drugStore/PutinStock/storageList/storageList",
-    "pages/drugStore/PutinStock/storageDetail/storageDetail"
+    "pages/drugStore/PutinStock/storageDetail/storageDetail",
+    "pages/drugStore/InitDrug/addBatchList/addBatchList"
   ],
   "window": {
     "backgroundTextStyle": "light",

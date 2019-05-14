@@ -16,6 +16,30 @@ function getRequest(url, params, onSuccess, onFail){
 }
 
 /**
+ * 根据药品条形码查询第三方药品信息
+ */
+function loadDrugInfoWithCode(code, onSuccess, onFail){
+  var key = '5fa59e9d68bb357dd3ce5187174df6a1';
+  var url = 'http://api.3023data.com/barcode/barcode?barcode=' + code;
+
+  wx.request({
+    url: url,
+    header: {'key': key},//请求头
+    method: "GET",
+    dataType: 'json',//返回数据格式
+    success: function (res) {
+      onSuccess(res);
+    },
+    fail: function (error) {
+      onFail(error);
+    },
+    complete: function (res) {
+      console.log('完成-------');
+    },
+  }) 
+}
+
+/**
  * 网络请求封装
  * @url 请求地址
  * @params 参数
@@ -48,5 +72,6 @@ function request(url, params, method, onSuccess, onFail){
  */
 module.exports = {
   postRequest: postRequest,
-  getRequest: getRequest
+  getRequest: getRequest,
+  loadDrugInfoWithCode: loadDrugInfoWithCode
 }

@@ -462,65 +462,84 @@ function makePostDataParam(drugModel,isEdit){
   return paramDict;
 }
 
-//查询药品是否存在基础库???????????
-function judgeDrugWhetherInBasic(code, onSuccess, onFail) {
+/**
+ * 药品初始化扫码网络请求-----根据条形码请求药品信息(202:药品已经初始化过、200:代表尚未初始化过 )
+ */
+function loadDrugInfoFirstByCode(code, onSuccess, onFail) {
   var params = {
     _userid: app.globalData.userId,
     _password: app.globalData.password,
     uuid: code
   }
-  netJs.getRequest('/cloud/prj/gmi/base/api/BaseApi?op=DrugFromBasic', params,
+  netJs.getRequest('cloud/prj/gmi/base/api/BaseApi?op=DrugFromBasic', params,
     function (success) {
-      var stateCode = success.data.code;
-      onSuccess(stateCode);
+      console.log('根据条形码请求药品信息');
+      console.log(success);
     },
     function (fail) {
       onFail(fail);
     });
 }
 
-//根据条形码请求药品信息???????????
-function loadDrugDataByCode(code, onSuccess, onFail) {
+/**
+ * 1.1、根据条形码获取药品信息(202:药品已经初始化过)
+ */
+function getDrugWithKeyWord(code, onSuccess, onFail){
   var params = {
     _userid: app.globalData.userId,
     _password: app.globalData.password,
-    uuid: code
+    key_word: code,
+    page:1,
+    rows:10
   }
   netJs.getRequest('/app?op=Page&cloud=drug', params,
     function (success) {
-      var stateCode = success.data.code;
-      if (stateCode == 200) {
+      console.log('202状态下获取药品信息');
+      //取数组的第一个
+      //review_state判断是否已经禁用、走失败，给出提示
+      console.log(success);
+      //成功后、弹出提示框
+      //该药品已初始化，是否修改？
+      //点击否，继续扫描
+      //点击是，进入编辑界面，isEdit=YES，把请求到的模型弄进去
+    },
+    function (fail) {
+      onFail(fail);
+    });
+} 
 
-        var rows = success.data.rows;
-        if (rows.length > 0) {
-          var durgDict = rows[0];
+/**
+ * 2.1、查询药品是否存在基础库(200:药品没有初始化过)
+ */
+function checkDrugisFromBasicStorage(code, onSuccess, onFail){
+  var params = {
+    _userid: app.globalData.userId,
+    _password: app.globalData.password,
+    page: 1,
+    rows:50,
+    key_word:code
+  }
+  netJs.getRequest('/app?op=Page&cloud=drug_basis', params,
+    function (success) {
+      //判断rows数组数量是否大于0，否则按照失败处理
+      //如果成功的话、对数组进行处理
+      //id
+      //begin_json
+      //image
 
-          var drugModel = {
-            drugId: durgDict.id,                  //药品id
-            common_name: drugDict.common_name,    //通用名
-            key_name: drugDict.key_name,          //商品名
-            manufacturer: drugDict.manufacturer,  //厂家
-            spec: durgDict.spec,                  //规格
-            drug_forms: durgDict.drug_forms,      //剂型
-            image: '',                            //图片
-            count: 0,                             //数量
-            price: drugDict.cost,                 //价格
-            expire_date: '',                      //有效期至
-          }
-          var imageArr = drugDict.image;
-          drugModel.image = imageArr[0].url + '&_password=' +
-            app.globalData.password + '&_userid=' + app.globalData.userId;
-          onSuccess(drugModel);
-        }
-        else {
-          onSuccess('');
-        }
-      }
+      //如果查询到的数组为空、证明基础库不存在、继续用code进行第三方查询
+      //不过这个时候走的自定义添加的路线，只不过是，刚开始有数据罢了
     },
     function (fail) {
       onFail(fail);
     });
 }
+
+/**
+ * 根据条形码查询第三方药品信息
+ */
+
+
 
 /**
  * 药品列表数据处理
@@ -871,5 +890,6 @@ module.exports = {
   checkUse: checkUse,
   chineseAndWestUsage: chineseAndWestUsage,
   createListModel: createListModel,
-  addVendorToList: addVendorToList
+  addVendorToList: addVendorToList,
+  loadDrugInfoFirstByCode: loadDrugInfoFirstByCode
 }

@@ -804,12 +804,17 @@ Page({
       //2、刷新界面
       prevPage.refreshData();
       //3、返回界面
-      wx.navigateBack({
+      wx.showToast({
+        title: '保存成功',
       });
+      setTimeout(function () {
+        wx.navigateBack({
+        });
+      }, 1000);
     },function(fail){
        wx.hideLoading();
        wx.showToast({
-         title: '网络加载失败',
+         title: fail,
        }); 
     });
   }

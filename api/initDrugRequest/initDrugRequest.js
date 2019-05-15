@@ -252,17 +252,26 @@ function getFrequencyList(onSuccess, onFail) {
 function postAllData(drugModel, isEdit, onSuccess, onFail){
   //1、参数
   var params = makePostDataParam(drugModel);
-  var url = isEdit ? '/app?op=Modify&cloud=drug' : '/app?op=Add&cloud=drug';
+  var url = isEdit ? '/app?op=Modify&cloud=drug' : '/cloud/prj/gmi/base/api/BaseApi?op=DrugInitialize';
   //2、网络请求
   netJs.getRequest(url, params,
     function (success) {
       console.log('药品初始化修改或者增加接口-----success');
       console.log(success);
-      onSuccess();
+      if(success.data.code == 200){//保存成功
+        onSuccess();  
+      }else{//失败
+        var tips = success.data.remark;
+        if(tips){
+          onFail(tips);
+        }else{
+          onFail('网络加载失败');
+        }
+      }
     },
     function (fail) {
       console.log('药品初始化修改或者增加接口-----fail');
-      onFail(fail);
+      onFail('网络加载失败');
     });
 }
 
@@ -585,7 +594,7 @@ function searchDrugFromBasis(key_word, dug_type, page, rows, onSuccess, onFail){
     _password: app.globalData.password,
     page: page,
     rows: rows,
-    dug_type: 1,
+    dug_type: dug_type,
     key_word: key_word
   }
   netJs.getRequest('/app?op=Page&cloud=drug_basis', params,
@@ -692,8 +701,13 @@ function dealDrugsArrayData(drugsArr) {
     //2、处理图片
     if (drugDict.image) {
       var imageArr = drugDict.image;
-      drugModel.image = imageArr[0].url + '&_password=' +
-        app.globalData.password + '&_userid=' + app.globalData.userId;
+      //要接着判断数组是否大于0
+      if (imageArr.length > 0){
+        drugModel.image = imageArr[0].url + '&_password=' +
+          app.globalData.password + '&_userid=' + app.globalData.userId;
+      }else{
+        drugModel.image = '/image/img_ypmr.png';
+      }
     }
     else {
       drugModel.image = '/image/img_ypmr.png';

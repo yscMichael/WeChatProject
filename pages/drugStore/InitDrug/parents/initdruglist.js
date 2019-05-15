@@ -15,6 +15,14 @@ Page({
     selectIndex: 0,
     // 初始化药品方式
     initDrugTypeArr:['扫码添加', '搜索添加', '自定义添加'],
+    //西药数量
+    westCount:0,
+    //中成药数量
+    specialCount:0,
+    //中药数量
+    chineseCount:0,
+    //医疗器械数量
+    instrumentCount:0
   },
 
   /**
@@ -82,6 +90,10 @@ Page({
     this.selectComponent("#specialChineseDrugList").specialChineseRefresh();
     this.selectComponent("#chineseDrugList").chineseRefresh();
     this.selectComponent("#instrumentList").instrumentRefresh();
+    //设置初始数值
+    this.setData({
+      totalcount: this.data.westCount
+    });
   },
 
   /**
@@ -92,6 +104,8 @@ Page({
     this.setData({
       selectIndex: this.data.selectIndex
     });
+    //更新底部数据
+    this.changeBottomCount(this.data.selectIndex);
   },
 
   /**
@@ -103,6 +117,36 @@ Page({
     this.setData({
       selectIndex: this.data.selectIndex
     });
+    //更新底部数据
+    this.changeBottomCount(this.data.selectIndex);
+  },
+
+  /**
+   * 更新底部数据
+   */
+  changeBottomCount: function (selectIndex){
+    console.log('更新底部数据');
+    if (selectIndex == 0){//西药
+      this.setData({
+        totalcount:this.data.westCount
+      });
+    }else if(selectIndex == 1){//中成药
+      this.setData({
+        totalcount: this.data.specialCount
+      });
+    }else if(selectIndex == 2){//中药
+      this.setData({
+        totalcount: this.data.chineseCount
+      });
+    }else if(selectIndex == 3){//医疗器械
+      this.setData({
+        totalcount: this.data.instrumentCount
+      });
+    }else{//西药
+      this.setData({
+        totalcount: this.data.westCount
+      });
+    }
   },
 
   /**
@@ -112,17 +156,22 @@ Page({
     console.log('点击西药cell---main');
     console.log(e.detail.drugType);
     console.log(e.detail.listModel);
-    
-    //这里要对image进行特殊编码(防止出现特殊字符)
-    var listModel = e.detail.listModel;
-    if (listModel.image != '/image/img_ypmr.png'){//编码
-      listModel.image = encodeURIComponent(listModel.image);
+    //判断drugType是否为0、为0的话就刷新底部数据
+    if (e.detail.drugType == 0){//当前传递的是数量
+      this.data.westCount = e.detail.count;
+      this.changeBottomCount(this.data.selectIndex);
+    }else{
+      //这里要对image进行特殊编码(防止出现特殊字符)
+      var listModel = e.detail.listModel;
+      if (listModel.image != '/image/img_ypmr.png') {//编码
+        listModel.image = encodeURIComponent(listModel.image);
+      }
+      var listModelString = JSON.stringify(e.detail.listModel);
+      //进入药品初始化详情
+      wx.navigateTo({
+        url: "/pages/drugStore/InitDrug/initDrugDetail/initDrugDetail?drugType=" + e.detail.drugType + '&listModel=' + listModelString + '&isEdit=1',
+      });
     }
-    var listModelString = JSON.stringify(e.detail.listModel);
-    //进入药品初始化详情
-    wx.navigateTo({
-      url: "/pages/drugStore/InitDrug/initDrugDetail/initDrugDetail?drugType=" + e.detail.drugType + '&listModel=' + listModelString + '&isEdit=1',
-    });
   },
 
   /**
@@ -132,16 +181,21 @@ Page({
     console.log('点击中成药cell---main');
     console.log(e.detail.drugType);
     console.log(e.detail.listModel);
-
-    //这里要对image进行特殊编码(防止出现特殊字符)
-    var listModel = e.detail.listModel;
-    if (listModel.image != '/image/img_ypmr.png') {//编码
-      listModel.image = encodeURIComponent(listModel.image);
+    //判断drugType是否为0、为0的话就刷新底部数据
+    if (e.detail.drugType == 0) {//当前传递的是数量
+      this.data.specialCount = e.detail.count;
+      this.changeBottomCount(this.data.selectIndex);
+    }else{
+      //这里要对image进行特殊编码(防止出现特殊字符)
+      var listModel = e.detail.listModel;
+      if (listModel.image != '/image/img_ypmr.png') {//编码
+        listModel.image = encodeURIComponent(listModel.image);
+      }
+      var listModelString = JSON.stringify(e.detail.listModel);
+      wx.navigateTo({
+        url: "/pages/drugStore/InitDrug/initDrugDetail/initDrugDetail?drugType=" + e.detail.drugType + '&listModel=' + listModelString + '&isEdit=1',
+      });
     }
-    var listModelString = JSON.stringify(e.detail.listModel);
-    wx.navigateTo({
-      url: "/pages/drugStore/InitDrug/initDrugDetail/initDrugDetail?drugType=" + e.detail.drugType + '&listModel=' + listModelString + '&isEdit=1',
-    });
   },
 
   /**
@@ -151,16 +205,21 @@ Page({
     console.log('点击中药cell---main');
     console.log(e.detail.drugType);
     console.log(e.detail.listModel);
-
-    //这里要对image进行特殊编码(防止出现特殊字符)
-    var listModel = e.detail.listModel;
-    if (listModel.image != '/image/img_ypmr.png') {//编码
-      listModel.image = encodeURIComponent(listModel.image);
+    //判断drugType是否为0、为0的话就刷新底部数据
+    if (e.detail.drugType == 0) {//当前传递的是数量
+      this.data.chineseCount = e.detail.count;
+      this.changeBottomCount(this.data.selectIndex);
+    }else{
+      //这里要对image进行特殊编码(防止出现特殊字符)
+      var listModel = e.detail.listModel;
+      if (listModel.image != '/image/img_ypmr.png') {//编码
+        listModel.image = encodeURIComponent(listModel.image);
+      }
+      var listModelString = JSON.stringify(e.detail.listModel);
+      wx.navigateTo({
+        url: "/pages/drugStore/InitDrug/initDrugDetail/initDrugDetail?drugType=" + e.detail.drugType + '&listModel=' + listModelString + '&isEdit=1',
+      });
     }
-    var listModelString = JSON.stringify(e.detail.listModel);
-    wx.navigateTo({
-      url: "/pages/drugStore/InitDrug/initDrugDetail/initDrugDetail?drugType=" + e.detail.drugType + '&listModel=' + listModelString + '&isEdit=1',
-    });
   },
 
   /**
@@ -170,16 +229,21 @@ Page({
     console.log('点击医疗器械cell---main');
     console.log(e.detail.drugType);
     console.log(e.detail.listModel);
-
-    //这里要对image进行特殊编码(防止出现特殊字符)
-    var listModel = e.detail.listModel;
-    if (listModel.image != '/image/img_ypmr.png') {//编码
-      listModel.image = encodeURIComponent(listModel.image);
+    //判断drugType是否为0、为0的话就刷新底部数据
+    if (e.detail.drugType == 0) {//当前传递的是数量
+      this.data.instrumentCount = e.detail.count;
+      this.changeBottomCount(this.data.selectIndex);
+    }else{
+      //这里要对image进行特殊编码(防止出现特殊字符)
+      var listModel = e.detail.listModel;
+      if (listModel.image != '/image/img_ypmr.png') {//编码
+        listModel.image = encodeURIComponent(listModel.image);
+      }
+      var listModelString = JSON.stringify(e.detail.listModel);
+      wx.navigateTo({
+        url: "/pages/drugStore/InitDrug/initDrugDetail/initDrugDetail?drugType=" + e.detail.drugType + '&listModel=' + listModelString + '&isEdit=1',
+      });
     }
-    var listModelString = JSON.stringify(e.detail.listModel);
-    wx.navigateTo({
-      url: "/pages/drugStore/InitDrug/initDrugDetail/initDrugDetail?drugType=" + e.detail.drugType + '&listModel=' + listModelString + '&isEdit=1',
-    });
   },
 
   /**

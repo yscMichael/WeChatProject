@@ -26,6 +26,8 @@ Component({
     isHideTopView: false,//是否隐藏顶部下拉刷新框
     isHideBottomView: true,//是否隐藏底部上拉加载框
     isHiddenNoData: false,//是否隐藏无数据提示
+    isRefresh: true,//当前在下拉刷新(暂时不清空数据)
+    isCurrentPage: 1,//保留当前页码
   },
 
   /**
@@ -41,6 +43,22 @@ Component({
       var myEventDetail = {
         listModel: e.currentTarget.dataset.item,
         drugType: 4
+      }
+      //触发事件的选项
+      var myEventOption = {}
+      //设置外界监听
+      this.triggerEvent('clickinstrumentcell', myEventDetail, myEventOption)
+    },
+
+    /**
+     * 刷新底部数量(drugType=0是为了区分)
+     */
+    refreshBottomData: function () {
+      //通知父类
+      //detail对象，提供给事件监听函数
+      var myEventDetail = {
+        count: this.data.totalCount,
+        drugType: 0
       }
       //触发事件的选项
       var myEventOption = {}
@@ -75,20 +93,18 @@ Component({
      * 下拉刷新网络请求
      */
     _refreshData: function () {
-      //1、显示动画框
+      //1、显示动画框(隐藏上拉加载动画)
       this.data.isHideTopView = false;
+      this.data.isHideBottomView = true;
       this.setData({
         isHideTopView: this.data.isHideTopView,
+        isHideBottomView: this.data.isHideBottomView
       });
-      //2、数据初始化
-      this.data.dataSource = [];
+      //2、数据初始化(暂时不清空数据、保证平稳过渡)
+      this.data.isRefresh = true;
+      //网络请求失败、将isCurrentPage赋值给page
+      this.data.isCurrentPage = this.data.page;
       this.data.page = 1;
-      this.data.totalCount = 0;
-      this.setData({
-        dataSource: this.data.dataSource,
-        page: this.data.page,
-        totalCount: this.data.totalCount,
-      })
       //3、开始网络请求
       var that = this;
       setTimeout(function () {
@@ -100,24 +116,32 @@ Component({
      * 上拉加载网络请求
      */
     _loadMoreData: function () {
-      //1、判断是否可以加载更多数据
+      //1、正在下拉刷新、不能上拉加载
+      if (this.data.isRefresh) {
+        return;
+      }
+      //2、判断是否可以加载更多数据
       if (this.data.totalCount <= this.data.dataSource.length) {
         wx.showToast({
           title: '无更多数据加载',
         });
-        this.data.isHideBottomView = true;
-        this.setData({
-          isHideBottomView: this.data.isHideBottomView,
-        });
+        //延时隐藏动画
+        var that = this;
+        setTimeout(function () {
+          that.data.isHideBottomView = true;
+          that.setData({
+            isHideBottomView: that.data.isHideBottomView,
+          });
+        }, 1000);
       }
       else {
-        //2、数据初始化
+        //3、数据初始化
         this.data.page++;
-        //3、开始网络请求  
+        //4、开始网络请求  
         var that = this;
         setTimeout(function () {
           that._loadData();
-        }, 1000);
+        }, 500);
       }
     },
 
@@ -129,6 +153,11 @@ Component({
       var that = this;
       initJs.downloadDrugListRequest(4, this.data.page,
         function (success, totalCount) {
+          //如果是下拉刷新
+          if (that.data.isRefresh) {
+            that.data.isRefresh = !that.data.isRefresh;//解锁
+            that.data.dataSource = [];//数据一定清空
+          }
           //总数赋值
           that.data.totalCount = totalCount;
           //添加元素
@@ -150,7 +179,14 @@ Component({
           that.triggerEvent("netWorkSuccess");
           //处理无数据情况
           that._dealNoData();
+          //刷新底部数据
+          that.refreshBottomData();
         }, function (fail) {
+          //如果是下拉刷新
+          if (that.data.isRefresh) {
+            that.data.isRefresh = !that.data.isRefresh;//解锁
+            that.data.page = that.data.isCurrentPage;//数据还原
+          }
           //停止显示加载动画
           wx.hideLoading();
           //网络请求失败

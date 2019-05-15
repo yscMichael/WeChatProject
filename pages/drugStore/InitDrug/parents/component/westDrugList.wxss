@@ -8,6 +8,8 @@
   background-color: #eee;
   width: 100%;
   height: 100%;
+  border: 1px solid blue;
+  box-sizing: border-box;
 }
 
 .noData-view{

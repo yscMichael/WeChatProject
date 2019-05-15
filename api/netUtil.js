@@ -20,8 +20,7 @@ function getRequest(url, params, onSuccess, onFail){
  */
 function loadDrugInfoWithCode(code, onSuccess, onFail){
   var key = '5fa59e9d68bb357dd3ce5187174df6a1';
-  var url = 'http://api.3023data.com/barcode/barcode?barcode=' + code;
-
+  var url = 'https://api.3023data.com/barcode/barcode?barcode=' + code;
   wx.request({
     url: url,
     header: {'key': key},//请求头

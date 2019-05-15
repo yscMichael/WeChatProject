@@ -16,8 +16,6 @@
             confirm-type='search'
             bindconfirm='searchBtn'></input>
     </view>
-    <!-- <image class='searchBox-rightItem' 
-          src='/image/home/icon_user.png'></image> -->
   </view>
 
   <!-- 轮播图 -->

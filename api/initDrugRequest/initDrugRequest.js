@@ -463,7 +463,8 @@ function makePostDataParam(drugModel,isEdit){
 }
 
 /**
- * 药品初始化扫码网络请求-----根据条形码请求药品信息(202:药品已经初始化过、200:代表尚未初始化过 )
+ * 药品初始化扫码网络请求
+ * 根据条形码请求药品信息(202:药品已经初始化过、200:代表尚未初始化过 )
  */
 function loadDrugInfoFirstByCode(code, onSuccess, onFail) {
   var params = {
@@ -471,10 +472,11 @@ function loadDrugInfoFirstByCode(code, onSuccess, onFail) {
     _password: app.globalData.password,
     uuid: code
   }
-  netJs.getRequest('cloud/prj/gmi/base/api/BaseApi?op=DrugFromBasic', params,
+  netJs.getRequest('/cloud/prj/gmi/base/api/BaseApi?op=DrugFromBasic', params,
     function (success) {
-      console.log('根据条形码请求药品信息');
-      console.log(success);
+      console.log('查询是否初始化过');
+      console.log(success.data.code);
+      onSuccess(success.data.code);
     },
     function (fail) {
       onFail(fail);
@@ -521,6 +523,8 @@ function checkDrugisFromBasicStorage(code, onSuccess, onFail){
   }
   netJs.getRequest('/app?op=Page&cloud=drug_basis', params,
     function (success) {
+      console.log('checkDrugisFromBasicStorage');
+      console.log(success.data.rows);
       //判断rows数组数量是否大于0，否则按照失败处理
       //如果成功的话、对数组进行处理
       //id
@@ -536,10 +540,65 @@ function checkDrugisFromBasicStorage(code, onSuccess, onFail){
 }
 
 /**
- * 根据条形码查询第三方药品信息
+ * 2.2、根据条形码查询第三方药品信息
+ */
+function loadDrugInformationFromNetAPI(code, onSuccess, onFail){
+  netJs.loadDrugInfoWithCode(code,
+    function (success) {
+      console.log('根据条形码查询第三方药品信息');
+      console.log(success);
+
+
+
+      //判断rows数组数量是否大于0，否则按照失败处理
+      //如果成功的话、对数组进行处理
+      //id
+      //begin_json
+      //image
+
+      //如果查询到的数组为空、证明基础库不存在、继续用code进行第三方查询
+      //不过这个时候走的自定义添加的路线，只不过是，刚开始有数据罢了
+    },
+    function (fail) {
+      onFail(fail);
+    });
+}
+
+/**
+ * 在基础库中搜索添加药品
+ */
+function searchDrugFromBasis(page, rows, dug_type, key_word, onSuccess, onFail){
+  var params = {
+    _userid: app.globalData.userId,
+    _password: app.globalData.password,
+    page: page,
+    rows: rows,
+    dug_type: dug_type,
+    key_word: dug_type
+  }
+  netJs.getRequest('/app?op=Page&cloud=drug_basis', params,
+    function (success) {
+      console.log('checkDrugisFromBasicStorage');
+      console.log(success.data.rows);
+      //判断rows数组数量是否大于0，否则按照失败处理
+      //如果成功的话、对数组进行处理
+      //id
+      //begin_json
+      //image
+
+      //如果查询到的数组为空、证明基础库不存在、继续用code进行第三方查询
+      //不过这个时候走的自定义添加的路线，只不过是，刚开始有数据罢了
+    },
+    function (fail) {
+      onFail(fail);
+    });
+}
+
+/**
+ * 查询进出库药品是否已经初始化
  */
 
-
+// http://jqapi.hao1bao.com/cloud/prj/gmi/base/api/BaseApi?op=DrugFromBasic&common_name=康春牌皮鲜净抑菌膏&manufacturer=371143&_type=json&_password=e10adc3949ba59abbe56e057f20f883e&_userid=1000639
 
 /**
  * 药品列表数据处理
@@ -891,5 +950,8 @@ module.exports = {
   chineseAndWestUsage: chineseAndWestUsage,
   createListModel: createListModel,
   addVendorToList: addVendorToList,
-  loadDrugInfoFirstByCode: loadDrugInfoFirstByCode
+  loadDrugInfoFirstByCode: loadDrugInfoFirstByCode,
+  getDrugWithKeyWord: getDrugWithKeyWord,
+  checkDrugisFromBasicStorage: checkDrugisFromBasicStorage,
+  loadDrugInformationFromNetAPI: loadDrugInformationFromNetAPI
 }

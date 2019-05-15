@@ -355,21 +355,15 @@ Page({
    * 点击底部入库按钮
    */
   clickBottomButton: function(){
-    wx.showToast({
-      title: '点击了底部按钮...',
-    });
     //1、构造主表参数
     console.log(this.data.warehouseIndex);
     console.log(this.data.vendorIndex);
-
     console.log(this.data.warehouseArray);
     console.log(this.data.vendorArray);
-    
-
     console.log(this.data.warehouseArray[this.data.warehouseIndex]);
     console.log(this.data.vendorArray[this.data.vendorIndex]);
 
-
+    var that = this;
     var listModel = {
       in_date: this.data.inDate,
       vendor: this.data.vendorArray[this.data.vendorIndex],
@@ -379,9 +373,28 @@ Page({
     }
     putinStockJs.submitDrug(listModel, this.data.dataSource,
     function(success){
-
+      //1、提示
+      wx.showToast({
+        title: '入库成功',
+      });
+      //2、清空当前数据源
+      that.data.dataSource = [];
+      that.setData({
+        dataSource: that.data.dataSource,
+        isShowHeader:true,
+        headerHeight:330,
+        toolBarTop:240
+      });
+      //3、进入入库列表界面
+      setTimeout(function(){
+        wx.navigateTo({
+          url: '/pages/drugStore/PutinStock/storageList/storageList',
+        });
+      },1000);
     },function(fail){
-
+        wx.showToast({
+          title: fail,
+        });
     });
   },
 

@@ -161,12 +161,17 @@ function submitDrug(listModel, dataSource, onSuccess, onFail) {
       if (code == 200) {//提交/审核通过
         onSuccess();
       } else {//提交/审核失败
-        onFail();
+        var remark = success.data.remark;
+        if(remark){
+          onFail(remark);
+        }else{
+          onFail('网络加载失败');
+        }
       }
     },
     function (fail) {
       console.log('failfailfailfailfailfail');
-      onFail(fail);
+      onFail('网络加载失败');
     });
 }
 
@@ -245,18 +250,18 @@ function postDrugData(listModel, dataSource, onSuccess, onFail){
   //参数
   var mainParam = dealPostParam(listModel,dataSource);
   //网络请求
-  netJs.getRequest('/app?op=Modify&cloud=pw_bill', mainParam,
-    function (success) {
-      var code = success.data.code;
-      if(code == 200){//审核通过
-        onSuccess();
-      }else{//审核失败
-        onFail();
-      }
-    },
-    function (fail) {
-      onFail(fail);
-    });
+  // netJs.getRequest('/app?op=Modify&cloud=pw_bill', mainParam,
+  //   function (success) {
+  //     var code = success.data.code;
+  //     if(code == 200){//审核通过
+  //       onSuccess();
+  //     }else{//审核失败
+  //       onFail();
+  //     }
+  //   },
+  //   function (fail) {
+  //     onFail(fail);
+  //   });
 }
 
 /**
@@ -345,7 +350,7 @@ function submitDrugParam(listModel, dataSource){
       count: '',
       spec: '',
       drug_id: '',
-      discount: '',
+      discount: '100',
       expire_date:'',
       drug_forms: '',
       unit:'',
@@ -361,7 +366,7 @@ function submitDrugParam(listModel, dataSource){
     subDict.warehouse_id = listModel.warehouse ? listModel.warehouse.id : '';
     subDict.vendor_id = listModel.vendor ? listModel.vendor.id : '';
     subDict.drug_id = model.drugId;
-    subDict.general_name = model.general_name;
+    subDict.general_name = model.common_name;
     subDict.dug_type = model.dug_type ? model.dug_type.id : '';
     subDict.spec = model.spec;
     subDict.unit = model.unit ? model.unit.id : '';
@@ -549,6 +554,9 @@ function dealPostParam(listModel,dataSource){
     }
     //药品模型
     var model = dataSource[i];
+    console.log('药品模型药品模型药品模型药品模型');
+    console.log(model);
+
     //子表赋值
     subDict.op = 'Modify';
     subDict.id = model.id;
@@ -567,9 +575,15 @@ function dealPostParam(listModel,dataSource){
     subDict.total_discount = '100';
     subDict.sure_price = model.price * model.count;//小计
     subDict.cost = model.cost;
-    if(model.image){//有图片
-      var imageDict = model.image[0];
-      subDict.image = imageDict.key_name;
+    if (model.image) {//有图片
+      if (model.image.length > 0) {
+        var imageDict = model.image[0];
+        subDict.image = imageDict.key_name;
+      } else {
+        subDict.image = '';
+      }
+    } else {
+      subDict.image = '';
     }
     subDict.batch_no = model.batch_no;
     //装入数组

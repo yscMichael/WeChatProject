@@ -370,13 +370,19 @@ function submitDrugParam(listModel, dataSource){
     subDict.expire_date = model.expire_date;
     subDict.count = model.count;
     subDict.price = model.price;
-    subDict.discount = model.discount;
+    subDict.discount = '100';
     subDict.total_discount = '100';
     subDict.sure_price = model.price * model.count;//小计
     subDict.cost = model.cost;
     if (model.image) {//有图片
-      var imageDict = model.image[0];
-      subDict.image = imageDict.key_name;
+      if(model.image.length > 0){
+        var imageDict = model.image[0];
+        subDict.image = imageDict.key_name;
+      }else{
+        subDict.image = '';
+      }
+    }else{
+      subDict.image = '';
     }
     subDict.batch_no = model.batch_no;
     //装入数组
@@ -527,7 +533,6 @@ function dealPostParam(listModel,dataSource){
       vendor_id: '',
       drug_id: '',
       general_name: '',
-      dug_type: '',
       spec: '',
       unit: '',
       drug_forms: '',
@@ -550,8 +555,7 @@ function dealPostParam(listModel,dataSource){
     subDict.warehouse_id = model.warehouse_id ? model.warehouse_id.id : ''
     subDict.vendor_id = model.vendor_id ? model.vendor_id.id : '';
     subDict.drug_id = model.drug_id ? model.drug_id.id : '';
-    subDict.general_name = model.general_name;
-    subDict.dug_type = model.dug_type ? model.dug_type.id : '';
+    subDict.general_name = model.common_name;
     subDict.spec = model.spec;
     subDict.unit = model.unit ? model.unit.id : '';
     subDict.drug_forms = model.drug_forms ? model.drug_forms.id : '';

@@ -8,7 +8,7 @@
       <view class='WWDrugPutinStockSelectView'>
         <picker mode="selector" 
                 bindchange="bindWarehouseChange" 
-                value="{{wareIndex}}"
+                value="{{warehouseIndex}}"
                 range-key="{{'key_name'}}" 
                 range="{{warehouseArray}}">
           <!-- 标题 -->
@@ -122,6 +122,7 @@
     </view>
     <!-- 直接入库按钮 -->
     <view class='bottom-button'
+          hover-class='click-gray-class'
           bindtap='clickBottomButton'>直接入库</view>
   </view>
   <!-- 历史入库按钮 -->

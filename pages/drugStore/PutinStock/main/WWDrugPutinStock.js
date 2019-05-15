@@ -44,9 +44,8 @@ Page({
     //2、请求仓库列表
     putinStockJs.downloadWarehouseRequest(function (success) {
       //仓库数组赋值
-      var rows = success.rows;
       that.data.warehouseArray = [];
-      that.data.warehouseArray = that.data.warehouseArray.concat(rows);
+      that.data.warehouseArray = that.data.warehouseArray.concat(success);
       that.setData({
         warehouseArray: that.data.warehouseArray,
       })
@@ -59,9 +58,8 @@ Page({
     //3、供应商列表
     putinStockJs.downloadVendorRequest(function (success) {
       //供应商数组赋值
-      var rows = success.rows;
       that.data.vendorArray = [];
-      that.data.vendorArray = that.data.vendorArray.concat(rows);
+      that.data.vendorArray = that.data.vendorArray.concat(success);
       that.setData({
         vendorArray: that.data.vendorArray,
       })

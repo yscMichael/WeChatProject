@@ -466,3 +466,6 @@ Page{
   line-height: 80rpx;
 }
 
+.click-gray-class{
+  background-color: lightgray;
+}

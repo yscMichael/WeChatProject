@@ -67,5 +67,16 @@ Component({
       //设置外界监听
       this.triggerEvent('clickcell', myEventDetail, myEventOption)
     },
+
+    /**
+     * 下载图片失败
+     */
+    loadimage(){
+      console.log('下载图片下载图片下载图片下载图片');
+      this.properties.image = '/image/img_ypmr.png';
+      this.setData({
+        image: this.properties.image
+      });
+    }
   }
 })

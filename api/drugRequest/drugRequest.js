@@ -21,7 +21,7 @@ function downloadWarehouseRequest(onSuccess, onFail) {
       var drugformDict = rows[i];
       //重新生成模型
       var model = {
-        drugformId: drugformDict.id,      //id
+        id: drugformDict.id,      //id
         key_name: drugformDict.key_name,  //名称
         is_select: false                  //是否选中
       }
@@ -50,7 +50,7 @@ function downloadVendorRequest(onSuccess, onFail) {
       var drugformDict = rows[i];
       //重新生成模型
       var model = {
-        drugformId: drugformDict.id,      //id
+        id: drugformDict.id,      //id
         key_name: drugformDict.key_name,  //名称
         is_select: false                  //是否选中
       }

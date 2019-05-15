@@ -2,7 +2,8 @@
       catchtap='onTap'>
   <!-- 1、图片 -->
   <view class='flex-main-left'>
-    <image src="{{image}}"></image>
+    <image src="{{image}}"
+           binderror='loadimage'></image>
   </view>
   <!-- 2、内容 -->
   <view class='flex-main-content'>

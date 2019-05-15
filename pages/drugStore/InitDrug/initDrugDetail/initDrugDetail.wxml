@@ -346,7 +346,7 @@
         hidden='{{!isEdit}}'>
     <view class='flag flag-white'>*</view>
     <view class='title'>库存</view>
-    <input class='right-content'
+    <input class='right-content gray-content'
            disabled='disabled'
            value='{{listModel.realCount}}'>    
     </input>
@@ -445,6 +445,7 @@
   <view class='line-big'></view>   
   <!-- 底部保存按钮 -->
   <view class='bottom-button'
+        hover-class='save-class'
         bindtap='clickSureButton'>保存</view>
 </view>
 

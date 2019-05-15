@@ -223,7 +223,7 @@ Component({
         });
         //选中后触发事件
         var resultDict = {
-          drugformId: success.id,
+          id: success.id,
           key_name:success.key_name
         };
         that.triggerEventMethod(resultDict);
@@ -247,7 +247,7 @@ Component({
         });
         //选中后触发事件
         var resultDict = {
-          drugformId: success.id,
+          id: success.id,
           key_name: success.key_name
         };
         that.triggerEventMethod(resultDict);

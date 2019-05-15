@@ -21,10 +21,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.selectComponent("#westDrugList").westRefresh();
-    this.selectComponent("#specialChineseDrugList").specialChineseRefresh();
-    this.selectComponent("#chineseDrugList").chineseRefresh();
-    this.selectComponent("#instrumentList").instrumentRefresh();
+    this.refreshData();
   },
 
   /**
@@ -74,6 +71,17 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+
+  /**
+   * 刷新所有数据
+   */
+  refreshData:function(){
+    console.log('刷新所有数据');
+    this.selectComponent("#westDrugList").westRefresh();
+    this.selectComponent("#specialChineseDrugList").specialChineseRefresh();
+    this.selectComponent("#chineseDrugList").chineseRefresh();
+    this.selectComponent("#instrumentList").instrumentRefresh();
   },
 
   /**
@@ -207,39 +215,42 @@ Page({
    * 扫码添加药品
    */
   addDrugByScan:function(){
-    this.checkMedicineisInit('6918619000028');
+    // this.checkMedicineisInit('6918619000028');
 
     //1、开始扫码
-    // var that = this;
-    // wx.scanCode({
-    //   success(res){
-    //     //扫码成功
-    //     var code = res.result;
-    //     console.log('扫码成功');
-    //     console.log(code);
-    //     //1、根据code码查询药品是否已经初始化过
-    //     that.checkMedicineisInit(code);
-    //   },
-    //   fail(res){
-    //     wx.showToast({
-    //       title: '扫码失败',
-    //       icon: 'none'
-    //     });
-    //   }});
+    var that = this;
+    wx.scanCode({
+      success(res){
+        //扫码成功
+        var code = res.result;
+        console.log('扫码成功');
+        console.log(code);
+        //1、根据code码查询药品是否已经初始化过
+        that.checkMedicineisInit(code);
+      },
+      fail(res){
+        wx.showToast({
+          title: '扫码失败',
+          icon: 'none'
+        });
+      }});
   },
 
   /**
-   * 根据条形码查询药品是否已经初始化过
+   * 0.根据条形码查询药品是否已经初始化过
    */
   checkMedicineisInit:function(code){
     var that = this;
     initDrugJs.loadDrugInfoFirstByCode(code,
     function(success){
-      if(success == 200){//未初始化过、接着查询基础库里面有没有
-        that.checkDrugInBase(code);
-      }else if(success == 202){//已经初始化过、接着根据code查询药品信息
+      if (success == 202) {//已经初始化过、接着根据code查询药品信息
         that.loadDrugInformation(code);
+      } else if (success == 200) {//未初始化过、接着查询基础库里面有没有
+        that.checkDrugInBase(code);
       }else{//暂时不处理
+        wx.showToast({
+          title: '查询失败',
+        })
       }
     },function(fail){
       wx.showToast({
@@ -249,24 +260,29 @@ Page({
   }, 
 
   /**
-   * 1.1、根据条形码获取药品信息(网络请求成功与失败还需要特殊处理？？？？？？)
+   * 1.1、根据条形码获取药品信息
    */
   loadDrugInformation:function(code){
     var that = this;
     initDrugJs.getDrugWithKeyWord(code,
     function(success){
-      //1、弹出提示框
-      wx.showModal({
-        title: '提示',
-        content: '该药品已初始化，是否修改？',
-        success(res) {
-          if (res.confirm) {//点击确定、进入下一界面
-            that.goToEditDetailByScan(success);
-          } else if (res.cancel) {//点击取消、继续扫描
-            that.addDrugByScan();
+      //1、判断success内容
+      var tips = '该药品已禁用，如需启用，请在电脑端-基础设置菜单修改';
+      if(success == tips){//禁用
+        that.sendTipForbidden();
+      }else{//提示药品已经初始化
+        wx.showModal({
+          title: '提示',
+          content: '该药品已初始化，是否修改？',
+          success(res) {
+            if (res.confirm) {//点击确定、进入下一界面
+              that.goToEditDetailByScan(success);
+            } else if (res.cancel) {//点击取消、继续扫描
+              that.addDrugByScan();
+            }
           }
-        }
-      });
+        });
+      }
     },function(fail){
       wx.showToast({
         title: '网络加载失败',
@@ -275,7 +291,19 @@ Page({
   },
 
   /**
-   * 1.2、初始化过药品进入编辑界面(扫码)
+   * 1.1.1、给出禁用提示
+   */
+  sendTipForbidden:function(){
+    wx.showModal({
+      title: '提示',
+      content: '该药品已禁用，如需启用，请在电脑端-基础设置菜单修改',
+      showCancel: false,
+      confirmText: '确定'
+    });
+  },
+
+  /**
+   * 1.1.2、初始化过药品进入编辑界面(扫码)
    */
   goToEditDetailByScan: function (listModel){
     //这里要对image进行特殊编码(防止出现特殊字符)

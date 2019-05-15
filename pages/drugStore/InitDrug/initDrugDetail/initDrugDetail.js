@@ -686,7 +686,7 @@ Page({
     console.log(e);
     //1、取值
     var itemDict = {
-      id: e.detail.item.drugformId,
+      id: e.detail.item.id,
       key_name: e.detail.item.key_name
     };
     //2、分类赋值
@@ -778,7 +778,6 @@ Page({
     this.setData({
       listModel: this.data.listModel
     });
-
     console.log('生产批次反向传值------');
     console.log(this.data.listModel.begin_json);
   },
@@ -789,10 +788,29 @@ Page({
   clickSureButton:function(e){
     console.log('点击保存按钮点击保存按钮');
     //修改网络请求
-    initDrugJs.postAllData(this.data.listModel, 1,function(success){
-
+    wx.showLoading({
+      title: '正在保存中...',
+    });
+    initDrugJs.postAllData(this.data.listModel, this.data.isEdit,function(success){
+      wx.hideLoading();
+      //界面全部刷新
+      //1、获取目标控制器
+      //获取所有界面
+      var pages = getCurrentPages();
+      //当前页面
+      var currPage = pages[pages.length - 1];
+      //上一个页面
+      var prevPage = pages[pages.length - 2];
+      //2、刷新界面
+      prevPage.refreshData();
+      //3、返回界面
+      wx.navigateBack({
+      });
     },function(fail){
-
+       wx.hideLoading();
+       wx.showToast({
+         title: '网络加载失败',
+       }); 
     });
   }
 })

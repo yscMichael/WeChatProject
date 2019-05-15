@@ -103,7 +103,7 @@ function loadDrugFormsList(onSuccess, onFail) {
         var drugformDict = rows[i];
         //重新生成模型
         var model = {
-          drugformId: drugformDict.id,      //id
+          id: drugformDict.id,      //id
           key_name: drugformDict.key_name,  //名称
           is_select: false                  //是否选中
         }
@@ -132,7 +132,7 @@ function loadDrugUnitList(onSuccess, onFail){
         var drugformDict = rows[i];
         //重新生成模型
         var model = {
-          drugformId: drugformDict.id,      //id
+          id: drugformDict.id,      //id
           key_name: drugformDict.key_name,  //名称
           is_select: false                  //是否选中
         }
@@ -249,14 +249,16 @@ function getFrequencyList(onSuccess, onFail) {
 /**
  * 药品初始化修改或者增加接口
  */
-function postAllData(drugModel, isEdit,onSuccess, onFail){
+function postAllData(drugModel, isEdit, onSuccess, onFail){
   //1、参数
-  console.log('药品初始化修改或者增加接口');
-  var params = makePostDataParam(drugModel, isEdit);
+  var params = makePostDataParam(drugModel);
+  var url = isEdit ? '/app?op=Modify&cloud=drug' : '/app?op=Add&cloud=drug';
   //2、网络请求
-  netJs.getRequest('/app?op=Modify&cloud=drug', params,
+  netJs.getRequest(url, params,
     function (success) {
       console.log('药品初始化修改或者增加接口-----success');
+      console.log(success);
+      onSuccess();
     },
     function (fail) {
       console.log('药品初始化修改或者增加接口-----fail');
@@ -380,7 +382,7 @@ function createListModel(){
 /**
  * 构造网络请求参数
  */
-function makePostDataParam(drugModel,isEdit){
+function makePostDataParam(drugModel){
   var paramDict = {};
   //1、
   //药品id
@@ -486,6 +488,12 @@ function loadDrugInfoFirstByCode(code, onSuccess, onFail) {
 /**
  * 1.1、根据条形码获取药品信息(202:药品已经初始化过)
  */
+//取数组的第一个
+//review_state判断是否已经禁用、走失败，给出提示
+//成功后、弹出提示框
+//该药品已初始化，是否修改？
+//点击否，继续扫描
+//点击是，进入编辑界面，isEdit=YES，把请求到的模型弄进去
 function getDrugWithKeyWord(code, onSuccess, onFail){
   var params = {
     _userid: app.globalData.userId,
@@ -497,13 +505,21 @@ function getDrugWithKeyWord(code, onSuccess, onFail){
   netJs.getRequest('/app?op=Page&cloud=drug', params,
     function (success) {
       console.log('202状态下获取药品信息');
-      //取数组的第一个
-      //review_state判断是否已经禁用、走失败，给出提示
-      console.log(success);
-      //成功后、弹出提示框
-      //该药品已初始化，是否修改？
-      //点击否，继续扫描
-      //点击是，进入编辑界面，isEdit=YES，把请求到的模型弄进去
+      var rows = success.data.rows;
+      if (rows.length > 0){//有数据
+        //判断review_state
+        var model = rows[0];
+        var review_state = model.review_state ? model.review_state.id : 0;
+        if (review_state == 0){//已经禁用了
+          success('该药品已禁用，如需启用，请在电脑端-基础设置菜单修改');
+        }else{//处理模型
+          var tempArray = dealDrugsArrayData(rows);
+          var firstModel = tempArray[0];
+          onSuccess(firstModel);
+        }
+      }else{//药品已经禁用
+        success('该药品已禁用，如需启用，请在电脑端-基础设置菜单修改');
+      }
     },
     function (fail) {
       onFail(fail);
@@ -895,25 +911,37 @@ function dealRealCount(drugModel){
  * 处理用法用量(主要用于西药)
  */
 function dealUsage(drugModel){
-  var tempArray = [];
-  //用法
-  tempArray.push(drugModel.instruction_en_name);
-  //频率
-  var frequencyName = drugModel.common_frequency ? drugModel.common_frequency.key_name : '';
-  tempArray.push(frequencyName);
-  //单次用量
-  var singleUse = '';
-  if (drugModel.common_count == -1){
-    singleUse = '每次适量';
+  //判断是否是西药和中成药
+  var drugId = drugModel.dug_type ? drugModel.dug_type.id : 1;
+  if ((drugId == 1) || (drugId == 2)){//西药和中成药
+    var tempArray = [];
+    //用法
+    if (drugModel.instruction_en_name){
+      tempArray.push(drugModel.instruction_en_name);
+    }
+    //频率
+    var frequencyName = drugModel.common_frequency ? drugModel.common_frequency.key_name : '';
+    if (frequencyName){
+      tempArray.push(frequencyName);
+    }
+    //单次用量
+    var singleUse = '';
+    if (drugModel.common_count == -1) {
+      singleUse = '每次适量';
+    } else {
+      var count = drugModel.common_count ? drugModel.common_count : 0;
+      var single_name = drugModel.single_name ? drugModel.single_name : '';
+      singleUse = '每次' + count + single_name;
+    }
+    tempArray.push(singleUse);
+    //用药天数
+    var dayString = '用药' + parseInt(drugModel.common_days) + '天';
+    tempArray.push(dayString);
+    //总结
+    drugModel.usage = tempArray.join(';');
   }else{
-    singleUse = '每次' + drugModel.common_count + drugModel.single_name;
+    drugModel.usage = '';
   }
-  tempArray.push(singleUse);
-  //用药天数
-  var dayString = '用药' + parseInt(drugModel.common_days) + '天';
-  tempArray.push(dayString);
-  //总结
-  drugModel.usage = tempArray.join(';');
 }
 
 /**

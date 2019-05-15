@@ -238,3 +238,11 @@ Page {
   font-size: 16px;
   /* z-index: 999; */
 }
+
+.gray-content{
+  color: lightgray;
+}
+
+.save-class{
+  background-color: lightgray;
+}

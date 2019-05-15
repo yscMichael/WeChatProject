@@ -56,6 +56,11 @@
   white-space: nowrap; */
 } 
 
+.change-border-color{
+  border: 1rpx solid white;
+  color: #999999;
+}
+
 .flex-content-subTitleTwo{  
   /* 可拉伸 */
   flex-flow: 1;

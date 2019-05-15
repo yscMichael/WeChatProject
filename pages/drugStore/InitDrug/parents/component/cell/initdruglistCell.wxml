@@ -17,14 +17,22 @@
       <view class='flex-content-subTitleTwo'>{{key_name}}</view>
     </view>
     <!-- 2.3、进货价和处方价 -->
-    <view class='flex-content-secondView'>
-      <view>进货价：¥{{cost}}/{{min_unit}}</view>
-      <view class='common-left-margin'>处方价：¥{{min_price}}/{{min_unit}}</view>
+    <view class='flex-content-subView'>
+      <!-- 进货价 -->
+      <view class='flex-content-subTitleFirst change-border-color'>
+      进货价：¥{{cost}}/{{min_unit}}</view>
+      <!-- 处方价 -->
+      <view class='flex-content-subTitleTwo'>
+      处方价：¥{{min_price}}/{{min_unit}}</view>
     </view>
     <!-- 2.4、库存和规格 -->
-    <view class='flex-content-bottom'>
-      <view>库存：{{realCount}}</view>
-      <view class='common-left-margin'>{{spec}}</view>
+    <view class='flex-content-subView'>
+      <!-- 库存 -->
+      <view class='flex-content-subTitleFirst change-border-color'>
+      库存：{{realCount}}</view>
+      <!-- 规格 -->
+      <view class='flex-content-subTitleTwo'>
+      {{spec}}</view>
     </view>
   </view>
 </view>

@@ -137,8 +137,6 @@
       <view class='item-unit'>元/{{listModel.rx_name}}</view>
     </view>
   </view>
-
-
 </view>
 
 <!--3、底部确定按钮 -->

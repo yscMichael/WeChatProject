@@ -121,6 +121,7 @@ Page({
    * 点击保存按钮
    */
   clickSureButton:function(e){
+    //1、赋值
     //获取所有界面
     var pages = getCurrentPages();
     //当前页面
@@ -133,5 +134,8 @@ Page({
     prevPage.priceManageBackData(this.data.listModel.sale_price, 'sale_price');
     prevPage.priceManageBackData(this.data.listModel.retail_min_price, 'retail_min_price');
     prevPage.priceManageBackData(this.data.listModel.retail_sale_price, 'retail_sale_price');
+    //2、返回上一个界面
+    wx.navigateBack({      
+    });
   },
 })

@@ -7,8 +7,8 @@ Page {
   width: 100%;
   height: calc(100% - 45px);
   margin-bottom: 45px;
+  background-color: white;
 }
-
 
 /* 1、药品图片 */
 .header-view{
@@ -225,18 +225,18 @@ Page {
 }
 
 .bottom-button{
-  /* position: fixed; */
-  /* left: 0px; */
-  /* right: 0px; */
-  /* bottom: 0px; */
+  position: fixed;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
   height: 45px;
-  width: 100%;
+  /* width: 100%; */
   text-align: center;
   line-height: 45px;
   background-color: #2993EF;
   color: white;
   font-size: 16px;
-  /* z-index: 999; */
+  z-index: 999;
 }
 
 .gray-content{

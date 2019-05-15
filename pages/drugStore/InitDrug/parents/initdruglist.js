@@ -187,8 +187,9 @@ Page({
         break;
       case 1:
         console.log('搜索添加');
+        var drugType = this.data.selectIndex + 1;
         wx.navigateTo({
-          url: '/pages/drugStore/InitDrug/searchAndAddDrugList/searchAndAddDrugList',
+          url: '/pages/drugStore/InitDrug/searchAndAddDrugList/searchAndAddDrugList?drugType=' + drugType,
         });
         break;
       case 2:

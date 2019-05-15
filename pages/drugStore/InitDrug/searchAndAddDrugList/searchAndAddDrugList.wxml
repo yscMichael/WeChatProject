@@ -7,6 +7,7 @@
           placeholder='请输入' 
           placeholder-class='home-placeholder-class'
           type='text'
+          bindinput='searchInput'
           confirm-type='search'
           bindconfirm='searchBtn'></input>
   </view>

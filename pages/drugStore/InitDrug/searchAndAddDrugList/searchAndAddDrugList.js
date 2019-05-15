@@ -24,9 +24,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.data.keyword = 'y';
-    //加载数据
-    this.refreshData();
+    this.data.dug_type = options.drugType ? options.drugType : 1;
   },
 
   /**
@@ -61,7 +59,14 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    //重新获取网络数据
+    //1、判断是否有字符输入
+    if(!this.data.keyword){
+      wx.showToast({
+        title: '请输入搜索字符',
+      });
+      return;
+    }
+    //2、重新获取网络数据
     this.refreshData();
   },
 
@@ -69,7 +74,14 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    //加载更多数据
+    //1、判断是否有字符输入
+    if (!this.data.keyword) {
+      wx.showToast({
+        title: '请输入搜索字符',
+      });
+      return;
+    }
+    //2、加载更多数据
     this.loadMoreData();
   },
 
@@ -81,11 +93,21 @@ Page({
   },
 
   /**
+   * 输入搜索字符
+   */
+  searchInput:function(e){
+    console.log('输入搜索字符');
+    console.log(e);
+    var value = e.detail.value;
+    this.data.keyword = value;
+  },
+
+  /**
    * 点击开始搜索
    */
   searchBtn:function(){
     console.log('点击开始搜索------');
-    
+    this.refreshData();
   },
 
   /**
@@ -256,5 +278,4 @@ Page({
       isHiddenNoData: this.data.isHiddenNoData
     });
   }
-
 })

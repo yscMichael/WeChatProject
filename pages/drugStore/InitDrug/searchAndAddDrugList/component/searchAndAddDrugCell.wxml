@@ -1,28 +1,26 @@
-<view class='initdruglistCell'
-      catchtap="onTap">
+<view class='flex-main'
+      catchtap='onTap'>
   <!-- 1、图片 -->
-  <view class='initdruglistCell_drugImage'>
-    <image src="{{image}}" 
-           mode="aspectFit"></image>
+  <view class='flex-main-left'>
+    <image src="{{image}}"></image>
   </view>
   <!-- 2、内容 -->
-  <view class='initdruglistCell_contentView'>
+  <view class='flex-main-content'>
     <!-- 名称 -->
-    <view class='initdruglistCell_common_name'>
-    {{common_name}}</view>
+    <view class='flex-content-title'>{{common_name}}</view>
     <!-- 制造商和名称 -->
-    <view class='initdruglistCell_mk_view'>
+    <view class='flex-content-subView'>
       <!-- 制造商 -->
-      <view class='initdruglistCell_manufacturer'>
-      {{manufacturer}}</view>
+      <view class='flex-content-subTitleFirst'>{{manufacturer}}</view>
       <!-- 名称 -->
-      <view class='initdruglistCell_key_name'>
-      {{key_name}}</view>
+      <view class='flex-content-subTitleTwo'>{{key_name}}</view>
     </view>
     <!-- 库存 -->
-    <view class='initdruglistCell_content_text'> 
-    {{spec}}</view>
+    <view class='flex-content-bottom'>{{spec}}</view>
   </view>
 </view>
+<!-- 分割线 -->
+<view class='line-small'></view>
+
 
 

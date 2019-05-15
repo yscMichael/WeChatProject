@@ -567,27 +567,21 @@ function loadDrugInformationFromNetAPI(code, onSuccess, onFail){
 /**
  * 在基础库中搜索添加药品
  */
-function searchDrugFromBasis(page, rows, dug_type, key_word, onSuccess, onFail){
+function searchDrugFromBasis(key_word, dug_type, page, rows, onSuccess, onFail){
   var params = {
     _userid: app.globalData.userId,
     _password: app.globalData.password,
     page: page,
     rows: rows,
-    dug_type: dug_type,
-    key_word: dug_type
+    dug_type: 1,
+    key_word: key_word
   }
   netJs.getRequest('/app?op=Page&cloud=drug_basis', params,
     function (success) {
-      console.log('checkDrugisFromBasicStorage');
-      console.log(success.data.rows);
-      //判断rows数组数量是否大于0，否则按照失败处理
-      //如果成功的话、对数组进行处理
-      //id
-      //begin_json
-      //image
-
-      //如果查询到的数组为空、证明基础库不存在、继续用code进行第三方查询
-      //不过这个时候走的自定义添加的路线，只不过是，刚开始有数据罢了
+      console.log('在基础库中搜索添加药品------------');
+      var drugsArr = success.data.rows;
+      var totalCount = success.data.total;
+      onSuccess(dealDrugsArrayData(drugsArr), totalCount);
     },
     function (fail) {
       onFail(fail);
@@ -595,10 +589,25 @@ function searchDrugFromBasis(page, rows, dug_type, key_word, onSuccess, onFail){
 }
 
 /**
- * 查询进出库药品是否已经初始化
+ * 查询进出库药品是否已经初始化(某个药品)
  */
-
-// http://jqapi.hao1bao.com/cloud/prj/gmi/base/api/BaseApi?op=DrugFromBasic&common_name=康春牌皮鲜净抑菌膏&manufacturer=371143&_type=json&_password=e10adc3949ba59abbe56e057f20f883e&_userid=1000639
+function loadDrugInfoFirstByNameAndCompany(common_name, manufacturerId, onSuccess, onFail){
+  var params = {
+    _userid: app.globalData.userId,
+    _password: app.globalData.password,
+    common_name: common_name,
+    manufacturer: manufacturerId
+  }
+  netJs.getRequest('/cloud/prj/gmi/base/api/BaseApi?op=DrugFromBasic', params,
+    function (success) {
+      console.log('查询是否初始化过');
+      console.log(success.data.code);
+      onSuccess(success.data.code);
+    },
+    function (fail) {
+      onFail(fail);
+    });
+}
 
 /**
  * 药品列表数据处理
@@ -953,5 +962,7 @@ module.exports = {
   loadDrugInfoFirstByCode: loadDrugInfoFirstByCode,
   getDrugWithKeyWord: getDrugWithKeyWord,
   checkDrugisFromBasicStorage: checkDrugisFromBasicStorage,
-  loadDrugInformationFromNetAPI: loadDrugInformationFromNetAPI
+  loadDrugInformationFromNetAPI: loadDrugInformationFromNetAPI,
+  searchDrugFromBasis: searchDrugFromBasis,
+  loadDrugInfoFirstByNameAndCompany: loadDrugInfoFirstByNameAndCompany
 }

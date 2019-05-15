@@ -37,34 +37,6 @@ Component({
       value: '',
     },
     /**
-     * 进货价
-     */
-    cost: {
-      type: String,
-      value: '',
-    },
-    /**
-     * 处方价
-     */
-    min_price: {
-      type: String,
-      value: '',
-    },
-    /**
-     * 进货价和处方价单位
-     */
-    min_unit: {
-      type: String,
-      value: '',
-    },
-    /**
-     * 库存(包含单位)
-     */
-    realCount: {
-      type: String,
-      value: '',
-    },
-    /**
      * 规格
      */
     spec: {

@@ -21,21 +21,15 @@
   <!-- 2.2、遍历循环数组 -->
   <block wx:for="{{dataSource}}" 
          wx:key="index">
-    <initdruglistCell>
-    </initdruglistCell>
-
-      <!-- <initdruglistCell image="{{item.image}}"
-                        common_name="{{item.common_name}}"
-                        manufacturer="{{item.manufacturer.key_name}}"
-                        key_name="{{item.key_name}}"
-                        cost="{{item.cost}}"
-                        min_price="{{item.min_price}}"
-                        min_unit="{{item.min_unit.key_name}}"
-                        realCount="{{item.realCount}}"
-                        spec="{{item.spec}}"
-                        data-item="{{item}}"
-                        bindclickcell="onChineseDrugListCell">
-      </initdruglistCell> -->
+    <searchAndAddDrugCell image="{{item.image}}"
+                          common_name="{{item.common_name}}"
+                          manufacturer="{{item.manufacturer.key_name}}"
+                          key_name="{{item.key_name}}"
+                          spec="{{item.spec}}"
+                          data-item="{{item}}"
+                          data-index="{{index}}"
+                          bindclickcell="onClickCell">
+    </searchAndAddDrugCell>
   </block>
   <!-- 2.3、无数据提示 -->
   <view class='noData-view'

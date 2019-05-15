@@ -1,10 +1,12 @@
 {
     "usingComponents": {
-      "yyRefresh": "/utils/yy-refresh-components/yyRefresh"
+      "yyRefresh": "/utils/yy-refresh-components/yyRefresh",
+      "searchAndAddDrugCell": "/pages/drugStore/InitDrug/searchAndAddDrugList/component/searchAndAddDrugCell"
     },
+    "enablePullDownRefresh": true,
+    "onReachBottomDistance": 0,
     "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#1F91F2",
     "navigationBarTitleText": "搜索添加",
-    "navigationBarTextStyle": "white",
-    "disableScroll": true
+    "navigationBarTextStyle": "white"
 }

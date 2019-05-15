@@ -389,6 +389,14 @@ function createListModel(){
 }
 
 /**
+ * 校验参数
+ */
+function judgeParamisLegal(model, onSuccess, onFail){
+  console.log('开始校验参数-----');
+  //
+}
+
+/**
  * 构造网络请求参数
  */
 function makePostDataParam(drugModel){
@@ -1002,5 +1010,6 @@ module.exports = {
   checkDrugisFromBasicStorage: checkDrugisFromBasicStorage,
   loadDrugInformationFromNetAPI: loadDrugInformationFromNetAPI,
   searchDrugFromBasis: searchDrugFromBasis,
-  loadDrugInfoFirstByNameAndCompany: loadDrugInfoFirstByNameAndCompany
+  loadDrugInfoFirstByNameAndCompany: loadDrugInfoFirstByNameAndCompany,
+  judgeParamisLegal: judgeParamisLegal
 }

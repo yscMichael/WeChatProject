@@ -1,33 +1,34 @@
-<view class='initdruglistCell'
-      catchtap="onTap">
+<view class='flex-main'
+      catchtap='onTap'>
   <!-- 1、图片 -->
-  <view class='initdruglistCell_drugImage'>
-    <image src="{{image}}" 
-           mode="aspectFit"></image>
+  <view class='flex-main-left'>
+    <image src="{{image}}"
+           binderror='loadimage'></image>
   </view>
   <!-- 2、内容 -->
-  <view class='initdruglistCell_contentView'>
-    <!-- 名称 -->
-    <view class='initdruglistCell_common_name'>
-    {{common_name}}</view>
-    <!-- 制造商和名称 -->
-    <view class='initdruglistCell_mk_view'>
+  <view class='flex-main-content'>
+    <!-- 2.1、名称 -->
+    <view class='flex-content-title'>{{common_name}}</view>
+    <!-- 2.2、制造商和名称 -->
+    <view class='flex-content-subView'>
       <!-- 制造商 -->
-      <view class='initdruglistCell_manufacturer'>
-      {{manufacturer}}</view>
+      <view class='flex-content-subTitleFirst'>{{manufacturer}}</view>
       <!-- 名称 -->
-      <view class='initdruglistCell_key_name'>
-      {{key_name}}</view>
+      <view class='flex-content-subTitleTwo'>{{key_name}}</view>
     </view>
-    <!-- 进货价和处方价 -->
-    <view class='initdruglistCell_content_text'>
-    进货价：¥{{cost}}/{{min_unit}} | 
-    处方价：¥{{min_price}}/{{min_unit}}</view>
-    <!-- 库存 -->
-    <view class='initdruglistCell_content_text'>
-    库存：{{realCount}}   
-    {{spec}}</view>
+    <!-- 2.3、进货价和处方价 -->
+    <view class='flex-content-secondView'>
+      <view>进货价：¥{{cost}}/{{min_unit}}</view>
+      <view class='common-left-margin'>处方价：¥{{min_price}}/{{min_unit}}</view>
+    </view>
+    <!-- 2.4、库存和规格 -->
+    <view class='flex-content-bottom'>
+      <view>库存：{{realCount}}</view>
+      <view class='common-left-margin'>{{spec}}</view>
+    </view>
   </view>
 </view>
+<!-- 分割线 -->
+<view class='line-small'></view>
 
 

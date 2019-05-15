@@ -1,37 +1,37 @@
-<view class='main-view'>
-  <scroll-view class='main-scroll'
-               scroll-y="true"
-               bindscrolltoupper="upper"
-               bindscrolltolower="lower">
-      <!-- 2.1、顶部下拉刷新动画 -->
-      <yyRefresh isHideBottomView="{{isHideTopView}}"
-                  title="正在下拉刷新..."
-                  image="/image/clinic/refresh.png">
-      </yyRefresh>
-      <!-- 2.2、遍历循环数组 -->
-      <block wx:for="{{dataSource}}" 
-             wx:key="index">
-        <initdruglistCell image="{{item.image}}"
-                          common_name="{{item.common_name}}"
-                          manufacturer="{{item.manufacturer.key_name}}"
-                          key_name="{{item.key_name}}"
-                          cost="{{item.cost}}"
-                          min_price="{{item.min_price}}"
-                          min_unit="{{item.min_unit.key_name}}"
-                          realCount="{{item.realCount}}"
-                          spec="{{item.spec}}"
-                          data-item="{{item}}"
-                          bindclickcell="onWestDrugListCell">
-        </initdruglistCell>
-      </block>
-      <!-- 2.3、无数据提示 -->
-      <view class='noData-view'
-            hidden='{{isHiddenNoData}}'>
-        <image src='/image/clinic/noData.png'>
-        </image>
-      </view>
-      <!-- 2.4、底部加载动画 -->
-      <yyRefresh isHideBottomView="{{isHideBottomView}}">
-      </yyRefresh>
-    </scroll-view>
-</view>
+<scroll-view class='main-scroll'
+             scroll-y="true"
+             bindscrolltoupper="upper"
+             bindscrolltolower="lower">
+  <view class='main-view'>         
+    <!-- 2.1、顶部下拉刷新动画 -->
+    <yyRefresh isHideBottomView="{{isHideTopView}}"
+                title="正在下拉刷新..."
+                image="/image/clinic/refresh.png">
+    </yyRefresh>
+    <!-- 2.2、遍历循环数组 -->
+    <block wx:for="{{dataSource}}" 
+            wx:key="index">
+      <initdruglistCell image="{{item.image}}"
+                        common_name="{{item.common_name}}"
+                        manufacturer="{{item.manufacturer.key_name}}"
+                        key_name="{{item.key_name}}"
+                        cost="{{item.cost}}"
+                        min_price="{{item.min_price}}"
+                        min_unit="{{item.min_unit.key_name}}"
+                        realCount="{{item.realCount}}"
+                        spec="{{item.spec}}"
+                        data-item="{{item}}"
+                        bindclickcell="onWestDrugListCell">
+      </initdruglistCell>
+    </block>
+    <!-- 2.3、无数据提示 -->
+    <view class='noData-view'
+          hidden='{{isHiddenNoData}}'>
+      <image src='/image/clinic/noData.png'>
+      </image>
+    </view>
+    <!-- 2.4、底部加载动画 -->
+    <yyRefresh isHideBottomView="{{isHideBottomView}}">
+    </yyRefresh>
+  </view>  
+</scroll-view>

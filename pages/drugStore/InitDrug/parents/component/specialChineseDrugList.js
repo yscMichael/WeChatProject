@@ -184,6 +184,20 @@ Component({
       this.setData({
         isHiddenNoData: this.data.isHiddenNoData
       });
+    },
+
+   /**
+     * 下拉刷新动作
+     */
+    upper: function (e) {
+      this.specialChineseRefresh();
+    },
+
+    /**
+     * 上拉加载动作
+     */
+    lower: function (e) {
+      this.specialChineseLoadMore();
     }
   }
 })

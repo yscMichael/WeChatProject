@@ -529,6 +529,9 @@ function getDrugWithKeyWord(code, onSuccess, onFail){
 /**
  * 2.1、查询药品是否存在基础库(200:药品没有初始化过)
  */
+//判断rows数组数量是否大于0，否则按照失败处理
+//如果成功的话、对数组进行处理
+//如果数组为空、证明不在基础库中，继续按照code查询第三方接口、查询完以后进入自定义添加界面
 function checkDrugisFromBasicStorage(code, onSuccess, onFail){
   var params = {
     _userid: app.globalData.userId,
@@ -539,16 +542,16 @@ function checkDrugisFromBasicStorage(code, onSuccess, onFail){
   }
   netJs.getRequest('/app?op=Page&cloud=drug_basis', params,
     function (success) {
-      console.log('checkDrugisFromBasicStorage');
+      console.log('查询药品是否存在基础库');
       console.log(success.data.rows);
-      //判断rows数组数量是否大于0，否则按照失败处理
-      //如果成功的话、对数组进行处理
-      //id
-      //begin_json
-      //image
-
-      //如果查询到的数组为空、证明基础库不存在、继续用code进行第三方查询
-      //不过这个时候走的自定义添加的路线，只不过是，刚开始有数据罢了
+      var rows = success.data.rows;
+      if(rows.length > 0){//有数据
+        var tempArray = dealDrugsArrayData(rows);
+        var firstModel = tempArray[0];
+        onSuccess(firstModel);
+      }else{//无数据
+        onSuccess('基础库中没有');
+      }
     },
     function (fail) {
       onFail(fail);
@@ -558,22 +561,15 @@ function checkDrugisFromBasicStorage(code, onSuccess, onFail){
 /**
  * 2.2、根据条形码查询第三方药品信息
  */
+//直接将success.data返回，有数据就解析，无数据就不解析
+//然后直接进入自定义添加界面
 function loadDrugInformationFromNetAPI(code, onSuccess, onFail){
   netJs.loadDrugInfoWithCode(code,
     function (success) {
       console.log('根据条形码查询第三方药品信息');
       console.log(success);
-
-
-
-      //判断rows数组数量是否大于0，否则按照失败处理
-      //如果成功的话、对数组进行处理
-      //id
-      //begin_json
-      //image
-
-      //如果查询到的数组为空、证明基础库不存在、继续用code进行第三方查询
-      //不过这个时候走的自定义添加的路线，只不过是，刚开始有数据罢了
+      console.log(success.data);
+      onSuccess(success.data);
     },
     function (fail) {
       onFail(fail);

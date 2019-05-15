@@ -215,8 +215,6 @@ Page({
    * 扫码添加药品
    */
   addDrugByScan:function(){
-    // this.checkMedicineisInit('6918619000028');
-
     //1、开始扫码
     var that = this;
     wx.scanCode({
@@ -325,12 +323,11 @@ Page({
     var that = this;
     initDrugJs.checkDrugisFromBasicStorage(code,
     function(success){
-      if(success.length == 0){//基础库里面没有、直接查询第三方接口
+      var tips = '基础库中没有';
+      if (success == tips) {//基础库里面没有、直接查询第三方接口
         that.loadDrugFromNetAPI(code);
-      }else{//基础库里面有
-        //取出第一个模型、进入下一个界面、不是编辑
-        var listModel = success[0];
-        that.goToNoEditDetailByScan(listModel);
+      }else{//基础库里面有、进入详情界面、不可编辑
+        that.goToNoEditDetailByScan(success);
       }
     },function(fail){
       wx.showToast({
@@ -344,14 +341,32 @@ Page({
    */
   loadDrugFromNetAPI:function(code){
     var that = this;
+    wx.showLoading({
+      title: '第三方数据加载中',
+    });
     initDrugJs.loadDrugInformationFromNetAPI(code,
     function(success){
-      //初始化模型、进入下一个界面、非编辑
-      that.goToNoEditDetailByScan(success);
+      wx.hideLoading();
+      //1、先初始化一个模型
+      var tempModel = that.initListModel();
+      //2、根据扫码信息进一步初始化、然后进入isEdit=NO界面
+      //条形码
+      tempModel.uuid = code;
+      //通用名
+      tempModel.common_name = success.name ? success.name : '';
+      //商品名
+      tempModel.key_name = success.name ? success.name : '';
+      //生产厂商
+      tempModel.manufacturer_name = success.company ? success.company : '';
+      //规格
+      tempModel.spec = success.spec ? success.spec : '';
+      //进入不可编辑界面
+      that.goToNoEditDetailByScan(tempModel);
     },function(fail){
+      wx.hideLoading();
       wx.showToast({
-        title: '网络加载失败',
-      })
+        title: '未查到任何信息',
+      });
     });
   },
 

@@ -372,6 +372,11 @@ function createListModel(){
     //7、
     begin_json: '',    //有效期批次
     begin_count: '',   //有效期数量
+    expire_date: '',//过期时间(采购入库用的)
+    batch_no: '',//批号(采购入库用的)
+    price: '',//价钱(采购入库用的)
+    count: '',//数量(采购入库用的)
+    unit: '',//单位(采购入库用的)
     //8、
     local_count: '',//库存
     //9、
@@ -384,16 +389,9 @@ function createListModel(){
     instruction_zh_name: '',//中药用法
     realCount: '',//经过转化的库存(有单位)
     usage: '',//用法用量(主要是西药和中成药用)
+    is_select: false,//这个是为了选中用的(采购入库用的)
   }
   return drugModel;
-}
-
-/**
- * 校验参数
- */
-function judgeParamisLegal(model, onSuccess, onFail){
-  console.log('开始校验参数-----');
-  //
 }
 
 /**
@@ -1027,6 +1025,5 @@ module.exports = {
   loadDrugInformationFromNetAPI: loadDrugInformationFromNetAPI,
   searchDrugFromBasis: searchDrugFromBasis,
   loadDrugInfoFirstByNameAndCompany: loadDrugInfoFirstByNameAndCompany,
-  judgeParamisLegal: judgeParamisLegal,
   dealDrugsArrayData: dealDrugsArrayData
 }

@@ -787,6 +787,10 @@ Page({
    */
   clickSureButton:function(e){
     console.log('点击保存按钮点击保存按钮');
+    //参数校验
+    if (!this.checkParam()){
+      return;
+    }
     //修改网络请求
     wx.showLoading({
       title: '正在保存中...',
@@ -821,5 +825,110 @@ Page({
          title: fail,
        }); 
     });
+  },
+
+  /**
+   * 校验参数
+   */
+  checkParam:function(){
+    //1、通用名
+    if(!this.data.listModel.common_name){
+      wx.showToast({
+        title: '请输入药品通用名',
+      });
+      return false;
+    }
+    //2、生产厂家
+    if (!this.data.listModel.manufacturer_name){
+      wx.showToast({
+        title: '请选择药品厂商',
+      });
+      return false;
+    }
+    //3、条形码(西药和中成药)
+    var drugType = this.data.listModel.dug_type ? this.data.listModel.dug_type.id : 1;
+    if ((drugType == 1) || (drugType == 2)){
+      if (!this.data.listModel.uuid){
+        wx.showToast({
+          title: '请输入条形码',
+        });
+        return false;
+      }
+    }
+    //4、剂型(除了医疗器械)
+    if(drugType != 4){
+      if (!this.data.listModel.drug_forms_name){
+        wx.showToast({
+          title: '请先选择剂型',
+        });
+        return false;
+      }
+    }
+    //5、包装单位
+    if(!this.data.listModel.min_name){
+      wx.showToast({
+        title: '请先选择进货单位',
+      });
+      return false;
+    }
+    //6、处方单位
+    if (!this.data.listModel.rx_name){
+      wx.showToast({
+        title: '请先选择处方单位',
+      });
+      return false;
+    }
+    //7、包装单位与拆临单位换算
+    if(!this.data.listModel.change_count){
+      wx.showToast({
+        title: '请先输入单位换算',
+      });
+      return false;
+    }
+    //8、剂量单位(除了医疗器械)
+    if (drugType != 4){
+      if(!this.data.listModel.single_name){
+        wx.showToast({
+          title: '请先选择服用单位',
+        });
+        return false;
+      }
+    }
+    //9、拆零单位与剂量单位换算(除了医疗器械)
+    if (drugType != 4){
+      if(!this.data.listModel.taking_count){
+        wx.showToast({
+          title: '服用比例必须大于0',
+        });
+        return false;
+      }
+    }
+    //10、规格(西药和中成药)
+    if ((drugType == 1) || (drugType == 2)){
+      if(!this.data.listModel.spec){
+        wx.showToast({
+          title: '请先输入规格',
+        });
+        return false;
+      }
+    }
+    //11、仓库
+    var warehouseId = this.data.listModel.warehouse_id ? this.data.listModel.warehouse_id.id : 0;
+    if (warehouseId == 0){
+      wx.showToast({
+        title: '请先选择仓库',
+      });
+      return false;
+    }
+    //12、供应商 vendor_name
+    var vendorId = this.data.listModel.vendor_id ? this.data.listModel.vendor_id.id : 0;
+    if (vendorId == 0) {
+      wx.showToast({
+        title: '请先选择供应商',
+      });
+      return false;
+    }
+    //最后返回
+    return true;
   }
 })

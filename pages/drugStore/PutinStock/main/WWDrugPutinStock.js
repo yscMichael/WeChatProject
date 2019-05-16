@@ -480,14 +480,18 @@ Page({
    * 点击底部入库按钮
    */
   clickBottomButton: function(){
-    //1、构造主表参数
+    console.log('点击底部入库按钮----top');
+    //1、校验参数
+    if(!this.checkParam()){
+      return;
+    }
+    //2、构造主表参数
     console.log(this.data.warehouseIndex);
     console.log(this.data.vendorIndex);
     console.log(this.data.warehouseArray);
     console.log(this.data.vendorArray);
     console.log(this.data.warehouseArray[this.data.warehouseIndex]);
     console.log(this.data.vendorArray[this.data.vendorIndex]);
-
     var that = this;
     var listModel = {
       in_date: this.data.inDate,
@@ -521,6 +525,37 @@ Page({
           title: fail,
         });
     });
+  },
+
+  /**
+   * 点击直接入库、进行参数校验
+   */
+  checkParam:function(){
+    var isLegal = true;
+    var tip = '';
+    for (let i = 0; i < this.data.dataSource.length; i ++){
+      var model = this.data.dataSource[i];
+      var index = i + 1;
+      //检测有效期
+      if (!model.expire_date){
+        tip = '请先填写第' + index + '个药品的失效日期';
+        isLegal = false;
+        break;
+      }
+      //检测数量
+      if ((!model.count) || (model.count == 0)){
+        tip = '请先填写第' + index + '个药品的数量';
+        isLegal = false;
+        break;
+      }
+    }
+    wx.showModal({
+      title: '提示',
+      content: tip,
+      showCancel: false,
+      confirmText: '确定'
+    });
+    return isLegal;
   },
 
   /**

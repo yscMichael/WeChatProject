@@ -61,7 +61,7 @@
     <view class='right-content-price'>
       <input class='price-input'
                    placeholder='0.000'
-                   value='{{price}}'
+                   value='{{cost}}'
                    type='digit'
                    bindinput='batchPriceInput'></input>
       <view class='unit'>元</view>   
@@ -94,5 +94,5 @@
 <view class='bottom-view'>
   <view class='bottom-title'>小计:</view>
   <view class='bottom-flag'>¥</view>
-  <view class='bottom-price'>{{cost}}</view>
+  <view class='bottom-price'>{{price}}</view>
 </view>

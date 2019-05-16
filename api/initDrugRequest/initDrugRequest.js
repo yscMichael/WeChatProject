@@ -686,6 +686,11 @@ function dealDrugsArrayData(drugsArr) {
       //7、
       begin_json: '',    //有效期批次
       begin_count: '',   //有效期数量
+      expire_date: '',//过期时间(采购入库用的)
+      batch_no: '',//批号(采购入库用的)
+      price:'',//价钱(采购入库用的)
+      count: '',//数量(采购入库用的)
+      unit:'',//单位(采购入库用的)
       //8、
       local_count: '',//库存
       //9、
@@ -698,7 +703,7 @@ function dealDrugsArrayData(drugsArr) {
       instruction_zh_name: '',//中药用法
       realCount:'',//经过转化的库存(有单位)
       usage:'',//用法用量(主要是西药和中成药用)
-      is_select: true,//这个是为了选中用的(采购入库用的)
+      is_select: false,//这个是为了选中用的(采购入库用的)
     }
     //处理模型
     var drugDict = drugsArr[i];
@@ -753,6 +758,16 @@ function dealDrugsArrayData(drugsArr) {
     //7、
     drugModel.begin_json = drugDict.begin_json;//有效期批次
     drugModel.begin_count = drugDict.begin_count;//有效期数量
+    drugModel.expire_date = drugDict.expire_date;//过期时间(采购入库)
+    drugModel.batch_no = drugDict.batch_no;//批号(采购入库)
+    drugModel.price = drugDict.price;//进货价(采购入库)
+    drugModel.count = drugDict.count;//采购数量(采购入库)
+    //判断是否是中药
+    if (drugDict.dug_type.id == 3) {//中药
+      drugModel.unit = drugDict.rx_unit;//(采购入库)
+    } else {//西药、中成药、医疗器械
+      drugModel.unit = drugDict.min_unit;//(采购入库)
+    }
     //8、
     drugModel.local_count = drugDict.local_count;
     //9、其它处理

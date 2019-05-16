@@ -93,13 +93,13 @@
                                image="{{item.image}}"
                                general_name="{{item.common_name}}"
                                spec="{{item.spec}}"
-                               manufacturer="{{item.manufacturer.key_name}}"
+                               manufacturer="{{item.manufacturer_name}}"
                                expire_date="{{item.expire_date?item.expire_date:'选择失效日期'}}"
                                batch_no="{{item.batch_no}}"
-                               price="{{item.price}}"
+                               cost="{{item.cost}}"
                                count="{{item.count}}"
                                unit="{{item.unit.key_name}}"
-                               cost="{{item.cost}}"
+                               price="{{item.price}}"
                                bindclickdetailcell="clickDetailCell">
         </storageDetailEditCell>
       </block>

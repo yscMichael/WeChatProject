@@ -81,7 +81,9 @@ function downloadDrugListRequest(drugtype, page, onSuccess, onFail) {
   function (success) {
     var drugsArr = success.data.rows;
     var totalCount = success.totalCount;
-    onSuccess(dealDrugsArrayData(drugsArr), totalCount);
+    //调用药品初始化接口处理数据
+    var tempArray = initJs.dealDrugsArrayData(drugsArr);
+    onSuccess(tempArray, totalCount);
   },
   function (fail) {
     onFail(fail);
@@ -270,59 +272,7 @@ function postDrugData(listModel, dataSource, onSuccess, onFail){
   //   });
 }
 
-/**
- * 药品列表数据处理
- */
-function dealDrugsArrayData(drugsArr) {
-  //临时数组
-  var tempArray = [];
-  for (let i = 0; i < drugsArr.length; i++) {
-    var drugModel = {
-      drugId:'',        //药品id
-      common_name:'',   //通用名
-      key_name:'',      //商品名
-      manufacturer:'',  //厂家
-      spec:'',          //规格
-      drug_forms:'',    //剂型
-      image: '',        //图片
-      unit:'',          //单位
-      expire_date:'',   //有效期至
-      cost:'',          //小计
-      price:'',         //进货单价
-      count:'',         //数量
-      batch_no:'',      //批号
-      is_select:false,  //是否选中
-      deletestate:false //是否处于删除状态
-    }
 
-    var drugDict = drugsArr[i];
-    drugModel.drugId = drugDict.id;
-    drugModel.common_name = drugDict.common_name;
-    drugModel.key_name = drugDict.key_name;
-    drugModel.manufacturer = drugDict.manufacturer;
-    drugModel.spec = drugDict.spec;
-    drugModel.drug_forms = drugDict.drug_forms;
-    //判断是否是中药
-    if (drugDict.dug_type.id == 3){//中药
-      drugModel.unit = drugDict.rx_unit;
-    }else{//西药、中成药、医疗器械
-      drugModel.unit = drugDict.min_unit;
-    }
-    drugModel.cost = drugDict.cost;
-    //处理图片
-    if (drugDict.image) {
-      var imageArr = drugDict.image;
-      drugModel.image = imageArr[0].url + '&_password=' +
-        app.globalData.password + '&_userid=' + app.globalData.userId;
-    }
-    else {
-      drugModel.image = '/image/img_ypmr.png';
-    }
-    //添加到数组
-    tempArray.push(drugModel);
-  }
-  return tempArray;
-}
 
 /**
  * 处理直接入库/提交审核
@@ -612,7 +562,6 @@ module.exports = {
   downloadWarehouseRequest: downloadWarehouseRequest,
   downloadVendorRequest: downloadVendorRequest,
   downloadDrugListRequest: downloadDrugListRequest,
-  judgeDrugWhetherInBasic: judgeDrugWhetherInBasic,
   loadDrugDataByCode: loadDrugDataByCode,
   getStoragedData: getStoragedData,
   getStoragingData: getStoragingData,

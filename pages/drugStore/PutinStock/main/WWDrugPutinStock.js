@@ -413,23 +413,23 @@ Page({
     //批号
     model.batch_no = detailDict.batch_no;
     //进货单价
-    model.price = Number(detailDict.price);
+    model.cost = Number(detailDict.cost);
     //进货数量
     model.count = Number(detailDict.count);
     //小计
-    model.cost = Number(detailDict.cost);
+    model.price = Number(detailDict.price);
 
     //6、计算底部总金额
     var totalPrice = 0;
     for (let i = 0; i < this.data.dataSource.length; i++) {
       var model = this.data.dataSource[i];
       //单价
-      var price = model.price;
+      var cost = model.cost;
       //数量
       var count = model.count;
       //小计
-      var cost = price * count;
-      totalPrice += cost;
+      var total = cost * count;
+      totalPrice += total;
     }
     //7、刷新底部金额
     this.data.totalPrice = totalPrice;

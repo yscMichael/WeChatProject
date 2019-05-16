@@ -2,6 +2,7 @@
 const app = getApp();
 //网络请求
 var netJs = require('../netUtil.js');
+var initJs = require('../initDrugRequest/initDrugRequest.js');
 
 /**
  * 请求仓库列表
@@ -34,7 +35,9 @@ function downloadWarehouseRequest(onSuccess, onFail) {
   });
 }
 
-//请求供应商列表
+/**
+ * 请求供应商列表
+ */
 function downloadVendorRequest(onSuccess, onFail) {
   var params = {
     _userid: app.globalData.userId,
@@ -63,7 +66,9 @@ function downloadVendorRequest(onSuccess, onFail) {
   });
 }
 
-//根据药品类型请求药品列表
+/**
+ * 根据药品类型请求药品列表
+ */
 function downloadDrugListRequest(drugtype, page, onSuccess, onFail) {
   var params = {
     _userid: app.globalData.userId,
@@ -83,6 +88,71 @@ function downloadDrugListRequest(drugtype, page, onSuccess, onFail) {
   });
 }
 
+/**
+ * 根据条形码请求药品信息---0
+ */
+function loadDrugDataByCode(code, onSuccess, onFail) {
+  var params = {
+    _userid: app.globalData.userId,
+    _password: app.globalData.password,
+    key_word: code,
+    page: 1,
+    rows: 10
+  }
+  netJs.getRequest('/app?op=Page&cloud=drug', params,
+    function (success) {
+      console.log('202状态下获取药品信息');
+      var rows = success.data.rows;
+      if (rows.length > 0) {//有数据
+        //判断review_state
+        var model = rows[0];
+        var review_state = model.review_state ? model.review_state.id : 0;
+        if (review_state == 0) {//已经禁用了
+          onFail('该药品已禁用，如需启用，请在电脑端-基础设置菜单修改');
+        } else {//处理模型
+          //调用药品初始化方法
+          var tempArray = initJs.dealDrugsArrayData(rows);
+          var firstModel = tempArray[0];
+          firstModel.is_select = true;
+          onSuccess(firstModel);
+        }
+      } else {//药品已经禁用
+        onFail('检查初始化');
+      }
+    },
+    function (fail) {
+      onFail('网络加载失败');
+    });
+}
+
+/**
+ * 检查是否初始化过
+ * 200:药品已经初始化过、走到说明这里被禁用了
+ * 202:该药品在基础库中不存在，是否进行药品初始化？
+ */
+function checkIsInit(code, onSuccess, onFail){
+  var params = {
+    _userid: app.globalData.userId,
+    _password: app.globalData.password,
+    uuid: code
+  }
+  netJs.getRequest('/cloud/prj/gmi/base/api/BaseApi?op=DrugFromBasic', params,
+    function (success) {
+      console.log('查询是否初始化过');
+      console.log(success.data.code);
+      var code = success.data.code;
+      if ((code == 202) || (code == 200)){
+        onSuccess(code);
+      }else{
+        onFail('网络加载失败');
+      }
+    },
+    function (fail) {
+      onFail('网络加载失败');
+    });
+}
+
+
 //查询药品是否存在基础库????
 function judgeDrugWhetherInBasic(code, onSuccess, onFail) {
   var params = {
@@ -100,51 +170,7 @@ function judgeDrugWhetherInBasic(code, onSuccess, onFail) {
     });
 }
 
-//根据条形码请求药品信息??????
-function loadDrugDataByCode(code, onSuccess, onFail) {
-  var params = {
-    _userid: app.globalData.userId,
-    _password: app.globalData.password,
-    uuid: code
-  }
-  netJs.getRequest('/app?op=Page&cloud=drug', params,
-    function (success) {
-      var stateCode = success.data.code;
-      if (stateCode == 200) {
-        
-        var rows = success.data.rows;
-        if (rows.length > 0) {
-          var durgDict = rows[0];
-          
-          var drugModel = {
-            drugId: durgDict.id,                  //药品id
-            common_name: drugDict.common_name,    //通用名
-            key_name: drugDict.key_name,          //商品名
-            manufacturer: drugDict.manufacturer,  //厂家
-            spec: durgDict.spec,                  //规格
-            drug_forms: durgDict.drug_forms,      //剂型
-            image: '',                            //图片
-            count: 0,                             //数量
-            price: drugDict.cost,                 //价格
-            batch_no:'',                          //批号
-            expire_date:'',                       //有效期至
-            is_select: true,                      //是否选中
-            deletestate: false,                   //是否处于删除状态
-          }
-          var imageArr = drugDict.image;
-          drugModel.image = imageArr[0].url + '&_password=' +
-            app.globalData.password + '&_userid=' + app.globalData.userId;
-          onSuccess(drugModel);
-        }
-        else {
-          onSuccess('');
-        }
-      }
-    },
-    function (fail) {
-      onFail(fail);
-    });
-}
+
 
 /**
  * 点击直接入库/提交审核
@@ -613,5 +639,6 @@ module.exports = {
   dealStoragedData: dealStoragedData,
   getPwBillDetail: getPwBillDetail,
   postDrugData: postDrugData,
-  submitDrug: submitDrug
+  submitDrug: submitDrug,
+  checkIsInit: checkIsInit
 }

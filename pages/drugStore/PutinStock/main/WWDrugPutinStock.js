@@ -2,6 +2,7 @@
 const app = getApp()
 //网络请求
 var putinStockJs = require('../../../../api/drugRequest/drugRequest.js');
+var initDrugJs = require('../../../../api/initDrugRequest/initDrugRequest.js');
 
 Page({
   /**
@@ -25,7 +26,9 @@ Page({
     //总金额
     totalPrice: 0,
     //入库金额
-    actualPrice: 0
+    actualPrice: 0,
+    //条形码
+    saveCode:'',
   },
   /**
    * 生命周期函数--监听页面加载
@@ -199,99 +202,185 @@ Page({
   },
 
   /**
-   * 扫码
+   * 扫码添加
    */
   ScanCodePutinStock: function () {
+    //1、开始扫码
     var that = this;
     wx.scanCode({
-      success: (res) => {
-        // 扫码成功
+      success(res) {
+        //扫码成功
         var code = res.result;
+        console.log('扫码成功');
+        console.log(code);
+        that.data.saveCode = code;
         that.loadDrugDataByScanCode(code);
       },
-      fail: (res) => {
+      fail(res) {
         wx.showToast({
           title: '扫码失败',
           icon: 'none'
-        })
-      },
-      complete: (res) => {
-
+        });
       }
-    })
+    });
   },
 
   /**
-   * 扫码后请求药品数据
+   * 0.根据code码查询药品信息
    */
   loadDrugDataByScanCode: function (code) {
     var that = this;
     putinStockJs.loadDrugDataByCode(code,
       function (success) {
-
-        var drugModel = success;
-
-        if (drugModel) {
-          that.dataSource.push(drugModel);
-          that.setData({
-            isShowHeader: false,
-            headerHeight: 90,
-            toolBarTop: 0,
-            drugsArray: that.dataSource
+        //1、将药品添加到数组中
+        that.data.dataSource.push(success);
+        //2、刷新界面
+        that.setData({
+          isShowHeader: false,
+          headerHeight: 90,
+          toolBarTop: 0,
+          dataSource:that.data.dataSource
+        });
+      }, function (fail) {
+        if (fail == '检查初始化'){
+          //检查是否初始化
+          that.checkDrugisInit(code);
+        }else{
+          wx.showToast({
+            title: fail,
+            icon: 'none'
           })
         }
-        else {
-          //查询成功但是没有返回药品信息，接着查询药品是否存在基础库
-          that.checkDrugWhetherInBasic(code);
-        }
-      }, function (fail) {
-        wx.showToast({
-          title: '请求失败',
-          icon: 'none'
-        })
       });
   },
 
   /**
-   * 查询药品是否存在基础库
+   * 1、检查药品是否初始化
    */
-  checkDrugWhetherInBasic: function (code) {
-
-    putinStockJs.judgeDrugWhetherInBasic(code,
-      function (success) {
-        //返回结果
-        var stateCode = success;
-        if (stateCode == 202) {
-          //药品存在基础库，可入库
-
-        }
-        else if (stateCode == 200) {
-          //药品不在基础库里面，提示用户跳转初始化
-          wx.showModal({
-            title: '提示',
-            content: '药品不存在基础库，请前往初始化',
-            success: function (res) {
-              if (res.confirm) {
-                console.log('用户点击确定')
-              } else {
-                console.log('用户点击取消')
-              }
+  checkDrugisInit:function(code){
+    var that = this;
+    putinStockJs.checkIsInit(code,function(success){
+      if(success == 202){//药品禁用
+        wx.showModal({
+          title: '提示',
+          content: '该药品已禁用，如需启用，请在电脑端-基础设置菜单修改',
+          showCancel: false,
+          confirmText: '确定'
+        });
+      }else{//不在基础库、需要初始化
+        wx.showModal({
+          title: '提示',
+          content: '该药品在基础库中不存在，是否进行药品初始化？',
+          success(res) {
+            if (res.confirm) {//点击确定、调用3023接口查询药品信息
+              that.loadDrugFromNetAPI(code);
             }
-          })
-        }
-        else {
-          wx.showToast({
-            title: '请求失败',
-            icon: 'none'
-          })
-        }
-
-      }, function (fail) {
-        wx.showToast({
-          title: '请求失败',
-          icon: 'none'
-        })
+          }
+        });
+      }
+    },function(fail){
+      wx.showToast({
+        title: '网络加载失败',
       });
+    });
+  },
+
+  /**
+   * 2、调用3023查询第三方药品信息
+   */
+  loadDrugFromNetAPI:function(code){
+    var that = this;
+    wx.showLoading({
+      title: '第三方数据加载中',
+    });
+    initDrugJs.loadDrugInformationFromNetAPI(code,
+      function (success) {
+        wx.hideLoading();
+        //1、先初始化一个模型
+        var tempModel = that.initListModel();
+        //2、根据扫码信息进一步初始化、然后进入isEdit=NO界面
+        //条形码
+        tempModel.uuid = code;
+        //通用名
+        tempModel.common_name = success.name ? success.name : '';
+        //商品名
+        tempModel.key_name = success.name ? success.name : '';
+        //生产厂商
+        tempModel.manufacturer_name = success.company ? success.company : '';
+        //规格
+        tempModel.spec = success.spec ? success.spec : '';
+        //弹出类型选择界面
+        that.popDrugTypeChoose(tempModel);
+      }, function (fail) {
+        wx.hideLoading();
+        wx.showToast({
+          title: '未查到任何信息',
+        });
+      });
+  },
+
+  /**
+   * 3、弹出类型选择界面
+   */
+  popDrugTypeChoose: function (tempModel){
+    var that = this;
+    var tempList = ['西药', '中成药', '中药', '医疗器械'];
+    wx.showActionSheet({
+      itemList: ['西药', '中成药', '中药', '医疗器械'],
+      success(e) {
+        console.log(e.tapIndex)
+        //对模型药品类型赋值
+        var dug_type = {
+          id:'',
+          key_name:''
+        };
+        dug_type.id = e.tapIndex + 1;
+        dug_type.key_name = tempList[e.tapIndex];
+        tempModel.dug_type = dug_type;
+        //进入初始化详情界面
+        that.goToDrugDetail(tempModel);
+      }
+    })
+  },
+
+  /**
+   * 4、进入药品初始化非编辑界面
+   */
+  goToDrugDetail: function (listModel) {
+    //这里要对image进行特殊编码(防止出现特殊字符)
+    if (listModel.image != '/image/img_ypmr.png') {//编码
+      listModel.image = encodeURIComponent(listModel.image);
+    }
+    var listModelString = JSON.stringify(listModel);
+    //进入药品初始化详情
+    wx.navigateTo({
+      url: "/pages/drugStore/InitDrug/initDrugDetail/initDrugDetail?listModel=" + listModelString + '&isEdit=0',
+    });
+  },
+
+  /**
+   * 5、药品初始化完成反向通知
+   * 这里重新调用上面接口即可
+   */
+  completeInitDrug:function(){
+    console.log('药品初始化完成');
+    this.loadDrugDataByScanCode(this.data.scanCode);
+  },
+
+  /**
+   * 初始化模型(自定义添加)
+   */
+  initListModel: function () {
+    var listModel = initDrugJs.createListModel();
+    //1、is_basic
+    var is_basic = {
+      id: 0,
+      key_name: ''
+    };
+    listModel.is_basic = is_basic;
+    console.log('初始化模型----------');
+    console.log(listModel);
+    return listModel;
   },
 
   /**

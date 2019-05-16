@@ -801,8 +801,12 @@ Page({
       var currPage = pages[pages.length - 1];
       //上一个页面
       var prevPage = pages[pages.length - 2];
-      //2、刷新界面
-      prevPage.refreshData();
+      //2、刷新界面(这里要判断界面、因为有多种不同的路径)
+      if (prevPage.route == "pages/drugStore/PutinStock/main/WWDrugPutinStock"){
+        prevPage.completeInitDrug();
+      }else{//药品初始化界面
+        prevPage.refreshData();
+      }
       //3、返回界面
       wx.showToast({
         title: '保存成功',

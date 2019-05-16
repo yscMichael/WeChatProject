@@ -698,6 +698,7 @@ function dealDrugsArrayData(drugsArr) {
       instruction_zh_name: '',//中药用法
       realCount:'',//经过转化的库存(有单位)
       usage:'',//用法用量(主要是西药和中成药用)
+      is_select: true,//这个是为了选中用的(采购入库用的)
     }
     //处理模型
     var drugDict = drugsArr[i];
@@ -1011,5 +1012,6 @@ module.exports = {
   loadDrugInformationFromNetAPI: loadDrugInformationFromNetAPI,
   searchDrugFromBasis: searchDrugFromBasis,
   loadDrugInfoFirstByNameAndCompany: loadDrugInfoFirstByNameAndCompany,
-  judgeParamisLegal: judgeParamisLegal
+  judgeParamisLegal: judgeParamisLegal,
+  dealDrugsArrayData: dealDrugsArrayData
 }

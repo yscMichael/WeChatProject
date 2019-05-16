@@ -126,7 +126,7 @@ function loadDrugDataByCode(code, onSuccess, onFail) {
 }
 
 /**
- * 检查是否初始化过
+ * 检查是否初始化过(根据条形码没有查到药品信息)----1
  * 200:药品已经初始化过、走到说明这里被禁用了
  * 202:该药品在基础库中不存在，是否进行药品初始化？
  */
@@ -148,55 +148,6 @@ function checkIsInit(code, onSuccess, onFail){
       }
     },
     function (fail) {
-      onFail('网络加载失败');
-    });
-}
-
-
-//查询药品是否存在基础库????
-function judgeDrugWhetherInBasic(code, onSuccess, onFail) {
-  var params = {
-    _userid: app.globalData.userId,
-    _password: app.globalData.password,
-    uuid: code
-  }
-  netJs.getRequest('/cloud/prj/gmi/base/api/BaseApi?op=DrugFromBasic', params,
-    function (success) {
-      var stateCode = success.data.code;
-      onSuccess(stateCode);
-    },
-    function (fail) {
-      onFail(fail);
-    });
-}
-
-
-
-/**
- * 点击直接入库/提交审核
- */
-function submitDrug(listModel, dataSource, onSuccess, onFail) {
-  //参数
-  var mainParam = submitDrugParam(listModel, dataSource);
-  //网络请求
-  netJs.getRequest('/app?op=Add&cloud=pw_bill', mainParam,
-    function (success) {
-      console.log('successsuccesssuccess');
-      console.log(success);
-      var code = success.data.code;
-      if (code == 200) {//提交/审核通过
-        onSuccess();
-      } else {//提交/审核失败
-        var remark = success.data.remark;
-        if(remark){
-          onFail(remark);
-        }else{
-          onFail('网络加载失败');
-        }
-      }
-    },
-    function (fail) {
-      console.log('failfailfailfailfailfail');
       onFail('网络加载失败');
     });
 }
@@ -266,6 +217,35 @@ function getPwBillDetail(batchId, onSuccess, onFail){
     },
     function (fail) {
       onFail(fail);
+    });
+}
+
+/**
+ * 点击直接入库/提交审核
+ */
+function submitDrug(listModel, dataSource, onSuccess, onFail) {
+  //参数
+  var mainParam = submitDrugParam(listModel, dataSource);
+  //网络请求
+  netJs.getRequest('/app?op=Add&cloud=pw_bill', mainParam,
+    function (success) {
+      console.log('successsuccesssuccess');
+      console.log(success);
+      var code = success.data.code;
+      if (code == 200) {//提交/审核通过
+        onSuccess();
+      } else {//提交/审核失败
+        var remark = success.data.remark;
+        if (remark) {
+          onFail(remark);
+        } else {
+          onFail('网络加载失败');
+        }
+      }
+    },
+    function (fail) {
+      console.log('failfailfailfailfailfail');
+      onFail('网络加载失败');
     });
 }
 

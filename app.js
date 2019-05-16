@@ -21,6 +21,7 @@ App({
     print_price:null,//是否打印处方价格
     print_retail_price:null,//是否打印售药单价格
     print_extra_charge:null,//是否打印附加费
+    local_add: null,//采购入库是否能添加药品
     key_name:null,//医生名字
     department_entity:null,//诊所名字
     departmentId: null,

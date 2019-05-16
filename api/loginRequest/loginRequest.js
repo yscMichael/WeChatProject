@@ -37,6 +37,8 @@ function loginRequest(userName, password,onSuccess, onFail) {
     app.globalData.print_retail_price = success.data.data.rights.print_retail_price == 1 ? true : false,
     //是否打印附加费
     app.globalData.print_extra_charge = success.data.data.rights.print_extra_charge == 1 ? true : false,
+    //采购入库添加药品权限
+    app.globalData.local_add = success.data.data.rights.local_add == 1 ? true : false,
     //医生名字
     app.globalData.key_name = success.data.data.key_name,
     //诊所名字

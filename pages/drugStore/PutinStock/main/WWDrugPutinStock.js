@@ -163,6 +163,9 @@ Page({
    * 点击手动添加
    */
   bindHandlePutinStock(e) {
+    if (!this.checkRight){//增加权限判断
+       return; 
+    }
     const val = e.detail.value
     //药品类型
     var drugtype = Number(e.detail.value) + 1;
@@ -178,6 +181,36 @@ Page({
       url: '/pages/drugStore/PutinStock/PutStockSelectDrug/putStockSelectDrug?id='
         + drugtype + '&drugArr=' + array,
     })
+  },
+
+  /**
+   * 检查权限、供应商、仓库、入库时间
+   */
+  checkRight:function(){
+    console.log('检查权限--------');
+    var resultJudge = true;
+    //1、判断权限
+    if (!app.globalData.local_add){
+        wx.showToast({
+          title: '您不能进行入库操作',
+        });
+        resultJudge = false;
+    }
+    //2、选择仓库
+    if (this.data.warehouseArray.length == 0){
+      wx.showToast({
+        title: '请选择仓库',
+      });
+      resultJudge = false;
+    }
+    //3、供应商
+    if (this.data.vendorArray.length == 0) {
+      wx.showToast({
+        title: '请选择供应商',
+      });
+      resultJudge = false;
+    }
+    return resultJudge;
   },
 
   /**
@@ -205,6 +238,9 @@ Page({
    * 扫码添加
    */
   ScanCodePutinStock: function () {
+    if (!this.checkRight) {//增加权限判断
+      return;
+    }
     //1、开始扫码
     var that = this;
     wx.scanCode({

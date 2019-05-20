@@ -175,7 +175,6 @@ function addUnitToList(unit,onSuccess, onFail){
  * 增加供应商字段
  */
 function addVendorToList(vendor, onSuccess, onFail){
-  console.log('增加供应商字段');
   var params = {
     key_name: vendor,
     _userid: app.globalData.userId,
@@ -256,8 +255,6 @@ function postAllData(drugModel, isEdit, onSuccess, onFail){
   //2、网络请求
   netJs.getRequest(url, params,
     function (success) {
-      console.log('药品初始化修改或者增加接口-----success');
-      console.log(success);
       if(success.data.code == 200){//保存成功
         onSuccess();  
       }else{//失败
@@ -270,7 +267,6 @@ function postAllData(drugModel, isEdit, onSuccess, onFail){
       }
     },
     function (fail) {
-      console.log('药品初始化修改或者增加接口-----fail');
       onFail('网络加载失败');
     });
 }
@@ -286,8 +282,6 @@ function checkUse(drugId, onSuccess, onFail){
   }
   netJs.getRequest('/gmi/drug?op=checkUse', params,
     function (success) {
-      console.log('查询药品是否已经开过处方');
-      console.log(success.data.code);
       onSuccess(success.data.code);
     },
     function (fail) {
@@ -306,8 +300,6 @@ function chineseAndWestUsage(cloudName, onSuccess, onFail){
   var urlString = '/app?op=List&cloud=' + cloudName;
   netJs.getRequest(urlString, params,
     function (success) {
-      console.log('中药用法/西药用法-------');
-      console.log(success.data);
       var rows = success.data.rows;
       var modelArr = [];
       for (let i = 0; i < rows.length; i++) {
@@ -491,8 +483,6 @@ function loadDrugInfoFirstByCode(code, onSuccess, onFail) {
   }
   netJs.getRequest('/cloud/prj/gmi/base/api/BaseApi?op=DrugFromBasic', params,
     function (success) {
-      console.log('查询是否初始化过');
-      console.log(success.data.code);
       onSuccess(success.data.code);
     },
     function (fail) {
@@ -519,7 +509,6 @@ function getDrugWithKeyWord(code, onSuccess, onFail){
   }
   netJs.getRequest('/app?op=Page&cloud=drug', params,
     function (success) {
-      console.log('202状态下获取药品信息');
       var rows = success.data.rows;
       if (rows.length > 0){//有数据
         //判断review_state
@@ -557,8 +546,6 @@ function checkDrugisFromBasicStorage(code, onSuccess, onFail){
   }
   netJs.getRequest('/app?op=Page&cloud=drug_basis', params,
     function (success) {
-      console.log('查询药品是否存在基础库');
-      console.log(success.data.rows);
       var rows = success.data.rows;
       if(rows.length > 0){//有数据
         var tempArray = dealDrugsArrayData(rows);
@@ -581,9 +568,6 @@ function checkDrugisFromBasicStorage(code, onSuccess, onFail){
 function loadDrugInformationFromNetAPI(code, onSuccess, onFail){
   netJs.loadDrugInfoWithCode(code,
     function (success) {
-      console.log('根据条形码查询第三方药品信息');
-      console.log(success);
-      console.log(success.data);
       onSuccess(success.data);
     },
     function (fail) {
@@ -605,7 +589,6 @@ function searchDrugFromBasis(key_word, dug_type, page, rows, onSuccess, onFail){
   }
   netJs.getRequest('/app?op=Page&cloud=drug_basis', params,
     function (success) {
-      console.log('在基础库中搜索添加药品------------');
       var drugsArr = success.data.rows;
       var totalCount = success.data.total;
       onSuccess(dealDrugsArrayData(drugsArr), totalCount);
@@ -627,8 +610,6 @@ function loadDrugInfoFirstByNameAndCompany(common_name, manufacturerId, onSucces
   }
   netJs.getRequest('/cloud/prj/gmi/base/api/BaseApi?op=DrugFromBasic', params,
     function (success) {
-      console.log('查询是否初始化过');
-      console.log(success.data.code);
       onSuccess(success.data.code);
     },
     function (fail) {
@@ -904,10 +885,14 @@ function dealSpec(drugModel){
  */
 function dealRealCount(drugModel){
   var realCountString = '';
+  var local_count = drugModel.local_count ? drugModel.local_count : 0;
+  var change_count = drugModel.change_count ? drugModel.change_count : 0;
   //1、包装单位数量
-  var minCount = parseFloat(drugModel.local_count) / parseInt(drugModel.change_count);
+  var minCount = parseFloat(local_count) / parseInt(change_count);
+  console.log('包装单位数量========');
+  console.log(minCount);
   //拆零单位数量
-  var rxCount = parseFloat(drugModel.local_count) - parseInt(minCount) * parseInt(drugModel.change_count);
+  var rxCount = parseFloat(local_count) - parseInt(minCount) * parseInt(change_count);
   //2、包装单位
   var minUnit = (drugModel.min_unit) ? drugModel.min_unit.key_name : '';
   //拆零单位
@@ -915,7 +900,7 @@ function dealRealCount(drugModel){
   //3、判断
   if (minUnit == rxUnit) 
   {//两个单位相同、只显示拆零单位
-    realCountString = drugModel.local_count + rxUnit;
+    realCountString = local_count + rxUnit;
   }
   else 
   {//两个单位不相同、判断包装单位是否为0

@@ -34,10 +34,11 @@ Page{
 
 /*2、中间列表 */
 .containerView {
-  margin-top: 40px;
-  width: 100%;
-  height: calc(100% - 100px);
-  background-color: red;
+  position: fixed;
+  left: 0px;
+  right: 0px;
+  top: 40px;
+  bottom: 60px;
 }
 
 /* 主滑动视图 */
@@ -57,6 +58,7 @@ Page{
   z-index: 9999;
   background-color: white;
 }
+
 .initdrug_bottomView::after {
   content: '';
   position: absolute;
@@ -71,6 +73,7 @@ Page{
   transform: scaleY(.5);
   z-index: 2;
 }
+
 /* 数量 */
 .initdrug_bottomView_totalcount {
   padding-left: 15px;

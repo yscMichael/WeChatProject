@@ -889,8 +889,6 @@ function dealRealCount(drugModel){
   var change_count = drugModel.change_count ? drugModel.change_count : 0;
   //1、包装单位数量
   var minCount = parseFloat(local_count) / parseInt(change_count);
-  console.log('包装单位数量========');
-  console.log(minCount);
   //拆零单位数量
   var rxCount = parseFloat(local_count) - parseInt(minCount) * parseInt(change_count);
   //2、包装单位

@@ -1,7 +1,8 @@
 <scroll-view class='main-scroll'
              scroll-y="true"
              bindscrolltoupper="upper"
-             bindscrolltolower="lower">
+             bindscrolltolower="lower"
+             style='width:{{screenWidth}};height:{{screenHeight}}'>
   <view class='main-view'>
     <!-- 2.1、顶部下拉刷新动画 -->
     <yyRefresh isHideBottomView="{{isHideTopView}}"

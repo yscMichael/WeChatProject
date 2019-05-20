@@ -17,24 +17,32 @@
       <!--2.1、西药-->
       <swiper-item>
         <westDrugList id="westDrugList"
+                      screenWidth="{{screenWidth}}"
+                      screenHeight="{{screenHeight}}"
                       bindclickwestcell="onClickWestCell">
         </westDrugList>
       </swiper-item>
       <!--2.2、中成药-->
       <swiper-item>
         <specialChineseDrugList id="specialChineseDrugList"
+                                screenWidth="{{screenWidth}}"
+                                screenHeight="{{screenHeight}}"
                                 bindclickspecialChinesecell="onClickSpecialChineseCell">
         </specialChineseDrugList>
       </swiper-item>
       <!--2.3、中药-->
       <swiper-item>
         <chineseDrugList id="chineseDrugList"
+                         screenWidth="{{screenWidth}}"
+                         screenHeight="{{screenHeight}}"
                          bindclickchinesecell="onClickChineseCell">
         </chineseDrugList>
       </swiper-item>
       <!--2.4、医疗器械-->
       <swiper-item>
         <instrumentList id="instrumentList"
+                        screenWidth="{{screenWidth}}"
+                        screenHeight="{{screenHeight}}"
                         bindclickinstrumentcell="onClickInstrumentCell">
         </instrumentList>
       </swiper-item>
@@ -52,5 +60,4 @@
       <view class='initdrug_bottomView_addButton'>继续添加</view>
     </picker>
   </view>
-
 </view>

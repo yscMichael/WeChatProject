@@ -12,7 +12,14 @@ Component({
    * 组件的属性列表
    */
   properties: {
-
+    screenWidth: {
+      type: Number,
+      value: 0
+    },
+    screenHeight: {
+      type: Number,
+      value: 0
+    }
   },
 
   /**

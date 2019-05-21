@@ -461,9 +461,16 @@ function makePostDataParam(drugModel){
   paramDict.range_up = drugModel.range_up ? drugModel.range_up : 0;
 
   //8、库存批次
-  paramDict.begin_count = drugModel.begin_count ? drugModel.begin_count : 0;
   paramDict.begin_json = drugModel.begin_json ? drugModel.begin_json : '';
-
+  //初始库存需要自动计算
+  var totalBeginCount = 0;
+  for (let i = 0; i < paramDict.begin_json.length; i ++){
+    var tempDict = paramDict.begin_json[i];
+    var tempCount = tempDict.count ? tempDict.count : 0;
+    totalBeginCount += tempCount;
+  }
+  paramDict.begin_count = totalBeginCount;
+  
   //9、用户名和密码
   paramDict._userid = app.globalData.userId;
   paramDict._password = app.globalData.password;

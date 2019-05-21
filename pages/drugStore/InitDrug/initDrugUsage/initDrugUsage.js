@@ -311,7 +311,7 @@ Page({
     var frequency = this.data.listModel.common_frequency ? this.data.listModel.common_frequency.key_name : '';
     frequency ? resultArray.push(frequency) : '';
     //单次用量
-    var singleUseString = '每次' + this.data.listModel.common_count + '片';
+    var singleUseString = '每次' + this.data.listModel.common_count + this.data.listModel.single_name;
     if (this.data.listModel.common_count == -1){
       singleUseString = '每次适量';
     }

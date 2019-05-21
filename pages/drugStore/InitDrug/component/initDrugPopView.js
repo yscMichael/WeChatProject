@@ -65,14 +65,14 @@ Component({
       if (e == 1){//剂型
         this.data.title = '选择剂型';
         this.data.subTitle = '剂型选择';
-      }else if(e == 7){//供应商
-        this.data.title = '选择单位';
-        this.data.subTitle = '单位选择';
-        this.data.bottomTitle = '增加单位';
-      }else{//单位
+      }else if(e == 5){//供应商
         this.data.title = '选择供应商';
         this.data.subTitle = '供应商选择';
         this.data.bottomTitle = '增加供应商';
+      }else{//单位
+        this.data.title = '选择单位';
+        this.data.subTitle = '单位选择';
+        this.data.bottomTitle = '增加单位';
       }
       this.data.listType = e;
       this.setData({

@@ -33,7 +33,8 @@ Component({
     isHideTopView: false,//是否隐藏顶部下拉刷新框
     isHideBottomView: true,//是否隐藏底部上拉加载框
     isHiddenNoData: false,//是否隐藏无数据提示
-    isRefresh: true,//当前在下拉刷新(暂时不清空数据)
+    isRefresh: false,//当前在下拉刷新(暂时不清空数据)
+    isLoadingMore: false,//当前在上拉加载()
     isCurrentPage: 1,//保留当前页码
   },
 
@@ -87,12 +88,7 @@ Component({
      * 开始上拉加载数据
      */
     instrumentLoadMore() {
-      //1、显示加载框
-      this.data.isHideBottomView = false;
-      this.setData({
-        isHideBottomView: this.data.isHideBottomView,
-      });
-      //2、网络请求
+      //1、网络请求
       this._loadMoreData();
     },
 
@@ -100,19 +96,23 @@ Component({
      * 下拉刷新网络请求
      */
     _refreshData: function () {
-      //1、显示动画框(隐藏上拉加载动画)
+      //1、正在下拉刷新或者上拉加载，不能进行二次下拉刷新
+      if (this.data.isRefresh || this.data.isLoadingMore) {
+        return;
+      }
+      //2、显示动画框(隐藏上拉加载动画)
       this.data.isHideTopView = false;
       this.data.isHideBottomView = true;
       this.setData({
         isHideTopView: this.data.isHideTopView,
         isHideBottomView: this.data.isHideBottomView
       });
-      //2、数据初始化(暂时不清空数据、保证平稳过渡)
+      //3、数据初始化(暂时不清空数据、保证平稳过渡)
       this.data.isRefresh = true;
       //网络请求失败、将isCurrentPage赋值给page
       this.data.isCurrentPage = this.data.page;
       this.data.page = 1;
-      //3、开始网络请求
+      //4、开始网络请求
       var that = this;
       setTimeout(function () {
         that._loadData();
@@ -123,8 +123,9 @@ Component({
      * 上拉加载网络请求
      */
     _loadMoreData: function () {
-      //1、正在下拉刷新、不能上拉加载
-      if (this.data.isRefresh) {
+      var that = this;
+      //1、正在下拉刷新或者上拉加载、不能二次上拉加载
+      if (this.data.isRefresh || this.data.isLoadingMore) {
         return;
       }
       //2、判断是否可以加载更多数据
@@ -133,19 +134,24 @@ Component({
           title: '无更多数据加载',
         });
         //延时隐藏动画
-        var that = this;
         setTimeout(function () {
+          that.data.isHideTopView = false;
           that.data.isHideBottomView = true;
           that.setData({
+            isHideTopView: that.data.isHideTopView,
             isHideBottomView: that.data.isHideBottomView,
           });
         }, 1000);
-      }
-      else {
-        //3、数据初始化
+      }else {
+        //3、显示动画
+        this.data.isHideBottomView = false;
+        this.setData({
+          isHideBottomView: this.data.isHideBottomView
+        });
+        //4、数据初始化
+        this.data.isLoadingMore = true;
         this.data.page++;
-        //4、开始网络请求  
-        var that = this;
+        //5、开始网络请求  
         setTimeout(function () {
           that._loadData();
         }, 500);
@@ -164,6 +170,10 @@ Component({
           if (that.data.isRefresh) {
             that.data.isRefresh = !that.data.isRefresh;//解锁
             that.data.dataSource = [];//数据一定清空
+          }
+          //如果是上拉加载
+          if (that.data.isLoadingMore) {
+            that.data.isLoadingMore = !that.data.isLoadingMore;//解锁
           }
           //总数赋值
           that.data.totalCount = totalCount;
@@ -193,6 +203,10 @@ Component({
           if (that.data.isRefresh) {
             that.data.isRefresh = !that.data.isRefresh;//解锁
             that.data.page = that.data.isCurrentPage;//数据还原
+          }
+          //如果是上拉加载
+          if (that.data.isLoadingMore) {
+            that.data.isLoadingMore = !that.data.isLoadingMore;//解锁
           }
           //停止显示加载动画
           wx.hideLoading();

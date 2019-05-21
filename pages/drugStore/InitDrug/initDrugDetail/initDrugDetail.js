@@ -118,8 +118,6 @@ Page({
     //2、屏幕尺寸设置
     this.data.screenWidth = wx.getSystemInfoSync().windowWidth;
     this.data.screenHeight = wx.getSystemInfoSync().windowHeight;
-    console.log(this.data.screenWidth);
-    console.log(this.data.screenHeight);
     this.setData({
       screenWidth: this.data.screenWidth,
       screenHeight: this.data.screenHeight
@@ -178,7 +176,6 @@ Page({
     this.setData({
       listModel: this.data.listModel
     });
-    console.log(this.data.listModel);
   },
 
   /**
@@ -263,7 +260,7 @@ Page({
       sizeType: ['original', 'compressed'],
       sourceType: ['album', 'camera'],
       success(res) {
-        // tempFilePath可以作为img标签的src属性显示图片
+        //tempFilePath可以作为img标签的src属性显示图片
         var imageArray = res.tempFilePaths;
         if(imageArray.length > 0){//取出第一个
           that.data.selectImage = imageArray[0];
@@ -280,6 +277,9 @@ Page({
    */
   previewImage(e) {
     const current = e.target.dataset.src;
+    if (current == '/image/drughome/wj_initdrug_normal.png'){
+      return;
+    }
     wx.previewImage({
       current,
       urls: [this.data.selectImage]
@@ -393,12 +393,22 @@ Page({
     //2、赋值
     var val = e.detail.value;
     if (val == 0){//西药
-      this.data.listModel.dug_type = tempDict;
-    }else{//中成药
       tempDict.id = 1;
+      tempDict.key_name = '西药';
+    }else if(val == 1){//中成药
+      tempDict.id = 2;
       tempDict.key_name = '中成药';
-      this.data.listModel.dug_type = tempDict;
+    }else if(val == 2){//中药
+      tempDict.id = 3;
+      tempDict.key_name = '中药';
+    }else if(val == 3){//医疗器械
+      tempDict.id = 4;
+      tempDict.key_name = '医疗器械';
+    }else{//西药
+      tempDict.id = 1;
+      tempDict.key_name = '西药';
     }
+    this.data.listModel.dug_type = tempDict;
     //3、刷新界面
     this.setData({
       listModel: this.data.listModel

@@ -138,7 +138,7 @@ Component({
           that.data.isHideTopView = false;
           that.data.isHideBottomView = true;
           that.setData({
-            isHideTopView: this.data.isHideTopView,
+            isHideTopView: that.data.isHideTopView,
             isHideBottomView: that.data.isHideBottomView,
           });
         },1000);
@@ -148,11 +148,10 @@ Component({
         this.setData({
           isHideBottomView: this.data.isHideBottomView
         });
-        this.data.isLoadingMore = true;
         //4、数据初始化
+        this.data.isLoadingMore = true;
         this.data.page ++;
         //5、开始网络请求  
-        var that = this;
         setTimeout(function () {
           that._loadData();
         }, 500);
@@ -245,10 +244,26 @@ Component({
     },
 
     /**
+     * 下拉刷新动作
+     */
+    upper: function (e) {
+      console.log('下拉刷新动作');
+      this.westRefresh();
+    },
+
+    /**
+     * 上拉加载动作
+     */
+    lower: function (e) {
+      console.log('上拉加载动作');
+      this.westLoadMore();
+    },
+
+    /**
      * 获取scroll高度
      */
     getScrollHeight() {
-      setTimeout(function(){
+      setTimeout(function () {
         wx.createSelectorQuery().select('#scroll').fields({
           dataset: true,
           size: true,
@@ -271,23 +286,7 @@ Component({
           // res.backgroundColor
           // res.context // 节点对应的 Context 对象
         }).exec()
-      },2000);
+      }, 2000);
     },
-
-    /**
-     * 下拉刷新动作
-     */
-    upper: function (e) {
-      console.log('下拉刷新动作');
-      this.westRefresh();
-    },
-
-    /**
-     * 上拉加载动作
-     */
-    lower: function (e) {
-      console.log('上拉加载动作');
-      this.westLoadMore();
-    }
   }
 })

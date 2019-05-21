@@ -3,6 +3,7 @@ const app = getApp()
 //网络请求
 var initDrugJs = require('../../../../api/initDrugRequest/initDrugRequest.js');
 var drugJs = require('../../../../api/drugRequest/drugRequest.js');
+var netJs = require('../../../../api/netUtil.js');
 
 Page({
   /**
@@ -797,11 +798,22 @@ Page({
    */
   clickSureButton:function(e){
     console.log('点击保存按钮点击保存按钮');
-    //参数校验
+    //1、参数校验
     if (!this.checkParam()){
       return;
     }
-    //修改网络请求
+    //2、判断是否有图片、有的话先上传图片(证书没有搞定)
+    // var imagePath = '/image/drughome/wj_initdrug_normal.png';
+    // if (this.data.selectImage != imagePath){
+    //   netJs.upLoadImage(this.data.selectImage,
+    //   function(success){
+
+    //   },function(fail){
+      
+    //   });
+    // }
+
+    //3、修改网络请求
     wx.showLoading({
       title: '正在保存中...',
     });

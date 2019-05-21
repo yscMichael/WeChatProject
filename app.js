@@ -26,6 +26,7 @@ App({
     department_entity:null,//诊所名字
     departmentId: null,
     userId: null,
-    commonURl:'https://jqapi.hao1bao.com'
+    commonURl:'https://jqapi.hao1bao.com',
+    imageURL: 'https://jqfile.hao1bao.com'
   }
 })

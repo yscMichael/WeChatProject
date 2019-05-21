@@ -1,5 +1,6 @@
 //获取应用实例
 const app = getApp()
+var utilJs = require('../utils/util.js');
 
 /**
  * post请求
@@ -39,6 +40,32 @@ function loadDrugInfoWithCode(code, onSuccess, onFail){
 }
 
 /**
+ * 上传图片信息
+ */
+function upLoadImage(filePath, onSuccess, onFail){
+  //1、开发者服务器地址
+  var url = app.globalData.imageURL + '/app?op=Upload';
+  //2、文件名称
+  var name = utilJs.formatTime(new Date());
+  //3、参数
+  var formData = {
+    _userid: app.globalData.userId,
+    _password: app.globalData.password,
+  };
+  //4、网络请求参数
+  wx.uploadFile({
+    url: url,
+    filePath: filePath,
+    name: name,
+    formData: formData,
+    success(res){
+      console.log('图片--------------');
+      console.log(res);
+    }
+  })
+}
+
+/**
  * 网络请求封装
  * @url 请求地址
  * @params 参数
@@ -72,5 +99,6 @@ function request(url, params, method, onSuccess, onFail){
 module.exports = {
   postRequest: postRequest,
   getRequest: getRequest,
-  loadDrugInfoWithCode: loadDrugInfoWithCode
+  loadDrugInfoWithCode: loadDrugInfoWithCode,
+  upLoadImage: upLoadImage
 }

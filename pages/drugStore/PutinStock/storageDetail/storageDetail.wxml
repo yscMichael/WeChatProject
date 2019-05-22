@@ -58,6 +58,7 @@
                            count="{{item.count}}"
                            unit="{{item.unit.key_name}}"
                            cost="{{item.cost}}"
+                           isHiddenDelete="{{true}}"
                            bindclickdetailcell="clickDetailCell">
     </storageDetailEditCell>
   </block>

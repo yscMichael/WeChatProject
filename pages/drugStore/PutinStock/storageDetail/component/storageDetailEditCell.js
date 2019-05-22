@@ -81,6 +81,13 @@ Component({
       type: String,
       value: '0.0000',
     },
+    /**
+     * 是否隐藏删除按钮
+     */
+    isHiddenDelete:{
+      type:Boolean,
+      value:false
+    }
   },
 
   /**
@@ -214,7 +221,21 @@ Component({
       //触发事件的选项
       var myEventOption = {}
       //设置外界监听
-      this.triggerEvent('clickdetailcell', myEventDetail, myEventOption) 
+      this.triggerEvent('clickdetailcell', myEventDetail, myEventOption);
+    },
+
+    /**
+     * 点击删除按钮
+     */
+    clickDeleteButton:function(e){
+      console.log('点击删除按钮点击删除按钮点击删除按钮');
+      //detail对象，提供给事件监听函数
+      var myEventDetail = {
+      }
+      //触发事件的选项
+      var myEventOption = {}
+      //设置外界监听
+      this.triggerEvent('clickdeleteImage', myEventDetail, myEventOption);
     }
   }
 })

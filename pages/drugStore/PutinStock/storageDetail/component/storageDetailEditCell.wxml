@@ -19,6 +19,11 @@
     <!-- 厂商 -->
     <view class='head-content-factory'>{{manufacturer}}</view>
   </view>
+  <image class='delete-image'
+         hidden='{{isHiddenDelete}}'
+         bindtap='clickDeleteButton'
+         src='/image/drug_delete.png'>
+  </image>
 </view>
 <!--分割线(小) -->
 <view class='line-small'></view>

@@ -486,12 +486,6 @@ Page({
       return;
     }
     //2、构造主表参数
-    console.log(this.data.warehouseIndex);
-    console.log(this.data.vendorIndex);
-    console.log(this.data.warehouseArray);
-    console.log(this.data.vendorArray);
-    console.log(this.data.warehouseArray[this.data.warehouseIndex]);
-    console.log(this.data.vendorArray[this.data.vendorIndex]);
     var that = this;
     var listModel = {
       in_date: this.data.inDate,
@@ -500,8 +494,12 @@ Page({
       price: this.data.totalPrice,
       cost: this.data.actualPrice,
     }
+    wx.showLoading({
+      title: '正在入库...',
+    });
     putinStockJs.submitDrug(listModel, this.data.dataSource,
     function(success){
+      wx.hideLoading();
       //1、提示
       wx.showToast({
         title: '入库成功',
@@ -521,6 +519,7 @@ Page({
         });
       },1000);
     },function(fail){
+        wx.hideLoading();
         wx.showToast({
           title: fail,
         });
@@ -549,12 +548,15 @@ Page({
         break;
       }
     }
-    wx.showModal({
-      title: '提示',
-      content: tip,
-      showCancel: false,
-      confirmText: '确定'
-    });
+    //判断是否合法
+    if (!isLegal){
+      wx.showModal({
+        title: '提示',
+        content: tip,
+        showCancel: false,
+        confirmText: '确定'
+      });
+    }
     return isLegal;
   },
 
@@ -565,5 +567,18 @@ Page({
     wx.navigateTo({
       url: '/pages/drugStore/PutinStock/storageList/storageList',
     })
+  },
+
+  /**
+   * 点击删除按钮
+   */
+  clickDeleteImage:function(e){
+    console.log('点击删除按钮--------');
+    console.log(e);
+    var index = e.currentTarget.dataset.index;
+    this.data.dataSource.splice(index,1);
+    this.setData({
+      dataSource: this.data.dataSource
+    });
   }
 })

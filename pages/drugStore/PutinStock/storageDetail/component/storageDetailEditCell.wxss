@@ -31,7 +31,6 @@
 
 .head-content{
   flex-grow: 1;
-  margin-right: 10px;
 }
 
 .head-content-name{
@@ -226,4 +225,11 @@
   background-color: #F1F0F5;
   width: 100%;
   height: 1px;
+}
+
+.delete-image{
+  width: 14px;
+  height: 15px;
+  flex: 0 0 14px;
+  padding: 10px;
 }

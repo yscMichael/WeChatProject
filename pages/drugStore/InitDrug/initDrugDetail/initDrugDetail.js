@@ -798,55 +798,36 @@ Page({
    */
   clickSureButton:function(e){
     console.log('点击保存按钮点击保存按钮');
+    var that = this;
     //1、参数校验
     if (!this.checkParam()){
       return;
     }
+    console.log('参数校验合格------------');
     //2、判断是否有图片、有的话先上传图片(证书没有搞定)
-    // var imagePath = '/image/drughome/wj_initdrug_normal.png';
-    // if (this.data.selectImage != imagePath){
-    //   netJs.upLoadImage(this.data.selectImage,
-    //   function(success){
-
-    //   },function(fail){
-      
-    //   });
-    // }
-
-    //3、修改网络请求
-    wx.showLoading({
-      title: '正在保存中...',
-    });
-    initDrugJs.postAllData(this.data.listModel, this.data.isEdit,function(success){
-      wx.hideLoading();
-      //界面全部刷新
-      //1、获取目标控制器
-      //获取所有界面
-      var pages = getCurrentPages();
-      //当前页面
-      var currPage = pages[pages.length - 1];
-      //上一个页面
-      var prevPage = pages[pages.length - 2];
-      //2、刷新界面(这里要判断界面、因为有多种不同的路径)
-      if (prevPage.route == "pages/drugStore/PutinStock/main/WWDrugPutinStock"){
-        prevPage.completeInitDrug();
-      }else{//药品初始化界面
-        prevPage.refreshData();
-      }
-      //3、返回界面
-      wx.showToast({
-        title: '保存成功',
+    var imagePath = '/image/drughome/wj_initdrug_normal.png';
+    if (this.data.selectImage != imagePath){
+      wx.showLoading({
+        title: '正在上传图片',
       });
-      setTimeout(function () {
-        wx.navigateBack({
-        });
-      }, 1000);
-    },function(fail){
-       wx.hideLoading();
-       wx.showToast({
-         title: fail,
-       }); 
-    });
+      console.log('正在上传图片=================');
+      netJs.upLoadImage(this.data.selectImage,
+      function(success){
+        wx.hideLoading();
+        //3、保存图片  
+        that.data.listModel.imageStr = success;
+        //4、上传药品所有信息
+        that.upLoadImageNetwork();
+      },function(fail){
+        wx.hideLoading();
+        wx.showToast({
+          title: fail,
+        })
+      });
+    }else{
+      //5、上传药品所有信息
+      that.upLoadImageNetwork();
+    }
   },
 
   /**
@@ -952,5 +933,44 @@ Page({
     }
     //最后返回
     return true;
+  },
+
+  /**
+   * 上传所有药品信息网络请求
+   */
+  upLoadImageNetwork:function(){
+    wx.showLoading({
+      title: '正在保存中...',
+    });
+    initDrugJs.postAllData(this.data.listModel, this.data.isEdit, function (success) {
+      wx.hideLoading();
+      //1、获取目标控制器
+      //获取所有界面
+      var pages = getCurrentPages();
+      //当前页面
+      var currPage = pages[pages.length - 1];
+      //上一个页面
+      var prevPage = pages[pages.length - 2];
+      //2、刷新界面(这里要判断界面、因为有多种不同的路径)
+      if (prevPage.route == "pages/drugStore/PutinStock/main/WWDrugPutinStock") {
+        prevPage.completeInitDrug();
+      } else {//药品初始化界面
+        prevPage.refreshData();
+      }
+      //3、返回界面
+      wx.showToast({
+        title: '保存成功',
+      });
+      setTimeout(function () {
+        wx.navigateBack({
+        });
+      }, 1000);
+    }, function (fail) {
+      wx.hideLoading();
+      wx.showToast({
+        title: fail,
+      });
+    });
   }
+
 })

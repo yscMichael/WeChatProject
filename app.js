@@ -28,5 +28,10 @@ App({
     userId: null,
     commonURl:'https://jqapi.hao1bao.com',
     imageURL: 'https://jqfile.hao1bao.com'
+
+    // commonURl: 'http://172.18.5.158:8080',
+    // imageURL: 'http://172.18.5.158:8080'
+    // commonURl: 'http://172.18.5.155:8090',
+    // imageURL: 'http://172.18.5.155:8090'
   }
 })

@@ -1,10 +1,20 @@
-<view class="mainBackgroundView">
-  <!--1、药品列表 -->
-  <view class='putinStockTableView'>
+<scroll-view class='main-scroll'
+             scroll-y="true"
+             bindscrolltoupper="upper"
+             bindscrolltolower="lower"
+             style='width:{{screenWidth}};height:{{screenHeight}}'>
+  <!-- 主列表 -->
+  <view class="mainBackgroundView">
+    <!-- 2.1、顶部下拉刷新动画 -->
+    <yyRefresh isHideBottomView="{{isHideTopView}}"
+              title="正在下拉刷新..."
+              image="/image/clinic/refresh.png">
+    </yyRefresh>
+    <!--2.2、药品列表 -->
     <block wx:for="{{dataSource}}" 
-           wx:for-item="drugModel" 
-           wx:for-index='index' 
-           wx:key="putinStockTableView">
+          wx:for-item="drugModel" 
+          wx:for-index='index' 
+          wx:key="putinStockTableView">
       <!-- 药品cell -->
       <view class='putinStockDrugCell' 
             bindtap="putinStockDrugCellClick" 
@@ -14,11 +24,14 @@
         <!--1.1、是否选中图标  -->
         <!-- 药品选择状态的图片根据is_select来判断 -->
         <image class='putinStockDrugCell_selectIcon' 
-               src="{{drugModel.is_select == true ?             '/image/drughome/drug_storage_select.png' : '/image/drughome/drug_storage_noselect.png'}}" 
-               mode='aspectFill'/>
+              src="{{drugModel.is_select == true ?             '/image/drughome/drug_storage_select.png' : '/image/drughome/drug_storage_noselect.png'}}" 
+              mode='aspectFill'/>
         <!--1.2、药品图片  -->
         <view class='putinStockDrugCell_drugImage'>
-          <image src='{{drugModel.image}}' mode='aspectFill'/>
+          <image src='{{drugModel.image}}' 
+                mode='aspectFill'
+                data-errorIndex='{{index}}'
+                binderror='loadimage'/>
         </view>
         <!-- 1.3、药品信息 -->
         <view class='putinStockDrugCell_text_view'>
@@ -37,16 +50,22 @@
         </view>
       </view>
     </block>
-    <!-- 底部加载动画 -->
+    <!-- 2.3、无数据提示 -->
+    <view class='noData-view'
+          hidden='{{isHiddenNoData}}'>
+      <image src='/image/clinic/noData.png'>
+      </image>
+    </view>
+    <!-- 2.4、底部加载动画 -->
     <yyRefresh isHideBottomView="{{isHideBottomView}}">
     </yyRefresh>
   </view>
+</scroll-view>
 
-  <!--2、底部按钮 -->
-  <view class='putinStockBottomView'>
-    <view class='putinStockBottomCount'>
-    确认选择(种)：{{selectCount}}</view>
-    <view class='putinStockBottomfinishButton' 
-          bindtap='finishSelectDrug'>添加完毕</view>
-  </view>
+<!--3、底部按钮 -->
+<view class='putinStockBottomView'>
+  <view class='putinStockBottomCount'>
+  确认选择(种)：{{selectCount}}</view>
+  <view class='putinStockBottomfinishButton' 
+        bindtap='finishSelectDrug'>添加完毕</view>
 </view>

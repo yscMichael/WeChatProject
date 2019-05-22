@@ -1,12 +1,14 @@
 page {
   height: 100%;
-}
-.putinStockTableView {
   width: 100%;
-  position: absolute;
-  padding-bottom: 99rpx;
-  background-color: #f0f0f0;
 }
+
+.main-scroll{
+  background-color: #eee;
+  width: 100%;
+  height: calc(100% - 60px);
+}
+
 /* 列表cell样式 */
 .putinStockDrugCell {
   width: 100%;
@@ -17,6 +19,7 @@ page {
   padding-top: 20rpx;
   padding-bottom: 20rpx;
 }
+
 .putinStockDrugCell::after {
   content: '';
   position: absolute;
@@ -38,7 +41,6 @@ page {
   height: 40rpx;
   position: absolute;
   left: 20rpx;
-  /* top: 80rpx; */
   top: 50%;
   transform: translateY(-50%);
 }
@@ -54,10 +56,12 @@ page {
   padding-bottom: 10rpx;
   transform: translateY(-50%);
 }
+
 .putinStockDrugCell_drugImage image {
   width: 100%;
   height: 100%;
 }
+
 /* 区域 */
 /* 药品信息 */
 .putinStockDrugCell_text_view {
@@ -70,75 +74,58 @@ page {
   font-size: 16px;
   min-height: 30rpx;
 }
+
 /* 商品名到厂家 */
 .putinStockDrugCell_content {
   color: #999999;
   font-size: 14px;
   min-height: 30rpx;
 }
+
 /* 底部 */
 .putinStockBottomView {
   position: fixed;
-  display: flex;
-  width: 100%;
-  height: 100rpx;
-  background-color: white;
   bottom: 0;
-  z-index: 99;
+  width: 100%;
+  height: 60px;
+  z-index: 999;
+  background-color: white;
+
+  display: flex;
+  align-items: center;
 }
-.putinStockBottomView::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  height: 1px;
-  border-top: 1px solid #D3D1D1;
-  color: #D3D1D1;
-  -webkit-transform-origin: 0 0;
-  transform-origin: 0 0;
-  -webkit-transform: scaleY(.5);
-  transform: scaleY(.5);
-  z-index: 2;
+
+/* 底部计数 */
+.putinStockBottomCount {
+  font-size: 16px;
+  color: #333333;
+  flex-grow: 1;
+  margin-left: 15px;
 }
+
 /* 底部按钮 */
 .putinStockBottomfinishButton {
   background-color: #1F91F2;
-  position: absolute;
-  right: 0;
-  width: 200rpx;
-  height: 100%;
+  flex: 0 0 120px;
   font-size: 16px;
   color: white;
-  text-align: center;
-  padding-top: 30rpx;
-}
-/* 底部计数 */
-.putinStockBottomCount {
-  width: 500rpx;
-  position: absolute;
-  left: 20rpx;
-  padding-top: 30rpx;
-  font-size: 16px;
-  color: #333333;
-}
+  height: 100%;
 
-/* 加载动画 */
-.bottom-view{
-  background-color: #eee;
-  width: 100%;
-  height: 80rpx;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.bottom-image{
-  width: 50rpx;
-  height: 50rpx;
+.noData-view{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #eee;
 }
 
-.bottom-title{
-  font-size: 32rpx;
-  margin-left: 10rpx;
+.noData-view image{ 
+  width: 237rpx;
+  height: 245rpx;
 }

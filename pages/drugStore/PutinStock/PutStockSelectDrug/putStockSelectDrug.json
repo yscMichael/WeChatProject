@@ -8,5 +8,6 @@
   "navigationBarBackgroundColor": "#1F91F2",
   "navigationBarTitleText": "药品列表",
   "navigationBarTextStyle": "white",
-  "backgroundColor": "#f0f0f0"
+  "backgroundColor": "#f0f0f0",
+  "disableScroll": true
 }

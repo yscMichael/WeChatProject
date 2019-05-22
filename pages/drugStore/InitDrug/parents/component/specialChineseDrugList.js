@@ -78,9 +78,6 @@ Component({
      * 开始刷新数据
      */
     specialChineseRefresh() {
-      wx.showLoading({
-        title: '正在拼命加载数据...',
-      });
       this._refreshData();
     },
 
@@ -107,12 +104,16 @@ Component({
         isHideTopView: this.data.isHideTopView,
         isHideBottomView: this.data.isHideBottomView
       });
-      //3、数据初始化(暂时不清空数据、保证平稳过渡)
+      //3、显示提示框
+      wx.showLoading({
+        title: '正在拼命加载数据...',
+      });
+      //4、数据初始化(暂时不清空数据、保证平稳过渡)
       this.data.isRefresh = true;
       //网络请求失败、将isCurrentPage赋值给page
       this.data.isCurrentPage = this.data.page;
       this.data.page = 1;
-      //4、开始网络请求
+      //5、开始网络请求
       var that = this;
       setTimeout(function () {
         that._loadData();

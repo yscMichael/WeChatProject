@@ -45,22 +45,31 @@ function loadDrugInfoWithCode(code, onSuccess, onFail){
 function upLoadImage(filePath, onSuccess, onFail){
   //1、开发者服务器地址
   var url = app.globalData.imageURL + '/app?op=Upload';
-  //2、文件名称
-  var name = utilJs.formatTime(new Date());
-  //3、参数
+  //2、文件地址
+  var imagePath = filePath;
+  //3、额外参数
   var formData = {
     _userid: app.globalData.userId,
-    _password: app.globalData.password,
+    _password: app.globalData.password
   };
   //4、网络请求参数
   wx.uploadFile({
-    url: url,
-    filePath: filePath,
-    name: name,
-    formData: formData,
+    url: url,//服务器
+    filePath: imagePath,//文件地址
+    name: 'filename',//二进制key
+    formData: formData,//额外参数
+    header: {'content-type': 'multipart/form-data'},
     success(res){
       console.log('图片--------------');
       console.log(res);
+      var resultData = JSON.parse(res.data);
+      console.log(resultData);
+      if(resultData.code == 200){
+        var key_name = resultData.data ? resultData.data.key_name : '';
+        onSuccess(key_name);
+      }else{
+        onFail('图片上传失败');
+      }
     }
   })
 }

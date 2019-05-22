@@ -391,6 +391,8 @@ function createListModel(){
  */
 function makePostDataParam(drugModel){
   var paramDict = {};
+  //图片
+  paramDict.image = drugModel.imageStr ? drugModel.imageStr : '';
   //1、
   //药品id
   paramDict.id = drugModel.drugId ? drugModel.drugId : 0;
@@ -462,6 +464,9 @@ function makePostDataParam(drugModel){
 
   //8、库存批次
   paramDict.begin_json = drugModel.begin_json ? drugModel.begin_json : '';
+  console.log('显示库存批次--------------');
+  console.log(paramDict.begin_json);
+
   //初始库存需要自动计算
   var totalBeginCount = 0;
   for (let i = 0; i < paramDict.begin_json.length; i ++){
@@ -800,7 +805,7 @@ function dealCustomize(drugModel){
  */
 function dealEmptyValue(drugModel){
   //有效期预警
-  drugModel.warning_time = drugModel.warning_time ? drugModel.warning_time : { "id": "2", "key_name": "2个月" };
+  drugModel.warning_time = drugModel.warning_time ? drugModel.warning_time : { "id": "3", "key_name": "3个月" };
   //库存安全范围
   drugModel.range_up = drugModel.range_up ? drugModel.range_up : '200';
   drugModel.range_low = drugModel.range_low ? drugModel.range_low : '20';

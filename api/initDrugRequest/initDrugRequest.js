@@ -751,7 +751,7 @@ function dealDrugsArrayData(drugsArr) {
     drugModel.begin_count = drugDict.begin_count;//有效期数量
     drugModel.expire_date = drugDict.expire_date;//过期时间(采购入库)
     drugModel.batch_no = drugDict.batch_no;//批号(采购入库)
-    drugModel.price = drugDict.price;//进货价(采购入库)
+    drugModel.price = drugDict.price ? drugDict.price : 0;//进货价(采购入库)
     drugModel.count = drugDict.count;//采购数量(采购入库)
     //判断是否是中药
     if (drugDict.dug_type.id == 3) {//中药

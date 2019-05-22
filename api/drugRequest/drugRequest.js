@@ -330,11 +330,11 @@ function submitDrugParam(listModel, dataSource){
     subDict.manufacturer = model.manufacturer ? model.manufacturer.id : '';
     subDict.expire_date = model.expire_date;
     subDict.count = model.count;
-    subDict.price = model.price;
+    subDict.price = model.cost;//这里模型的cost对应单价
+    subDict.sure_price = model.cost;//这里模型的cost对应单价
     subDict.discount = '100';
     subDict.total_discount = '100';
-    subDict.sure_price = model.price * model.count;//小计
-    subDict.cost = model.cost;
+    subDict.cost = model.price;//这是药品总计
     if (model.image) {//有图片
       if(model.image.length > 0){
         var imageDict = model.image[0];

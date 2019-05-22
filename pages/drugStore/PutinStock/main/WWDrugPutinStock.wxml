@@ -96,10 +96,10 @@
                                manufacturer="{{item.manufacturer_name}}"
                                expire_date="{{item.expire_date?item.expire_date:'选择失效日期'}}"
                                batch_no="{{item.batch_no}}"
-                               cost="{{item.cost}}"
+                               price="{{item.cost}}"
                                count="{{item.count}}"
                                unit="{{item.unit.key_name}}"
-                               price="{{item.price}}"
+                               cost="{{item.price}}"
                                isHiddenDelete="{{false}}"
                                bindclickdeleteImage="clickDeleteImage"
                                bindclickdetailcell="clickDetailCell">

@@ -133,11 +133,11 @@ Component({
      * 进货单价(记得判断是否合法)
      */
     batchPriceInput:function(e){
-      var cost = e.detail.value;
+      var price = e.detail.value;
       //刷新界面
-      this.data.cost = cost;
+      this.data.price = price;
       this.setData({
-        cost: this.data.cost,
+        price: this.data.price,
       });
       //计算小计
       this.dealCost();
@@ -200,9 +200,9 @@ Component({
      */
     dealCost:function(){
       //计算并刷新界面
-      this.data.price = this.data.cost * this.data.count;
+      this.data.cost = this.data.price * this.data.count;
       this.setData({
-        price: this.data.price
+        cost: this.data.cost
       });
     },
 

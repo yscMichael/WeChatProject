@@ -436,24 +436,24 @@ Page({
     currentItem.expire_date = detailDict.expire_date;
     //批号
     currentItem.batch_no = detailDict.batch_no;
-    //进货单价
-    currentItem.price = Number(detailDict.price);
+    //进货单价(药品这里是cost、与实际相反)
+    currentItem.cost = Number(detailDict.price);
     //进货数量
     currentItem.count = Number(detailDict.count);
-    //小计
-    currentItem.cost = Number(detailDict.cost);
+    //小计(药品这里是price、与实际相反)
+    currentItem.price = Number(detailDict.cost);
 
     //5、将反向值赋值给数据源值
     //失效日期
     model.expire_date = detailDict.expire_date;
     //批号
     model.batch_no = detailDict.batch_no;
-    //进货单价
-    model.cost = Number(detailDict.cost);
+    //进货单价(药品这里是cost、与实际相反)
+    model.cost = Number(detailDict.price);
     //进货数量
     model.count = Number(detailDict.count);
-    //小计
-    model.price = Number(detailDict.price);
+    //小计(药品这里是price、与实际相反)
+    model.price = Number(detailDict.cost);
 
     //6、计算底部总金额
     var totalPrice = 0;

@@ -20,7 +20,7 @@ Page({
     //2、数据初始化
     this.initData();
 
-    console.log(listModel);
+    console.log(this.data.listModel);
   },
 
   /**
@@ -78,6 +78,8 @@ Page({
   initData:function(e){
     console.log('数据初始化=-------');
     var tempArray = [];
+    console.log(this.data.listModel);
+    console.log(this.data.listModel.begin_json);
     if (this.data.listModel.begin_json.length == 0){
       //添加三组数据
       var dict = {
@@ -88,6 +90,8 @@ Page({
       tempArray.push(dict);
       tempArray.push(dict);
     }
+    //赋值
+    this.data.listModel.begin_json = tempArray;
     //刷新界面
     this.setData({
       listModel: this.data.listModel
@@ -165,6 +169,10 @@ Page({
    */
   clickSureButton:function(e){
     console.log('点击保存按钮------');
+    //参数校验
+    if (!this.checkParam()){
+      return;
+    }
     //1、将模型转换为json
     var modelJson = JSON.stringify(this.data.listModel.begin_json);
     //2、传递回去
@@ -180,5 +188,49 @@ Page({
     wx.navigateBack({
     });
   },
+
+  /**
+   * 参数校验
+   */
+  checkParam:function(){
+    console.log('参数校验-------------');
+    var isLegal = true;
+    //1、提示批次不能为空
+    if(this.data.listModel.begin_json.length == 0){
+      wx.showToast({
+        title: '批次不能为空',
+      })
+      isLegal = false;
+      return isLegal;
+    }
+    //2、提示某一组的某一项不能为空
+    var tip = '';
+    for (let i = 0; i < this.data.listModel.begin_json.length; i++) {
+      var model = this.data.listModel.begin_json[i];
+      var index = i + 1;
+      //检测有效期
+      if (!model.expire_date) {
+        tip = '请先填写第' + index + '批药品的失效日期';
+        isLegal = false;
+        break;
+      }
+      //检测数量
+      if ((!model.count) || (model.count == 0)) {
+        tip = '请先填写第' + index + '批药品的期初库存';
+        isLegal = false;
+        break;
+      }
+    }
+    //判断是否合法
+    if (!isLegal) {
+      wx.showModal({
+        title: '提示',
+        content: tip,
+        showCancel: false,
+        confirmText: '确定'
+      });
+    }
+    return isLegal;  
+  }
 
 })

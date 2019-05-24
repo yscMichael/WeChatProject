@@ -19,8 +19,6 @@ Page({
     this.data.listModel = listModel;
     //2、数据初始化
     this.initData();
-
-    console.log(this.data.listModel);
   },
 
   /**
@@ -81,17 +79,17 @@ Page({
     console.log(this.data.listModel);
     console.log(this.data.listModel.begin_json);
     if (this.data.listModel.begin_json.length == 0){
-      //添加三组数据
-      var dict = {
-        expire_date:'',
-        count:''
+      //添加三组数据(for循环、否则指向同一个地址)
+      for(let i = 0; i < 3; i ++){
+        var dict = {
+          expire_date: '',
+          count: ''
+        }
+        tempArray.push(dict);
       }
-      tempArray.push(dict);
-      tempArray.push(dict);
-      tempArray.push(dict);
+      //赋值
+      this.data.listModel.begin_json = tempArray;
     }
-    //赋值
-    this.data.listModel.begin_json = tempArray;
     //刷新界面
     this.setData({
       listModel: this.data.listModel
@@ -134,13 +132,15 @@ Page({
    */
   bindChooseExpireDate:function(e){
     console.log('点击失效日期-------');
-    console.log(e.detail.value);
     //取值
     var index = e.currentTarget.dataset.index;
     var value = e.detail.value;
+    console.log(index);
+    console.log(value);
     //赋值
     var model = this.data.listModel.begin_json[index];
     model.expire_date = value;
+    console.log(this.data.listModel.begin_json);
     //刷新
     this.setData({
       listModel: this.data.listModel

@@ -400,7 +400,7 @@ Page({
    */
   completeInitDrug:function(){
     console.log('药品初始化完成');
-    this.loadDrugDataByScanCode(this.data.scanCode);
+    this.loadDrugDataByScanCode(this.data.saveCode);
   },
 
   /**
@@ -575,10 +575,39 @@ Page({
   clickDeleteImage:function(e){
     console.log('点击删除按钮--------');
     console.log(e);
+    //1、删除元素、更新数据源
     var index = e.currentTarget.dataset.index;
     this.data.dataSource.splice(index,1);
     this.setData({
       dataSource: this.data.dataSource
     });
+    //2、防止数组为空
+    if(this.data.dataSource.length == 0){
+      this.setData({
+        isShowHeader: true,
+        headerHeight: 330,
+        toolBarTop: 240
+      });
+    }else{
+      //3、计算底部总金额
+      var totalPrice = 0;
+      for (let i = 0; i < this.data.dataSource.length; i++) {
+        var model = this.data.dataSource[i];
+        //单价
+        var cost = model.cost;
+        //数量
+        var count = model.count;
+        //小计
+        var total = cost * count;
+        totalPrice += total;
+      }
+      //7、刷新底部金额
+      this.data.totalPrice = totalPrice;
+      this.data.actualPrice = (this.data.actualPrice < this.data.totalPrice) ? totalPrice : this.data.actualPrice;
+      this.setData({
+        totalPrice: this.data.totalPrice,
+        actualPrice: this.data.actualPrice
+      });
+    }
   }
 })

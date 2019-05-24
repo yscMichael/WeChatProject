@@ -645,6 +645,7 @@ function dealDrugsArrayData(drugsArr) {
       is_basic: '',      //是否是基础库
       //2、
       image: '',         //图片
+      imageStr:'',       //用于原本就有网络图片
       //3、
       common_name: '',   //通用名
       key_name: '',      //商品名
@@ -710,6 +711,7 @@ function dealDrugsArrayData(drugsArr) {
       if (imageArr.length > 0){
         drugModel.image = imageArr[0].url + '&_password=' +
           app.globalData.password + '&_userid=' + app.globalData.userId;
+        drugModel.imageStr = imageArr[0].key_name;
       }else{
         drugModel.image = '/image/img_ypmr.png';
       }

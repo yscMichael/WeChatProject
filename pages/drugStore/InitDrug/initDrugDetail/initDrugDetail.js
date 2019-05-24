@@ -804,13 +804,16 @@ Page({
       return;
     }
     console.log('参数校验合格------------');
-    //2、判断是否有图片、有的话先上传图片(证书没有搞定)
+    //2、判断是否有图片、有的话先上传图片
+    //一定要是自己本地选择的图片、网络图片不能二次上传
     var imagePath = '/image/drughome/wj_initdrug_normal.png';
-    if (this.data.selectImage != imagePath){
+    if ((this.data.selectImage != imagePath) && 
+      (this.data.selectImage.indexOf('.com') == -1)){
       wx.showLoading({
         title: '正在上传图片',
       });
       console.log('正在上传图片=================');
+      console.log(this.data.selectImage);
       netJs.upLoadImage(this.data.selectImage,
       function(success){
         wx.hideLoading();
@@ -971,6 +974,20 @@ Page({
         title: fail,
       });
     });
+  },
+
+  /**
+   * 下载图片失败
+   */
+  loadimage() {
+    console.log('下载图片下载图片下载图片下载图片');
+    this.data.selectImage = '/image/drughome/wj_initdrug_normal.png';
+    this.data.imageTipTitle = '上传药品图片';
+    this.setData({
+      selectImage: this.data.selectImage,
+      imageTipTitle: this.data.imageTipTitle
+    });
   }
+
 
 })

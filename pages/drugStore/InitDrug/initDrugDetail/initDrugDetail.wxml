@@ -14,6 +14,7 @@
     <image class='header-left-image'
            src='{{selectImage}}'
            data-src="{{selectImage}}"
+           binderror='loadimage'
            bindtap="previewImage"></image>
     <view class='header-content'>{{imageTipTitle}}</view>
     <image class='header-right-image'
@@ -187,6 +188,7 @@
       </view>
       <input class='unit-input'
              bindinput='changeCountInput'
+             type='digit'
              value='{{listModel.change_count}}'>    
       </input>
       <view class='unit-right-title'>{{listModel.rx_name}}
@@ -221,6 +223,7 @@
       </view>
       <input class='unit-input'
              bindinput='takingCountInput'
+             type='digit'
              value='{{listModel.taking_count}}'>    
       </input>
       <view class='unit-right-title'>{{listModel.single_name}}
@@ -329,11 +332,13 @@
     <view class='change-unit-content'>
       <input class='safe-unit-input'
              bindinput='lowCountInput'
+             type='digit'
              value='{{listModel.range_low}}'>    
       </input>
       <view class='safe-unit-title'> - </view>
       <input class='safe-unit-input'
              bindinput='upCountInput'
+             type='digit'
              value='{{listModel.range_up}}'>    
       </input>
       <view class='unit-right-title'>{{listModel.min_name}}</view>

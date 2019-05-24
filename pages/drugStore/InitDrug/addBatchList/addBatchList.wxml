@@ -42,6 +42,7 @@
       <view class='title'>期初库存</view>
       <input class='right-content'
               data-index='{{index}}'
+              type='digit'
               bindinput='localCountInput'
               value='{{item.count}}'
               placeholder='请输入库存'>    
